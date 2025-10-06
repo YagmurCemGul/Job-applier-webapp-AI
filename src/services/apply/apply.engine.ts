@@ -41,27 +41,25 @@ export async function autoApply(opts: {
     // Send to extension with HMAC key
     // Note: In production, HMAC key should be stored securely
     const hmacKey = import.meta.env.VITE_EXTENSION_HMAC_KEY || ''
-    
+
     const result = await sendToExtension('APPLY_START', payload, hmacKey)
 
     if (result.type === 'APPLY_RESULT') {
       if (result.payload.ok) {
-        log(
-          appId,
-          'info',
-          result.payload.message || `Submitted to ${opts.platform}`,
-          { jobUrl: opts.jobUrl, submitted: result.payload.submitted }
-        )
+        log(appId, 'info', result.payload.message || `Submitted to ${opts.platform}`, {
+          jobUrl: opts.jobUrl,
+          submitted: result.payload.submitted,
+        })
 
         // Update stage & timestamps
         const { update } = useApplicationsStore.getState()
         update(appId, {
           appliedAt: new Date().toISOString(),
-          stage: result.payload.submitted ? 'applied' : 'hold'
+          stage: result.payload.submitted ? 'applied' : 'hold',
         })
       } else {
         log(appId, 'error', result.payload.message || 'Submission failed', {
-          jobUrl: opts.jobUrl
+          jobUrl: opts.jobUrl,
         })
       }
     }
@@ -69,17 +67,14 @@ export async function autoApply(opts: {
     return appId
   } catch (error: any) {
     // Extension not installed or error - fallback to stub
-    log(
-      appId,
-      'warn',
-      `Extension not available: ${error.message}. Using stub.`,
-      { jobUrl: opts.jobUrl }
-    )
+    log(appId, 'warn', `Extension not available: ${error.message}. Using stub.`, {
+      jobUrl: opts.jobUrl,
+    })
 
     // Stub fallback
     await new Promise((r) => setTimeout(r, 500))
     log(appId, 'info', `Submitted (stub) to ${opts.platform}`, {
-      jobUrl: opts.jobUrl
+      jobUrl: opts.jobUrl,
     })
 
     const { update } = useApplicationsStore.getState()

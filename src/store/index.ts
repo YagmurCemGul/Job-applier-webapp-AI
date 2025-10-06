@@ -28,6 +28,10 @@ export { useApplicationsStore } from './applicationsStore'
 export { useEmailTemplatesStore } from './emailTemplatesStore'
 export { useOutreachStore } from './outreachStore'
 export { useContactsStore } from './contactsStore'
+export { useEmailAccountsStore } from './emailAccountsStore'
+export { useOutboxStore } from './outboxStore'
+export { useSequenceRunsStore } from './sequenceRunsStore'
+export { useSequenceSchedulerStore } from './sequenceSchedulerStore'
 
 // Export types
 export type * from '@/types/store.types'

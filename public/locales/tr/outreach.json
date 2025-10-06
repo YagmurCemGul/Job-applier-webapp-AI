@@ -1,0 +1,38 @@
+{
+  "outreach": {
+    "connect": "Gmail Bağla",
+    "accounts": "E-posta Hesapları",
+    "dryRun": "Deneme Gönderimi",
+    "runner": "Dizi Çalıştırıcı",
+    "pause": "Duraklat",
+    "resume": "Sürdür",
+    "outbox": "Giden Kutusu",
+    "proposeTimes": "Saat Öner",
+    "downloadICS": "ICS İndir",
+    "thread": "Konu",
+    "noAccounts": "Henüz hesap yok. Önce Gmail bağlayın.",
+    "nothingSent": "Henüz gönderi yok.",
+    "disconnect": "Bağlantıyı Kes",
+    "live": "Canlı",
+    "step": "Adım",
+    "next": "Sonraki",
+    "vars": "Değişkenler",
+    "noRuns": "Aktif çalışma yok.",
+    "suggestedSlots": "Önerilen saatler (sonraki 2 gün):",
+    "noSlots": "Aralıkta slot yok.",
+    "attachICS": "Kolay planlamak için e-postanıza ICS ekleyin.",
+    "openThread": "Konuyu Aç",
+    "status": {
+      "pending": "Beklemede",
+      "sent": "Gönderildi",
+      "failed": "Başarısız",
+      "scheduled": "Planlandı"
+    },
+    "runStatus": {
+      "idle": "Boşta",
+      "running": "Çalışıyor",
+      "paused": "Duraklatıldı",
+      "stopped": "Durduruldu"
+    }
+  }
+}

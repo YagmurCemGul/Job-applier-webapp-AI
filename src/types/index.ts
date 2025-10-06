@@ -23,6 +23,9 @@ export * from './searches.types'
 export * from './apply.types'
 export * from './applications.types'
 export * from './outreach.types'
+export * from './gmail.types'
+export * from './calendar.types'
+export * from './outreach.run.types'
 
 // Common types
 export type ID = string

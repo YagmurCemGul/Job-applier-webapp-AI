@@ -1,0 +1,38 @@
+{
+  "outreach": {
+    "connect": "Connect Gmail",
+    "accounts": "Email Accounts",
+    "dryRun": "Dry-Run",
+    "runner": "Sequence Runner",
+    "pause": "Pause",
+    "resume": "Resume",
+    "outbox": "Outbox",
+    "proposeTimes": "Propose Times",
+    "downloadICS": "Download ICS",
+    "thread": "Thread",
+    "noAccounts": "No accounts. Connect Gmail first.",
+    "nothingSent": "Nothing sent yet.",
+    "disconnect": "Disconnect",
+    "live": "Live",
+    "step": "Step",
+    "next": "Next",
+    "vars": "Variables",
+    "noRuns": "No active runs.",
+    "suggestedSlots": "Suggested slots (next 2 days):",
+    "noSlots": "No slots in window.",
+    "attachICS": "Attach ICS to your email for easy scheduling.",
+    "openThread": "Open Thread",
+    "status": {
+      "pending": "Pending",
+      "sent": "Sent",
+      "failed": "Failed",
+      "scheduled": "Scheduled"
+    },
+    "runStatus": {
+      "idle": "Idle",
+      "running": "Running",
+      "paused": "Paused",
+      "stopped": "Stopped"
+    }
+  }
+}

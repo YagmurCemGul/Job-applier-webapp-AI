@@ -6,8 +6,22 @@
 import type { ApplyPayload } from '@/types/apply.types'
 
 export type BusMessage =
-  | { type: 'APPLY_START'; payload: ApplyPayload; meta: { requestId: string; ts: number; origin: string; sign?: string } }
-  | { type: 'APPLY_RESULT'; payload: { ok: boolean; message?: string; submitted?: boolean; reviewNeeded?: boolean; hints?: string[] }; meta: { requestId: string; ts: number } }
+  | {
+      type: 'APPLY_START'
+      payload: ApplyPayload
+      meta: { requestId: string; ts: number; origin: string; sign?: string }
+    }
+  | {
+      type: 'APPLY_RESULT'
+      payload: {
+        ok: boolean
+        message?: string
+        submitted?: boolean
+        reviewNeeded?: boolean
+        hints?: string[]
+      }
+      meta: { requestId: string; ts: number }
+    }
   | { type: 'IMPORT_JOB'; payload: any; meta: { ts: number } }
 
 /**
@@ -27,7 +41,7 @@ export async function sendToExtension(
   const message: BusMessage = {
     type,
     payload,
-    meta: { requestId, ts, origin }
+    meta: { requestId, ts, origin },
   }
 
   // Add HMAC signature if key provided
@@ -35,7 +49,7 @@ export async function sendToExtension(
     const body = JSON.stringify({
       type,
       payload,
-      meta: { requestId, ts, origin }
+      meta: { requestId, ts, origin },
     })
     const signature = await hmacSHA256(body, hmacKey)
     ;(message as any).meta.sign = signature
