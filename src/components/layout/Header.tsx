@@ -14,15 +14,16 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Sidebar } from './Sidebar'
 import { APP_NAME, ROUTES } from '@/lib/constants'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { useAuth } from '@/hooks'
 
 export function Header() {
-  // TODO: Bu değerler Adım 5'te (Auth) gerçek user store'dan gelecek
-  const user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    avatar: '',
-    initials: 'JD',
-  }
+  const { user, logout } = useAuth()
+
+  // Default values when no user
+  const displayName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
+  const displayEmail = user?.email || 'guest@example.com'
+  const displayAvatar = user?.profilePhoto || ''
+  const displayInitials = user ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}` : 'G'
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -87,16 +88,16 @@ export function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                 <Avatar>
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback>{user.initials}</AvatarFallback>
+                  <AvatarImage src={displayAvatar} alt={displayName} />
+                  <AvatarFallback>{displayInitials}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                  <p className="text-sm font-medium leading-none">{displayName}</p>
+                  <p className="text-xs leading-none text-muted-foreground">{displayEmail}</p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
@@ -113,7 +114,7 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="cursor-pointer text-destructive">
+              <DropdownMenuItem onClick={logout} className="cursor-pointer text-destructive">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>

@@ -6,20 +6,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useUIStore } from '@/store'
 
 export function LanguageSwitcher() {
-  // TODO: Bu Adım 4'te (i18n) gerçek dil değiştirme ile bağlanacak
-  const currentLanguage = 'en'
+  const language = useUIStore((state) => state.language)
+  const setLanguage = useUIStore((state) => state.setLanguage)
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+    { code: 'en' as const, name: 'English', flag: '🇬🇧' },
+    { code: 'tr' as const, name: 'Türkçe', flag: '🇹🇷' },
   ]
-
-  const handleLanguageChange = (langCode: string) => {
-    console.log('Language changed to:', langCode)
-    // TODO: Implement actual language change in Step 4
-  }
 
   return (
     <DropdownMenu>
@@ -33,13 +29,11 @@ export function LanguageSwitcher() {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => handleLanguageChange(lang.code)}
+            onClick={() => setLanguage(lang.code)}
             className="cursor-pointer"
           >
             <span className="mr-2">{lang.flag}</span>
-            <span className={currentLanguage === lang.code ? 'font-semibold' : ''}>
-              {lang.name}
-            </span>
+            <span className={language === lang.code ? 'font-semibold' : ''}>{lang.name}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
