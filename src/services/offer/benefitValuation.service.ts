@@ -30,6 +30,6 @@ export function valueBenefits(
 
   return {
     signingSpread,
-    annualValue: ptoAnnual + health + retire + stip
+    annualValue: ptoAnnual + health + retire + stip,
   }
 }

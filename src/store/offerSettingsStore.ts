@@ -15,12 +15,12 @@ export const useOfferSettingsStore = create<OfferSettings>()(
       baseCurrency: 'USD',
       effectiveTaxPct: 30,
       colAdjustPct: 0,
-      equityGrowthPct: 0
+      equityGrowthPct: 0,
     }),
     {
       name: 'offer-settings',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

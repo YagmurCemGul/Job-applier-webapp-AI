@@ -13,10 +13,7 @@ export async function exportOfferToPDF(
   return URL.createObjectURL(blob)
 }
 
-export async function exportOfferToDocs(
-  html: string,
-  title = 'Offer Summary'
-): Promise<string> {
+export async function exportOfferToDocs(html: string, title = 'Offer Summary'): Promise<string> {
   // In production, use Google Docs API
   // For now, return HTML blob
   const blob = new Blob([html], { type: 'text/html' })

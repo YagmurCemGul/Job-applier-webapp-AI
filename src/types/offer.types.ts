@@ -16,13 +16,7 @@ export type CurrencyCode =
 
 export type EquityType = 'RSU' | 'Options' | 'PSU' | 'ESPP'
 
-export type OfferStage =
-  | 'draft'
-  | 'received'
-  | 'negotiating'
-  | 'accepted'
-  | 'declined'
-  | 'expired'
+export type OfferStage = 'draft' | 'received' | 'negotiating' | 'accepted' | 'declined' | 'expired'
 
 export interface EquityGrant {
   id: string

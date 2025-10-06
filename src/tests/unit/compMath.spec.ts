@@ -17,25 +17,25 @@ describe('compMath.service', () => {
           type: 'RSU',
           units: 1000,
           assumedSharePrice: 100,
-          vestSchedule: '4y_no_cliff'
-        }
+          vestSchedule: '4y_no_cliff',
+        },
       ],
       benefits: {
         ptoDays: 20,
         healthMonthlyEmployer: 500,
         retirementMatchPct: 4,
         stipendAnnual: 2000,
-        signingBonus: 10000
+        signingBonus: 10000,
       },
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const result = await totalComp(offer, {
       horizonYears: 1,
       taxRatePct: 30,
-      fxBase: 'USD'
+      fxBase: 'USD',
     })
 
     expect(result.base).toBe(120000)
@@ -54,13 +54,13 @@ describe('compMath.service', () => {
       baseAnnual: 100000,
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const result = await totalComp(offer, {
       horizonYears: 1,
       taxRatePct: 30,
-      fxBase: 'USD'
+      fxBase: 'USD',
     })
 
     expect(result.base).toBe(100000)
@@ -76,13 +76,13 @@ describe('compMath.service', () => {
       baseAnnual: 100000,
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const result = await totalComp(offer, {
       horizonYears: 1,
       taxRatePct: 25,
-      fxBase: 'USD'
+      fxBase: 'USD',
     })
 
     // Post-tax should be roughly 75% of gross

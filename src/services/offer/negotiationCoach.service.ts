@@ -19,7 +19,7 @@ export async function buildNegotiationPlan(
     'Return JSON with fields: strategy (string), talkingPoints (string[]), targetAdjustments ([{field, askPct?, askAbs?, rationale}]), riskNotes (string[]), emails ([{subject, bodyHtml}]).',
     'Focus on respectful tone, data-backed rationale, and optional alternatives (signing vs equity vs base).',
     `Offer: ${JSON.stringify(o)}`,
-    `Context: ${JSON.stringify(context)}`
+    `Context: ${JSON.stringify(context)}`,
   ].join('\n')
 
   try {
@@ -28,7 +28,7 @@ export async function buildNegotiationPlan(
         task: 'generate',
         prompt,
         temperature: 0.4,
-        maxTokens: 1500
+        maxTokens: 1500,
       },
       { allowCache: true }
     )
@@ -37,8 +37,7 @@ export async function buildNegotiationPlan(
       return createFallbackPlan(o, context)
     }
 
-    const obj =
-      typeof result.text === 'string' ? JSON.parse(result.text) : result.text
+    const obj = typeof result.text === 'string' ? JSON.parse(result.text) : result.text
 
     const plan: NegotiationPlan = {
       id:
@@ -57,8 +56,8 @@ export async function buildNegotiationPlan(
             ? crypto.randomUUID()
             : String(Math.random()),
         subject: e.subject ?? '',
-        bodyHtml: e.bodyHtml ?? ''
-      }))
+        bodyHtml: e.bodyHtml ?? '',
+      })),
     }
 
     return plan
@@ -70,26 +69,21 @@ export async function buildNegotiationPlan(
 /**
  * Fallback plan if AI fails
  */
-function createFallbackPlan(
-  o: Offer,
-  context: { batna?: string }
-): NegotiationPlan {
+function createFallbackPlan(o: Offer, context: { batna?: string }): NegotiationPlan {
   return {
     id:
-      typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now()),
+      typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     offerId: o.id,
     strategy: 'Use data-backed rationale and maintain professional tone',
     talkingPoints: [
       'Thank them for the offer',
       'Express enthusiasm for the role',
       'Share market research if available',
-      'Be flexible and collaborative'
+      'Be flexible and collaborative',
     ],
     targetAdjustments: [],
     riskNotes: ['Verify internal policies before negotiating'],
     batna: context.batna,
-    emails: []
+    emails: [],
   }
 }

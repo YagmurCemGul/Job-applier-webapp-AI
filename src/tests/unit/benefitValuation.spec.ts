@@ -15,11 +15,11 @@ describe('benefitValuation.service', () => {
         healthMonthlyEmployer: 500,
         retirementMatchPct: 4,
         stipendAnnual: 2000,
-        signingBonus: 10000
+        signingBonus: 10000,
       },
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const result = valueBenefits(offer, { horizonYears: 1 })
@@ -43,7 +43,7 @@ describe('benefitValuation.service', () => {
       baseAnnual: 100000,
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const result = valueBenefits(offer, { horizonYears: 1 })

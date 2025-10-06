@@ -20,6 +20,7 @@ import InterviewsPage from '@/pages/Interviews'
 import InterviewDetailPage from '@/components/interview/InterviewDetail'
 import OffersPage from '@/pages/Offers'
 import OfferDetailPage from '@/components/offer/OfferDetail'
+import OnboardingPage from '@/pages/Onboarding'
 import ProfilePage from '@/pages/Profile'
 import SettingsPage from '@/pages/Settings'
 import NotFoundPage from '@/pages/NotFound'
@@ -138,6 +139,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <OfferDetailPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/onboarding/:id',
+        element: (
+          <ProtectedRoute>
+            <OnboardingPage />
           </ProtectedRoute>
         ),
       },

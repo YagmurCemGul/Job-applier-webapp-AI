@@ -6,8 +6,7 @@ import type { Offer } from '@/types/offer.types'
  */
 export function parseOfferFromText(raw: string): Partial<Offer> {
   // Extract company name
-  const company =
-    /(?:from|at)\s+([A-Z][A-Za-z0-9&.\- ]{2,})/i.exec(raw)?.[1]?.trim()
+  const company = /(?:from|at)\s+([A-Z][A-Za-z0-9&.\- ]{2,})/i.exec(raw)?.[1]?.trim()
 
   // Extract base salary
   const base = /(?:base|salary)[:\s]*\$?\s*([\d,]+)/i.exec(raw)?.[1]
@@ -31,9 +30,7 @@ export function parseOfferFromText(raw: string): Partial<Offer> {
   const ptoDays = pto ? Number(pto) : undefined
 
   // Extract role
-  const role = /(?:for|as|position:?)\s+([A-Z][A-Za-z\s]{5,30})/i
-    .exec(raw)?.[1]
-    ?.trim()
+  const role = /(?:for|as|position:?)\s+([A-Z][A-Za-z\s]{5,30})/i.exec(raw)?.[1]?.trim()
 
   return {
     company,
@@ -43,7 +40,7 @@ export function parseOfferFromText(raw: string): Partial<Offer> {
     currency: currency ?? 'USD',
     benefits: {
       signingBonus,
-      ptoDays
-    }
+      ptoDays,
+    },
   }
 }

@@ -14,7 +14,7 @@ const TABLE: Record<string, number> = {
   JPY: 0.0065,
   CNY: 0.14,
   INR: 0.012,
-  BRL: 0.19
+  BRL: 0.19,
 }
 
 export async function convertFx(

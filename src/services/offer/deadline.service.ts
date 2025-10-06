@@ -21,6 +21,6 @@ export async function createDeadlineEvent(opts: {
     title: opts.label,
     whenISO: opts.atISO,
     durationMin: 15,
-    attendees: opts.attendees ?? []
+    attendees: opts.attendees ?? [],
   })
 }

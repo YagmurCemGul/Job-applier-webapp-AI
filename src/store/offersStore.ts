@@ -16,36 +16,30 @@ export const useOffersStore = create<OffersState>()(
     (set, get) => ({
       items: [],
 
-      upsert: (o) =>
-        set({ items: [o, ...get().items.filter((x) => x.id !== o.id)] }),
+      upsert: (o) => set({ items: [o, ...get().items.filter((x) => x.id !== o.id)] }),
 
       update: (id, patch) =>
         set({
           items: get().items.map((x) =>
-            x.id === id
-              ? { ...x, ...patch, updatedAt: new Date().toISOString() }
-              : x
-          )
+            x.id === id ? { ...x, ...patch, updatedAt: new Date().toISOString() } : x
+          ),
         }),
 
       setStage: (id, stage) =>
         set({
           items: get().items.map((x) =>
-            x.id === id
-              ? { ...x, stage, updatedAt: new Date().toISOString() }
-              : x
-          )
+            x.id === id ? { ...x, stage, updatedAt: new Date().toISOString() } : x
+          ),
         }),
 
       getById: (id) => get().items.find((x) => x.id === id),
 
-      byApplication: (appId) =>
-        get().items.filter((x) => x.applicationId === appId)
+      byApplication: (appId) => get().items.filter((x) => x.applicationId === appId),
     }),
     {
       name: 'offers',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

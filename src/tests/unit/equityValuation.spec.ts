@@ -16,12 +16,12 @@ describe('equityValuation.service', () => {
           type: 'RSU',
           units: 1000,
           assumedSharePrice: 100,
-          vestSchedule: '4y_no_cliff'
-        }
+          vestSchedule: '4y_no_cliff',
+        },
       ],
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     // 1 year: 25% vested = 250 units * $100 = $25,000 annualized
@@ -51,12 +51,12 @@ describe('equityValuation.service', () => {
           units: 10000,
           strikePrice: 50,
           assumedSharePrice: 100,
-          vestSchedule: '4y_no_cliff'
-        }
+          vestSchedule: '4y_no_cliff',
+        },
       ],
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     // 1 year: 25% vested = 2500 options * ($100 - $50) = $125,000 annualized
@@ -76,12 +76,12 @@ describe('equityValuation.service', () => {
           id: 'eq1',
           type: 'RSU',
           targetValue: 100000,
-          vestSchedule: '4y_no_cliff'
-        }
+          vestSchedule: '4y_no_cliff',
+        },
       ],
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     // 1 year: 25% of $100k = $25k annualized
@@ -102,12 +102,12 @@ describe('equityValuation.service', () => {
           type: 'RSU',
           units: 1000,
           assumedSharePrice: 100,
-          vestSchedule: '4y_1y_cliff'
-        }
+          vestSchedule: '4y_1y_cliff',
+        },
       ],
       stage: 'received',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     // 1 year: 0% vested (cliff not reached)

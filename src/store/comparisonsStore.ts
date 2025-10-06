@@ -23,17 +23,16 @@ export const useComparisonsStore = create<ComparisonsState>()(
     (set, get) => ({
       items: [],
 
-      upsert: (c) =>
-        set({ items: [c, ...get().items.filter((x) => x.id !== c.id)] }),
+      upsert: (c) => set({ items: [c, ...get().items.filter((x) => x.id !== c.id)] }),
 
       remove: (id) => set({ items: get().items.filter((x) => x.id !== id) }),
 
-      getById: (id) => get().items.find((x) => x.id === id)
+      getById: (id) => get().items.find((x) => x.id === id),
     }),
     {
       name: 'offer-comparisons',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

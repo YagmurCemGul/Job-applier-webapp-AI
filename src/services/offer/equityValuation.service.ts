@@ -8,16 +8,12 @@ import type { Offer, ValuationInputs } from '@/types/offer.types'
  * Options: max(assumedSharePrice - strike, 0) * vestedUnits / years
  * If only targetValue is given, spread it over vesting horizon (4y default)
  */
-export async function annualizeEquity(
-  o: Offer,
-  v: ValuationInputs
-): Promise<number> {
+export async function annualizeEquity(o: Offer, v: ValuationInputs): Promise<number> {
   const years = v.horizonYears
   let total = 0
 
   for (const g of o.equity ?? []) {
-    const sp =
-      g.assumedSharePrice ?? (g.ticker ? await stubPrice(g.ticker) : 0)
+    const sp = g.assumedSharePrice ?? (g.ticker ? await stubPrice(g.ticker) : 0)
     const schedule = g.vestSchedule ?? '4y_1y_cliff'
 
     // Calculate vested percentage based on schedule
@@ -48,15 +44,9 @@ export async function annualizeEquity(
 /**
  * Calculate vested percentage from custom schedule
  */
-function customPct(
-  steps: Array<{ atMonths: number; pct: number }>,
-  years: number
-): number {
+function customPct(steps: Array<{ atMonths: number; pct: number }>, years: number): number {
   const months = years * 12
-  return (
-    steps.filter((s) => s.atMonths <= months).reduce((a, s) => a + s.pct, 0) /
-    100
-  )
+  return steps.filter((s) => s.atMonths <= months).reduce((a, s) => a + s.pct, 0) / 100
 }
 
 /**

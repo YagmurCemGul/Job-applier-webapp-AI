@@ -10,17 +10,13 @@ import { valueBenefits } from './benefitValuation.service'
  *
  * ⚠️ DISCLAIMER: Estimates only — not financial or tax advice
  */
-export async function totalComp(
-  o: Offer,
-  v: ValuationInputs
-): Promise<CompResult> {
+export async function totalComp(o: Offer, v: ValuationInputs): Promise<CompResult> {
   const base = o.baseAnnual
   const bonus = ((o.bonusTargetPct ?? 0) / 100) * base
   const equity = await annualizeEquity(o, v)
   const benefits = valueBenefits(o, v)
 
-  const gross =
-    base + bonus + equity + benefits.signingSpread + benefits.annualValue
+  const gross = base + bonus + equity + benefits.signingSpread + benefits.annualValue
 
   const postTax = roughTax(gross, v.taxRatePct ?? 30)
 
@@ -39,6 +35,6 @@ export async function totalComp(
     gross,
     postTax,
     adjusted,
-    normalized: fx
+    normalized: fx,
   }
 }

@@ -31,6 +31,9 @@ export * from './scorecard.types'
 export * from './transcript.types'
 export * from './offer.types'
 export * from './negotiation.types'
+export * from './onboarding.types'
+export * from './oneonone.types'
+export * from './okr.types'
 
 // Common types
 export type ID = string
