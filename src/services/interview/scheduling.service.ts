@@ -51,6 +51,6 @@ export async function createInterviewEvent(opts: {
     durationMin: opts.durationMin,
     attendees: opts.attendees,
     location: opts.location,
-    description: opts.description
+    description: opts.description,
   })
 }

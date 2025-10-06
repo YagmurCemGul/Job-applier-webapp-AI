@@ -5,14 +5,12 @@ import { aiRoute } from '@/services/ai/router.service'
  * Summarize transcript
  * Extract STAR stories, strengths, concerns, risk flags
  */
-export async function analyzeTranscript(
-  t: Transcript
-): Promise<Transcript['ai']> {
+export async function analyzeTranscript(t: Transcript): Promise<Transcript['ai']> {
   const prompt = [
     'You are an interview note assistant.',
     'Given the transcript, return JSON with fields: summary, star[ {situation, task, action, result} ], strengths[], concerns[], riskFlags[].',
     'Focus on measurable impact, ownership, ambiguity handling, communication, and culture add.',
-    `Transcript:\n${t.segments.map((s) => `[${s.speaker}] ${s.text}`).join('\n')}`
+    `Transcript:\n${t.segments.map((s) => `[${s.speaker}] ${s.text}`).join('\n')}`,
   ].join('\n')
 
   try {
@@ -21,7 +19,7 @@ export async function analyzeTranscript(
         task: 'generate',
         prompt,
         temperature: 0.3,
-        maxTokens: 1000
+        maxTokens: 1000,
       },
       { allowCache: true }
     )
@@ -32,19 +30,18 @@ export async function analyzeTranscript(
         star: [],
         strengths: [],
         concerns: [],
-        riskFlags: []
+        riskFlags: [],
       }
     }
 
-    const obj =
-      typeof result.text === 'string' ? JSON.parse(result.text) : result.text
+    const obj = typeof result.text === 'string' ? JSON.parse(result.text) : result.text
 
     return {
       summary: obj.summary ?? '',
       star: obj.star ?? [],
       strengths: obj.strengths ?? [],
       concerns: obj.concerns ?? [],
-      riskFlags: obj.riskFlags ?? []
+      riskFlags: obj.riskFlags ?? [],
     }
   } catch {
     return {
@@ -52,7 +49,7 @@ export async function analyzeTranscript(
       star: [],
       strengths: [],
       concerns: [],
-      riskFlags: []
+      riskFlags: [],
     }
   }
 }

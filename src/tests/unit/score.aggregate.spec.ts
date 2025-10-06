@@ -10,11 +10,11 @@ describe('score.aggregate', () => {
         panelistId: 'p1',
         ratings: [
           { dimensionId: 'd1', score: 4, note: '' },
-          { dimensionId: 'd2', score: 5, note: '' }
+          { dimensionId: 'd2', score: 5, note: '' },
         ],
         overall: 4,
         recommendation: 'yes',
-        submittedAt: new Date().toISOString()
+        submittedAt: new Date().toISOString(),
       },
       {
         id: '2',
@@ -22,12 +22,12 @@ describe('score.aggregate', () => {
         panelistId: 'p2',
         ratings: [
           { dimensionId: 'd1', score: 3, note: '' },
-          { dimensionId: 'd2', score: 4, note: '' }
+          { dimensionId: 'd2', score: 4, note: '' },
         ],
         overall: 3,
         recommendation: 'lean_yes',
-        submittedAt: new Date().toISOString()
-      }
+        submittedAt: new Date().toISOString(),
+      },
     ]
 
     // Calculate averages
@@ -51,9 +51,7 @@ describe('score.aggregate', () => {
   it('should calculate variance', () => {
     const scores = [4, 3, 5, 3, 4]
     const avg = scores.reduce((a, b) => a + b, 0) / scores.length
-    const variance =
-      scores.reduce((sum, s) => sum + Math.pow(s - avg, 2), 0) /
-      (scores.length - 1)
+    const variance = scores.reduce((sum, s) => sum + Math.pow(s - avg, 2), 0) / (scores.length - 1)
 
     expect(avg).toBe(3.8)
     expect(variance).toBeCloseTo(0.7, 1)
@@ -67,13 +65,11 @@ describe('score.aggregate', () => {
         panelistId: 'p1',
         ratings: [],
         recommendation: 'yes',
-        submittedAt: new Date().toISOString()
-      }
+        submittedAt: new Date().toISOString(),
+      },
     ]
 
-    const overallScores = submissions
-      .filter((s) => s.overall)
-      .map((s) => s.overall as number)
+    const overallScores = submissions.filter((s) => s.overall).map((s) => s.overall as number)
 
     expect(overallScores.length).toBe(0)
   })
@@ -86,7 +82,7 @@ describe('score.aggregate', () => {
         panelistId: 'p1',
         ratings: [],
         recommendation: 'strong_yes',
-        submittedAt: new Date().toISOString()
+        submittedAt: new Date().toISOString(),
       },
       {
         id: '2',
@@ -94,7 +90,7 @@ describe('score.aggregate', () => {
         panelistId: 'p2',
         ratings: [],
         recommendation: 'yes',
-        submittedAt: new Date().toISOString()
+        submittedAt: new Date().toISOString(),
       },
       {
         id: '3',
@@ -102,8 +98,8 @@ describe('score.aggregate', () => {
         panelistId: 'p3',
         ratings: [],
         recommendation: 'yes',
-        submittedAt: new Date().toISOString()
-      }
+        submittedAt: new Date().toISOString(),
+      },
     ]
 
     const tally = submissions.reduce(

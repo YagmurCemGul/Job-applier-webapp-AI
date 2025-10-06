@@ -16,36 +16,31 @@ export const useInterviewsStore = create<InterviewsState>()(
     (set, get) => ({
       items: [],
 
-      upsert: (i) =>
-        set({ items: [i, ...get().items.filter((x) => x.id !== i.id)] }),
+      upsert: (i) => set({ items: [i, ...get().items.filter((x) => x.id !== i.id)] }),
 
       update: (id, patch) =>
         set({
           items: get().items.map((x) =>
-            x.id === id
-              ? { ...x, ...patch, updatedAt: new Date().toISOString() }
-              : x
-          )
+            x.id === id ? { ...x, ...patch, updatedAt: new Date().toISOString() } : x
+          ),
         }),
 
       setStage: (id, stage) =>
         set({
           items: get().items.map((x) =>
-            x.id === id
-              ? { ...x, stage, updatedAt: new Date().toISOString() }
-              : x
-          )
+            x.id === id ? { ...x, stage, updatedAt: new Date().toISOString() } : x
+          ),
         }),
 
       byApplication: (applicationId) =>
         get().items.filter((x) => x.applicationId === applicationId),
 
-      getById: (id) => get().items.find((x) => x.id === id)
+      getById: (id) => get().items.find((x) => x.id === id),
     }),
     {
       name: 'interviews',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

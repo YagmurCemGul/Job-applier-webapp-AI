@@ -29,6 +29,8 @@ export * from './outreach.run.types'
 export * from './interview.types'
 export * from './scorecard.types'
 export * from './transcript.types'
+export * from './offer.types'
+export * from './negotiation.types'
 
 // Common types
 export type ID = string

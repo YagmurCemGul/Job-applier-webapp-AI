@@ -2,12 +2,7 @@
  * Interview management types
  */
 
-export type InterviewStage =
-  | 'planned'
-  | 'scheduled'
-  | 'in_progress'
-  | 'completed'
-  | 'canceled'
+export type InterviewStage = 'planned' | 'scheduled' | 'in_progress' | 'completed' | 'canceled'
 
 export type MeetingProvider = 'google_meet' | 'zoom' | 'other'
 

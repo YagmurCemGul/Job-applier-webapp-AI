@@ -10,12 +10,12 @@ describe('ai.notes', () => {
           situation: 'Team was struggling with deployment pipeline',
           task: 'Improve deployment frequency',
           action: 'Implemented CI/CD automation',
-          result: 'Reduced deployment time by 80%'
-        }
+          result: 'Reduced deployment time by 80%',
+        },
       ],
       strengths: ['Technical depth', 'Clear communication'],
       concerns: ['Limited team leadership experience'],
-      riskFlags: []
+      riskFlags: [],
     }
 
     expect(mockResponse.summary).toBeDefined()
@@ -27,7 +27,7 @@ describe('ai.notes', () => {
 
   it('should handle missing fields gracefully', () => {
     const mockResponse: any = {
-      summary: 'Brief summary'
+      summary: 'Brief summary',
     }
 
     const normalized = {
@@ -35,7 +35,7 @@ describe('ai.notes', () => {
       star: mockResponse.star ?? [],
       strengths: mockResponse.strengths ?? [],
       concerns: mockResponse.concerns ?? [],
-      riskFlags: mockResponse.riskFlags ?? []
+      riskFlags: mockResponse.riskFlags ?? [],
     }
 
     expect(normalized.star).toEqual([])

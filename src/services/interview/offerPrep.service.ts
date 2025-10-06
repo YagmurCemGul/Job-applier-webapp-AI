@@ -19,15 +19,13 @@ export function recommendOffer(level: string, bands: CompBand[]) {
       note: 'No band found',
       base: undefined,
       equityPct: undefined,
-      currency: 'USD'
+      currency: 'USD',
     }
   }
 
   const base = Math.round((b.baseMin + b.baseMax) / 2)
   const equityPct =
-    b.equityPctMin && b.equityPctMax
-      ? (b.equityPctMin + b.equityPctMax) / 2
-      : undefined
+    b.equityPctMin && b.equityPctMax ? (b.equityPctMin + b.equityPctMax) / 2 : undefined
 
   return { base, equityPct, currency: b.currency }
 }
@@ -42,7 +40,7 @@ export const DEFAULT_COMP_BANDS: CompBand[] = [
     baseMax: 80000,
     currency: 'USD',
     equityPctMin: 0.05,
-    equityPctMax: 0.15
+    equityPctMax: 0.15,
   },
   {
     level: 'Mid',
@@ -50,7 +48,7 @@ export const DEFAULT_COMP_BANDS: CompBand[] = [
     baseMax: 120000,
     currency: 'USD',
     equityPctMin: 0.1,
-    equityPctMax: 0.3
+    equityPctMax: 0.3,
   },
   {
     level: 'Senior',
@@ -58,7 +56,7 @@ export const DEFAULT_COMP_BANDS: CompBand[] = [
     baseMax: 160000,
     currency: 'USD',
     equityPctMin: 0.2,
-    equityPctMax: 0.5
+    equityPctMax: 0.5,
   },
   {
     level: 'Staff',
@@ -66,7 +64,7 @@ export const DEFAULT_COMP_BANDS: CompBand[] = [
     baseMax: 220000,
     currency: 'USD',
     equityPctMin: 0.3,
-    equityPctMax: 0.8
+    equityPctMax: 0.8,
   },
   {
     level: 'Principal',
@@ -74,6 +72,6 @@ export const DEFAULT_COMP_BANDS: CompBand[] = [
     baseMax: 300000,
     currency: 'USD',
     equityPctMin: 0.5,
-    equityPctMax: 1.2
-  }
+    equityPctMax: 1.2,
+  },
 ]

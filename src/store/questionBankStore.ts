@@ -20,18 +20,16 @@ export const useQuestionBankStore = create<QBState>()(
     (set, get) => ({
       items: [],
 
-      upsert: (q) =>
-        set({ items: [q, ...get().items.filter((x) => x.id !== q.id)] }),
+      upsert: (q) => set({ items: [q, ...get().items.filter((x) => x.id !== q.id)] }),
 
       remove: (id) => set({ items: get().items.filter((x) => x.id !== id) }),
 
-      byTag: (tag) =>
-        tag ? get().items.filter((q) => q.tag === tag) : get().items
+      byTag: (tag) => (tag ? get().items.filter((q) => q.tag === tag) : get().items),
     }),
     {
       name: 'question-bank',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

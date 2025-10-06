@@ -37,11 +37,7 @@ export async function exportScoreSummaryPDF(
 
   doc.setFontSize(10)
   for (const dim of aggregates.dimensionScores) {
-    doc.text(
-      `${dim.name}: ${dim.avg.toFixed(2)} (variance: ${dim.variance.toFixed(2)})`,
-      25,
-      y
-    )
+    doc.text(`${dim.name}: ${dim.avg.toFixed(2)} (variance: ${dim.variance.toFixed(2)})`, 25, y)
     y += 5
   }
 

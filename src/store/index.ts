@@ -35,6 +35,9 @@ export { useSequenceSchedulerStore } from './sequenceSchedulerStore'
 export { useInterviewsStore } from './interviewsStore'
 export { useScorecardsStore } from './scorecardsStore'
 export { useQuestionBankStore } from './questionBankStore'
+export { useOffersStore } from './offersStore'
+export { useComparisonsStore } from './comparisonsStore'
+export { useOfferSettingsStore } from './offerSettingsStore'
 
 // Export types
 export type * from '@/types/store.types'

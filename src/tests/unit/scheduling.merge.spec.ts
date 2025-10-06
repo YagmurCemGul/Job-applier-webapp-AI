@@ -7,12 +7,12 @@ describe('scheduling.merge', () => {
       {
         busy: [
           ['2025-10-10T09:00:00Z', '2025-10-10T10:00:00Z'],
-          ['2025-10-10T14:00:00Z', '2025-10-10T15:00:00Z']
-        ]
+          ['2025-10-10T14:00:00Z', '2025-10-10T15:00:00Z'],
+        ],
       },
       {
-        busy: [['2025-10-10T11:00:00Z', '2025-10-10T12:00:00Z']]
-      }
+        busy: [['2025-10-10T11:00:00Z', '2025-10-10T12:00:00Z']],
+      },
     ]
 
     const base = {
@@ -20,7 +20,7 @@ describe('scheduling.merge', () => {
       windowStartISO: '2025-10-10T08:00:00Z',
       windowEndISO: '2025-10-10T18:00:00Z',
       timeZone: 'UTC',
-      slots: []
+      slots: [],
     }
 
     const result = mergeAvailabilities(panels, base)
@@ -46,7 +46,7 @@ describe('scheduling.merge', () => {
       windowStartISO: '2025-10-10T10:00:00Z',
       windowEndISO: '2025-10-10T12:00:00Z',
       timeZone: 'UTC',
-      slots: []
+      slots: [],
     }
 
     const result = mergeAvailabilities(panels, base)
@@ -57,7 +57,7 @@ describe('scheduling.merge', () => {
   it('should handle overlapping busy windows', () => {
     const panels = [
       { busy: [['2025-10-10T09:00:00Z', '2025-10-10T11:00:00Z']] },
-      { busy: [['2025-10-10T10:00:00Z', '2025-10-10T12:00:00Z']] }
+      { busy: [['2025-10-10T10:00:00Z', '2025-10-10T12:00:00Z']] },
     ]
 
     const base = {
@@ -65,7 +65,7 @@ describe('scheduling.merge', () => {
       windowStartISO: '2025-10-10T08:00:00Z',
       windowEndISO: '2025-10-10T16:00:00Z',
       timeZone: 'UTC',
-      slots: []
+      slots: [],
     }
 
     const result = mergeAvailabilities(panels, base)

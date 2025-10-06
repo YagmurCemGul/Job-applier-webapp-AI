@@ -33,9 +33,7 @@ export class WebSpeechASR implements ASRProvider {
       text: string
     }) => void
   ): Promise<void> {
-    const SR =
-      (window as any).webkitSpeechRecognition ||
-      (window as any).SpeechRecognition
+    const SR = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition
 
     if (!SR) {
       throw new Error('ASR not supported on this browser')
@@ -54,7 +52,7 @@ export class WebSpeechASR implements ASRProvider {
         atMs: performance.now() - this.startAt,
         durMs: 0,
         speaker: 'Candidate',
-        text: t
+        text: t,
       })
     }
 
@@ -76,12 +74,10 @@ export function makeTranscript(
 ): Transcript {
   return {
     id:
-      typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now()),
+      typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     interviewId,
     createdAt: new Date().toISOString(),
     language: lang,
-    segments: segs
+    segments: segs,
   }
 }

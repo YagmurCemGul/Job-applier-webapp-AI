@@ -9,15 +9,15 @@ describe('transcript.chunk', () => {
         atMs: 0,
         durMs: 2000,
         speaker: 'Interviewer' as const,
-        text: 'Tell me about yourself'
+        text: 'Tell me about yourself',
       },
       {
         id: '2',
         atMs: 2000,
         durMs: 5000,
         speaker: 'Candidate' as const,
-        text: "I'm a software engineer with 5 years of experience"
-      }
+        text: "I'm a software engineer with 5 years of experience",
+      },
     ]
 
     const transcript = makeTranscript('int1', 'en', segments)
@@ -36,8 +36,8 @@ describe('transcript.chunk', () => {
         atMs: 0,
         durMs: 2000,
         speaker: 'Interviewer' as const,
-        text: 'Kendinizden bahsedin'
-      }
+        text: 'Kendinizden bahsedin',
+      },
     ]
 
     const transcript = makeTranscript('int1', 'tr', segments)
