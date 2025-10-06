@@ -7,18 +7,21 @@ import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
 import { ATSScore } from '@/components/optimization/ATSScore'
 import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
 import { ExportOptions } from '@/components/export/ExportOptions'
+import { CoverLetterGenerator } from '@/components/coverLetter/CoverLetterGenerator'
+import { CoverLetterPreview } from '@/components/coverLetter/CoverLetterPreview'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Loader2, Sparkles, AlertCircle, Printer } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, Printer, FileText } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { useOptimizationStore } from '@/store/optimizationStore'
+import { useCoverLetterStore } from '@/store/coverLetterStore'
 import { Card } from '@/components/ui/card'
 
-type CVBuilderStep = 'upload' | 'job' | 'optimize'
+type CVBuilderStep = 'upload' | 'job' | 'optimize' | 'cover-letter'
 
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
@@ -27,6 +30,8 @@ export default function CVBuilderPage() {
 
   const { result, isOptimizing, error, currentCV, setResult, setOptimizing, setError, reset } =
     useOptimizationStore()
+
+  const { currentLetter } = useCoverLetterStore()
 
   const handleCVUpload = (data: ParsedCVData) => {
     setParsedCV(data)
@@ -97,13 +102,17 @@ export default function CVBuilderPage() {
 
       {/* Main Content */}
       <Tabs value={currentStep} onValueChange={(v) => setCurrentStep(v as CVBuilderStep)}>
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="upload">1. Upload CV</TabsTrigger>
           <TabsTrigger value="job" disabled={!parsedCV}>
             2. Job Posting
           </TabsTrigger>
           <TabsTrigger value="optimize" disabled={!canOptimize}>
-            3. Optimize
+            3. Optimize CV
+          </TabsTrigger>
+          <TabsTrigger value="cover-letter" disabled={!canOptimize}>
+            <FileText className="mr-2 h-4 w-4" />
+            Cover Letter
           </TabsTrigger>
         </TabsList>
 
@@ -220,6 +229,45 @@ export default function CVBuilderPage() {
             <div className="py-12 text-center">
               <Loader2 className="mx-auto mb-4 h-12 w-12 animate-spin text-primary" />
               <p className="text-gray-600">Optimizing your CV with AI...</p>
+            </div>
+          )}
+        </TabsContent>
+
+        {/* Cover Letter Tab */}
+        <TabsContent value="cover-letter" className="mt-6">
+          {parsedCV && jobPosting ? (
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div>
+                <CoverLetterGenerator
+                  cvText={parsedCV.text}
+                  jobPosting={jobPosting.rawText}
+                  jobTitle={jobPosting.parsed.title}
+                  companyName={jobPosting.parsed.company}
+                />
+              </div>
+
+              <div>
+                {currentLetter ? (
+                  <CoverLetterPreview letter={currentLetter} />
+                ) : (
+                  <Card className="p-12 text-center">
+                    <FileText className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+                    <h3 className="mb-2 text-lg font-semibold">No Cover Letter Yet</h3>
+                    <p className="text-sm text-gray-600">
+                      Click "Generate Cover Letter" to create a personalized cover letter based on
+                      your CV and the job posting.
+                    </p>
+                  </Card>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="py-12 text-center">
+              <Alert>
+                <AlertDescription>
+                  Please upload your CV and add a job posting first.
+                </AlertDescription>
+              </Alert>
             </div>
           )}
         </TabsContent>

@@ -3,6 +3,8 @@ export * from './user.types'
 export * from './cv.types'
 export * from './api.types'
 export * from './store.types'
+export * from './job.types'
+export * from './coverLetter.types'
 
 // Common types
 export type ID = string
