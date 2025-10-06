@@ -1,4 +1,7 @@
 export { default as HomePage } from './Home'
+export { default as LoginPage } from './Login'
+export { default as RegisterPage } from './Register'
+export { default as ForgotPasswordPage } from './ForgotPassword'
 export { default as DashboardPage } from './Dashboard'
 export { default as CVBuilderPage } from './CVBuilder'
 export { default as CoverLetterPage } from './CoverLetter'
