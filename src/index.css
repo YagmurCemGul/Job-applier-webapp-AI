@@ -2,6 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Print styles */
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Hide non-essential elements when printing */
+  nav,
+  header,
+  button,
+  .no-print,
+  [role='navigation'],
+  [data-print='hide'] {
+    display: none !important;
+  }
+
+  /* Ensure content fits on page */
+  .print-content {
+    page-break-inside: avoid;
+  }
+
+  /* Reset backgrounds for print */
+  .bg-gray-50,
+  .bg-blue-50,
+  .bg-green-50,
+  .bg-orange-50 {
+    background: white !important;
+  }
+
+  /* Ensure readable text */
+  body,
+  p,
+  li,
+  span {
+    color: black !important;
+  }
+
+  /* Remove shadows and borders */
+  .shadow,
+  .shadow-sm,
+  .shadow-md,
+  .shadow-lg {
+    box-shadow: none !important;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -1,17 +1,19 @@
 import { useState } from 'react'
 import { CVUpload } from '@/components/cv/CVUpload'
 import { CVPreview } from '@/components/cv/CVPreview'
+import { CVPreviewFull } from '@/components/cv/CVPreviewFull'
 import { JobPostingInput } from '@/components/job/JobPostingInput'
 import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
 import { ATSScore } from '@/components/optimization/ATSScore'
 import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
+import { ExportOptions } from '@/components/export/ExportOptions'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Loader2, Sparkles, AlertCircle } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, Printer } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { useOptimizationStore } from '@/store/optimizationStore'
 import { Card } from '@/components/ui/card'
@@ -23,7 +25,8 @@ export default function CVBuilderPage() {
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
   const [currentStep, setCurrentStep] = useState<CVBuilderStep>('upload')
 
-  const { result, isOptimizing, error, setResult, setOptimizing, setError } = useOptimizationStore()
+  const { result, isOptimizing, error, currentCV, setResult, setOptimizing, setError, reset } =
+    useOptimizationStore()
 
   const handleCVUpload = (data: ParsedCVData) => {
     setParsedCV(data)
@@ -152,36 +155,65 @@ export default function CVBuilderPage() {
 
         <TabsContent value="optimize" className="mt-6">
           {result ? (
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              <div className="space-y-6">
+            <div className="space-y-6">
+              {/* Top Section: Score + Suggestions */}
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <ATSScore
                   score={result.atsScore}
                   matchingSkills={result.matchingSkills}
                   missingSkills={result.missingSkills}
                 />
-                <OptimizationChanges changes={result.changes} />
+                <Card className="p-6">
+                  <h3 className="mb-4 text-lg font-semibold">Suggestions</h3>
+                  <ScrollArea className="h-[200px]">
+                    <ul className="space-y-2">
+                      {result.suggestions.map((suggestion, index) => (
+                        <li key={index} className="flex items-start gap-2 text-sm">
+                          <span className="mt-1 text-primary">•</span>
+                          <span>{suggestion}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </ScrollArea>
+                </Card>
               </div>
 
-              <div>
-                <Card className="p-6">
-                  <h3 className="mb-4 text-lg font-semibold">Optimized CV Preview</h3>
-                  <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                    <pre className="whitespace-pre-wrap text-sm">{result.optimizedCV}</pre>
-                  </ScrollArea>
+              {/* Changes Section */}
+              <OptimizationChanges changes={result.changes} />
 
-                  {result.suggestions.length > 0 && (
-                    <div className="mt-4">
-                      <h4 className="mb-2 font-medium">Suggestions</h4>
-                      <ul className="space-y-1">
-                        {result.suggestions.map((suggestion, index) => (
-                          <li key={index} className="text-sm text-gray-600">
-                            • {suggestion}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </Card>
+              {/* Preview & Export Section */}
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                <div className="lg:col-span-2">
+                  <CVPreviewFull
+                    content={currentCV || result.optimizedCV}
+                    atsScore={result.atsScore}
+                  />
+                </div>
+                <div>
+                  <ExportOptions
+                    content={currentCV || result.optimizedCV}
+                    fileName={`CV_Optimized_${new Date().toISOString().split('T')[0]}`}
+                  />
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex justify-between border-t pt-6">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setCurrentStep('job')
+                    reset()
+                  }}
+                >
+                  ← Start Over
+                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => window.print()}>
+                    <Printer className="mr-2 h-4 w-4" />
+                    Print CV
+                  </Button>
+                </div>
               </div>
             </div>
           ) : (
