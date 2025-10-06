@@ -5,6 +5,7 @@ export * from './api.types'
 export * from './store.types'
 export * from './job.types'
 export * from './coverLetter.types'
+export * from './customPrompt.types'
 
 // Common types
 export type ID = string
