@@ -18,6 +18,8 @@ export * from './coverletter.types'
 export * from './prompts.types'
 export * from './ai.types'
 export * from './jobPosting.types'
+export * from './jobs.types'
+export * from './searches.types'
 
 // Common types
 export type ID = string
