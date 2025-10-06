@@ -26,6 +26,9 @@ export * from './outreach.types'
 export * from './gmail.types'
 export * from './calendar.types'
 export * from './outreach.run.types'
+export * from './interview.types'
+export * from './scorecard.types'
+export * from './transcript.types'
 
 // Common types
 export type ID = string

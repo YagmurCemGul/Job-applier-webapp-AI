@@ -16,6 +16,8 @@ import JobListingsPage from '@/pages/JobListings'
 import JobsPage from '@/pages/Jobs'
 import ApplicationsPage from '@/pages/Applications'
 import OutboxPage from '@/pages/Outbox'
+import InterviewsPage from '@/pages/Interviews'
+import InterviewDetailPage from '@/components/interview/InterviewDetail'
 import ProfilePage from '@/pages/Profile'
 import SettingsPage from '@/pages/Settings'
 import NotFoundPage from '@/pages/NotFound'
@@ -102,6 +104,22 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <OutboxPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/interviews',
+        element: (
+          <ProtectedRoute>
+            <InterviewsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/interviews/:id',
+        element: (
+          <ProtectedRoute>
+            <InterviewDetailPage />
           </ProtectedRoute>
         ),
       },
