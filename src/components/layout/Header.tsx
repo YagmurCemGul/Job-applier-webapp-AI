@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import { Menu, FileText, User, Settings, LogOut } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -10,110 +9,85 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Sidebar } from './Sidebar'
-import { APP_NAME, ROUTES } from '@/lib/constants'
-import { LanguageSwitcher } from './LanguageSwitcher'
-import { useAuth, useCommonTranslation } from '@/hooks'
+import { FileText, LayoutDashboard, LogOut, Settings, User } from 'lucide-react'
+import { useAuthStore } from '@/store/authStore'
 
 export function Header() {
-  const { user, logout } = useAuth()
-  const { t } = useCommonTranslation()
+  const { user, signOut } = useAuthStore()
+  const navigate = useNavigate()
 
-  const displayName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
-  const displayEmail = user?.email || 'guest@example.com'
-  const displayAvatar = user?.profilePhoto || ''
-  const displayInitials = user ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}` : 'G'
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
+  const getInitials = (name: string | null) => {
+    if (!name) return 'U'
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-4">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-0">
-              <Sidebar />
-            </SheetContent>
-          </Sheet>
-
-          <Link to={ROUTES.HOME} className="flex items-center space-x-2">
-            <FileText className="h-6 w-6 text-primary" />
-            <span className="hidden font-bold sm:inline-block">{APP_NAME}</span>
-          </Link>
-        </div>
+    <header className="sticky top-0 z-50 border-b bg-white">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <Link to="/dashboard" className="flex items-center gap-2">
+          <FileText className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold">AI CV Builder</span>
+        </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
           <Link
-            to={ROUTES.DASHBOARD}
-            className="text-sm font-medium transition-colors hover:text-primary"
+            to="/dashboard"
+            className="flex items-center gap-2 text-gray-700 transition-colors hover:text-primary"
           >
-            {t('navigation.dashboard')}
+            <LayoutDashboard className="h-4 w-4" />
+            Dashboard
           </Link>
           <Link
-            to={ROUTES.CV_BUILDER}
-            className="text-sm font-medium transition-colors hover:text-primary"
+            to="/cv-builder"
+            className="flex items-center gap-2 text-gray-700 transition-colors hover:text-primary"
           >
-            {t('navigation.cvBuilder')}
-          </Link>
-          <Link
-            to={ROUTES.COVER_LETTER}
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t('navigation.coverLetter')}
-          </Link>
-          <Link
-            to={ROUTES.JOBS}
-            className="text-sm font-medium transition-colors hover:text-primary"
-          >
-            {t('navigation.jobs')}
+            <FileText className="h-4 w-4" />
+            CV Builder
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2">
-          <LanguageSwitcher />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                <Avatar>
-                  <AvatarImage src={displayAvatar} alt={displayName} />
-                  <AvatarFallback>{displayInitials}</AvatarFallback>
-                </Avatar>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56" align="end" forceMount>
-              <DropdownMenuLabel className="font-normal">
-                <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{displayName}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{displayEmail}</p>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to={ROUTES.PROFILE} className="cursor-pointer">
-                  <User className="mr-2 h-4 w-4" />
-                  <span>{t('user.profile')}</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to={ROUTES.SETTINGS} className="cursor-pointer">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>{t('user.settings')}</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout} className="cursor-pointer text-destructive">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>{t('user.logout')}</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+              <Avatar className="h-10 w-10">
+                <AvatarImage src={user?.photoURL || undefined} />
+                <AvatarFallback>{getInitials(user?.displayName)}</AvatarFallback>
+              </Avatar>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuLabel>
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium">{user?.displayName || 'User'}</p>
+                <p className="text-xs text-gray-500">{user?.email}</p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate('/profile')}>
+              <User className="mr-2 h-4 w-4" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate('/settings')}>
+              <Settings className="mr-2 h-4 w-4" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={handleSignOut}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign Out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   )

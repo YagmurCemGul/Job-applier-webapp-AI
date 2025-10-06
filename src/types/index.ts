@@ -9,6 +9,7 @@ export * from './customPrompt.types'
 export * from './template.types'
 export * from './cvData.types'
 export * from './savedCV.types'
+export * from './auth.types'
 
 // Common types
 export type ID = string

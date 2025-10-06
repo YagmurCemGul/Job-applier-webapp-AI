@@ -6,6 +6,7 @@ import { ROUTES } from '@/lib/constants'
 // Pages
 import HomePage from '@/pages/Home'
 import LoginPage from '@/pages/Login'
+import SignupPage from '@/pages/Signup'
 import RegisterPage from '@/pages/Register'
 import ForgotPasswordPage from '@/pages/ForgotPassword'
 import DashboardPage from '@/pages/Dashboard'
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
   {
     path: '/login',
     element: <LoginPage />,
+  },
+  {
+    path: '/signup',
+    element: <SignupPage />,
   },
   {
     path: '/register',

@@ -1,6 +1,2 @@
-export { MainLayout } from './MainLayout'
+export { Layout } from './Layout'
 export { Header } from './Header'
-export { Sidebar } from './Sidebar'
-export { Footer } from './Footer'
-export { Breadcrumbs } from './Breadcrumbs'
-export { LanguageSwitcher } from './LanguageSwitcher'
