@@ -19,9 +19,7 @@ export function analyzeCVAgainstJob(cv: CVData, job: ParsedJob): ATSAnalysisResu
   ]
 
   // Use custom weights or defaults
-  const weights = opts?.weights
-    ? normalizeWeights(opts.weights)
-    : DEFAULT_WEIGHTS
+  const weights = opts?.weights ? normalizeWeights(opts.weights) : DEFAULT_WEIGHTS
 
   const score = computeScore(
     matchedKeywords.length,

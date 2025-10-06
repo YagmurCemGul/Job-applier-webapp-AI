@@ -14,6 +14,8 @@ export { useATSStore } from './atsStore'
 export { useJobsStore } from './jobsStore'
 export { useATSUIStore } from './atsUIStore'
 export { useATSWeightsStore } from './atsWeightsStore'
+export { useVariantsStore } from './variantsStore'
+export { useExportPresetsStore } from './exportPresetsStore'
 
 // Export types
 export type * from '@/types/store.types'

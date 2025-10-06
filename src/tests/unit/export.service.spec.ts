@@ -55,9 +55,7 @@ describe('export.service', () => {
     })
 
     it('should include CSV header', async () => {
-      const meta: ATSKeywordMeta[] = [
-        { term: 'test', importance: 0.5 },
-      ]
+      const meta: ATSKeywordMeta[] = [{ term: 'test', importance: 0.5 }]
 
       const blob = exportKeywordsCsv(meta, [], ['test'])
       const text = await blob.text()
@@ -80,9 +78,7 @@ describe('export.service', () => {
     })
 
     it('should handle missing status', async () => {
-      const meta: ATSKeywordMeta[] = [
-        { term: 'react', importance: 0.7 },
-      ]
+      const meta: ATSKeywordMeta[] = [{ term: 'react', importance: 0.7 }]
 
       const blob = exportKeywordsCsv(meta, [], ['react'])
       const text = await blob.text()
@@ -92,9 +88,7 @@ describe('export.service', () => {
     })
 
     it('should escape CSV special characters', async () => {
-      const meta: ATSKeywordMeta[] = [
-        { term: 'comma,test', importance: 0.5 },
-      ]
+      const meta: ATSKeywordMeta[] = [{ term: 'comma,test', importance: 0.5 }]
 
       const blob = exportKeywordsCsv(meta, [], [])
       const text = await blob.text()

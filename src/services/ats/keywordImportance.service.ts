@@ -23,13 +23,7 @@ export function buildKeywordMeta(
   const reqText = (job.sections.requirements ?? []).join(' ').toLowerCase()
   const qualText = (job.sections.qualifications ?? []).join(' ').toLowerCase()
   const respText = (job.sections.responsibilities ?? []).join(' ').toLowerCase()
-  const allText = [
-    titleText,
-    reqText,
-    qualText,
-    respText,
-    job.sections.summary ?? '',
-  ].join(' ')
+  const allText = [titleText, reqText, qualText, respText, job.sections.summary ?? ''].join(' ')
 
   // Calculate term frequencies
   const termFreqs = new Map<string, number>()

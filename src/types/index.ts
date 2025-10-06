@@ -12,6 +12,8 @@ export * from './savedCV.types'
 export * from './auth.types'
 export * from './ats.types'
 export * from './job.types'
+export * from './variants.types'
+export * from './export.types'
 export * from './jobPosting.types'
 
 // Common types

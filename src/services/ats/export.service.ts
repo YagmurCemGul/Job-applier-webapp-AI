@@ -21,9 +21,7 @@ export function exportKeywordsCsv(
   const missingSet = new Set(missing.map((t) => t.toLowerCase()))
 
   // CSV header
-  const rows: string[] = [
-    'term,importance,status,inTitle,inReq,inQual,inResp',
-  ]
+  const rows: string[] = ['term,importance,status,inTitle,inReq,inQual,inResp']
 
   // CSV rows
   for (const m of meta) {

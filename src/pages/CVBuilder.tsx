@@ -23,6 +23,7 @@ import {
 } from '@/components/forms'
 import { JobInputTabs } from '@/components/job'
 import { ATSPanel, ATSDetails } from '@/components/ats'
+import { VariantsTab } from '@/components/variants'
 import { useATSStore } from '@/store/atsStore'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
@@ -311,6 +312,14 @@ export default function CVBuilderPage() {
               <p className="text-gray-600">Optimizing your CV with AI...</p>
             </div>
           )}
+        </TabsContent>
+
+        {/* Variants Tab */}
+        <TabsContent value="variants" className="mt-6">
+          <Card className="p-6">
+            <h2 className="mb-4 text-xl font-semibold">CV Variants</h2>
+            <VariantsTab />
+          </Card>
         </TabsContent>
 
         {/* Cover Letter Tab */}
