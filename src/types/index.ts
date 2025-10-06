@@ -10,6 +10,8 @@ export * from './template.types'
 export * from './cvData.types'
 export * from './savedCV.types'
 export * from './auth.types'
+export * from './ats.types'
+export * from './job.types'
 
 // Common types
 export type ID = string

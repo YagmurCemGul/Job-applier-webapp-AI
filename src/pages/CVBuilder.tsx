@@ -21,6 +21,9 @@ import {
   SummaryForm,
   ProjectsForm,
 } from '@/components/forms'
+import { JobInput } from '@/components/job'
+import { ATSPanel } from '@/components/ats'
+import { useATSStore } from '@/store/atsStore'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -226,36 +229,55 @@ export default function CVBuilderPage() {
         </TabsContent>
 
         <TabsContent value="job" className="mt-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <JobPostingInput onJobParsed={handleJobParsed} />
-            {jobPosting && <JobAnalysisDisplay job={jobPosting} />}
-          </div>
+          <Card className="p-6">
+            <h2 className="mb-4 text-xl font-semibold">Job Posting</h2>
+            <JobInput />
 
-          {error && (
-            <Alert variant="destructive" className="mt-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+            {parsedJob && (
+              <div className="mt-4 space-y-2">
+                <div className="rounded-lg bg-muted p-3 text-sm">
+                  {parsedJob.title && (
+                    <div>
+                      <strong>Title:</strong> {parsedJob.title}
+                    </div>
+                  )}
+                  {parsedJob.company && (
+                    <div>
+                      <strong>Company:</strong> {parsedJob.company}
+                    </div>
+                  )}
+                  {parsedJob.location && (
+                    <div>
+                      <strong>Location:</strong> {parsedJob.location}
+                    </div>
+                  )}
+                  {parsedJob.remoteType && parsedJob.remoteType !== 'unknown' && (
+                    <div>
+                      <strong>Type:</strong> {parsedJob.remoteType}
+                    </div>
+                  )}
+                  <div>
+                    <strong>Keywords found:</strong> {parsedJob.keywords.length}
+                  </div>
+                </div>
 
-          <div className="mt-6 flex justify-between">
-            <Button variant="outline" onClick={() => setCurrentStep('upload')}>
-              ← Back to CV
-            </Button>
-            <Button onClick={handleOptimize} disabled={!canOptimize || isOptimizing}>
-              {isOptimizing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Optimizing with AI...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Optimize with AI
-                </>
-              )}
-            </Button>
-          </div>
+                <Button
+                  onClick={() => currentCV && analyze(currentCV)}
+                  disabled={isAnalyzing || !currentCV}
+                  className="w-full"
+                >
+                  {isAnalyzing ? 'Analyzing...' : 'Analyze against current CV'}
+                </Button>
+              </div>
+            )}
+
+            <div className="mt-6 flex justify-between border-t pt-6">
+              <Button variant="outline" onClick={() => setCurrentStep('edit')}>
+                ← Back to Edit
+              </Button>
+              <Button onClick={() => setCurrentStep('optimize')}>Continue to Optimize →</Button>
+            </div>
+          </Card>
         </TabsContent>
 
         <TabsContent value="optimize" className="mt-6">

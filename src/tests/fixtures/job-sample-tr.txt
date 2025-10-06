@@ -1,0 +1,37 @@
+Kıdemli Yazılım Mühendisi
+
+Şirket: TeknoŞirket A.Ş.
+Konum: İstanbul (Uzaktan)
+Maaş: 80,000 - 120,000 TL
+
+Pozisyon Hakkında:
+Büyüyen yazılım ekibimize katılacak Kıdemli Yazılım Mühendisi arıyoruz. Modern teknolojiler kullanarak web uygulamaları geliştireceksiniz.
+
+Sorumluluklar:
+- React ve TypeScript kullanarak ölçeklenebilir web uygulamaları tasarlama ve geliştirme
+- Ürün yöneticileri ve tasarımcılar dahil çapraz fonksiyonel ekiplerle işbirliği
+- Junior mühendislere mentorluk ve kod incelemesi yapma
+- Çevik geliştirme süreçlerine ve sprint planlamasına katılma
+- Temiz, sürdürülebilir ve iyi test edilmiş kod yazma
+
+Gereksinimler:
+- Yazılım geliştirmede 5+ yıl deneyim
+- TypeScript, React ve Node.js konusunda güçlü yetkinlik
+- AWS, Docker ve Kubernetes deneyimi
+- RESTful API ve mikroservis mimarisi hakkında sağlam anlayış
+- Mükemmel problem çözme ve iletişim becerileri
+- Bilgisayar Mühendisliği veya ilgili alanda lisans derecesi
+
+Nitelikler:
+- CI/CD pipeline ve DevOps uygulamaları deneyimi
+- SQL ve NoSQL veritabanları bilgisi (PostgreSQL, MongoDB)
+- Test framework'leri ile aşinalık (Jest, React Testing Library)
+- Güçlü liderlik ve paydaş yönetimi becerileri
+- Agile/Scrum deneyimi
+
+Yan Haklar:
+- Rekabetçi maaş ve hisse senedi
+- Sağlık, diş ve göz sigortası
+- Esnek çalışma düzenlemeleri
+- Profesyonel gelişim bütçesi
+- Cömert izin hakları

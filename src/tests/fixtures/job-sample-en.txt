@@ -1,0 +1,38 @@
+Senior Software Engineer
+
+Company: TechCorp Inc
+Location: San Francisco, CA (Remote)
+Salary: $120,000 - $180,000 per year
+
+About the Role:
+We are looking for a Senior Software Engineer to join our growing engineering team. You will work on cutting-edge web applications using modern technologies.
+
+Responsibilities:
+- Design and develop scalable web applications using React and TypeScript
+- Collaborate with cross-functional teams including product managers and designers
+- Mentor junior engineers and conduct code reviews
+- Participate in agile development processes and sprint planning
+- Write clean, maintainable, and well-tested code
+
+Requirements:
+- 5+ years of experience in software development
+- Strong proficiency in TypeScript, React, and Node.js
+- Experience with AWS, Docker, and Kubernetes
+- Solid understanding of RESTful APIs and microservices architecture
+- Excellent problem-solving and communication skills
+- Bachelor's degree in Computer Science or related field
+
+Qualifications:
+- Experience with CI/CD pipelines and DevOps practices
+- Knowledge of SQL and NoSQL databases (PostgreSQL, MongoDB)
+- Familiarity with testing frameworks (Jest, React Testing Library)
+- Strong leadership and stakeholder management skills
+- Agile/Scrum experience
+
+Benefits:
+- Competitive salary and equity
+- Health, dental, and vision insurance
+- 401(k) matching
+- Flexible work arrangements
+- Professional development budget
+- Generous PTO

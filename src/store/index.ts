@@ -10,6 +10,7 @@ export { useCustomPromptsStore } from './customPromptsStore'
 export { useTemplateStore } from './templateStore'
 export { useCVDataStore } from './cvDataStore'
 export { useAuthStore } from './authStore'
+export { useATSStore } from './atsStore'
 
 // Export types
 export type * from '@/types/store.types'
