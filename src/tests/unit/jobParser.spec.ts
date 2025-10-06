@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import { parseJobText } from '@/services/ats/jobParser'
-import { readFileSync } from 'fs'
-import { join } from 'path'
 
 describe('jobParser', () => {
   describe('parseJobText - English', () => {

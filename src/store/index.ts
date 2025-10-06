@@ -11,6 +11,7 @@ export { useTemplateStore } from './templateStore'
 export { useCVDataStore } from './cvDataStore'
 export { useAuthStore } from './authStore'
 export { useATSStore } from './atsStore'
+export { useJobsStore } from './jobsStore'
 
 // Export types
 export type * from '@/types/store.types'

@@ -12,6 +12,7 @@ export * from './savedCV.types'
 export * from './auth.types'
 export * from './ats.types'
 export * from './job.types'
+export * from './jobPosting.types'
 
 // Common types
 export type ID = string
