@@ -22,7 +22,7 @@ import {
   ProjectsForm,
 } from '@/components/forms'
 import { JobInputTabs } from '@/components/job'
-import { ATSPanel } from '@/components/ats'
+import { ATSPanel, ATSDetails } from '@/components/ats'
 import { useATSStore } from '@/store/atsStore'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'

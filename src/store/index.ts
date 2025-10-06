@@ -12,6 +12,8 @@ export { useCVDataStore } from './cvDataStore'
 export { useAuthStore } from './authStore'
 export { useATSStore } from './atsStore'
 export { useJobsStore } from './jobsStore'
+export { useATSUIStore } from './atsUIStore'
+export { useATSWeightsStore } from './atsWeightsStore'
 
 // Export types
 export type * from '@/types/store.types'

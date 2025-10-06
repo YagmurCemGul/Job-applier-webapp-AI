@@ -17,7 +17,22 @@ export function analyzeCVAgainstJob(cv: CVData, job: ParsedJob): ATSAnalysisResu
     ...lengthSuggestions(cv),
     ...experienceEducationSuggestions(cv),
   ]
-  const score = scoreFrom(matchedKeywords.length, missingKeywords.length, cv, suggestions)
+
+  // Use custom weights or defaults
+  const weights = opts?.weights
+    ? normalizeWeights(opts.weights)
+    : DEFAULT_WEIGHTS
+
+  const score = computeScore(
+    matchedKeywords.length,
+    missingKeywords.length,
+    cv,
+    suggestions,
+    weights
+  )
+
+  // Build keyword metadata
+  const keywordMeta = buildKeywordMeta(job, matchedKeywords, missingKeywords)
 
   return {
     id,
@@ -27,6 +42,8 @@ export function analyzeCVAgainstJob(cv: CVData, job: ParsedJob): ATSAnalysisResu
     matchedKeywords,
     missingKeywords,
     createdAt: new Date(),
+    keywordMeta,
+    weightsUsed: weights,
   }
 }
 

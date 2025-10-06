@@ -30,6 +30,24 @@ export interface ATSSuggestion {
   applied: boolean
 }
 
+export interface ATSKeywordMeta {
+  term: string
+  stem?: string
+  importance: number
+  inTitle?: boolean
+  inReq?: boolean
+  inQual?: boolean
+  inResp?: boolean
+}
+
+export interface ATSScoringWeights {
+  keywords: number
+  sections: number
+  length: number
+  experience: number
+  formatting: number
+}
+
 export interface ATSAnalysisResult {
   id: string
   jobHash: string
@@ -38,6 +56,9 @@ export interface ATSAnalysisResult {
   matchedKeywords: string[]
   missingKeywords: string[]
   createdAt: Date
+  // Step 28 extensions (optional, non-breaking)
+  keywordMeta?: ATSKeywordMeta[]
+  weightsUsed?: ATSScoringWeights
 }
 
 export interface FieldConfidence<T> {
