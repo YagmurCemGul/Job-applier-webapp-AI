@@ -6,6 +6,14 @@ import { ProfileHeader } from '@/components/profile/ProfileHeader'
 import { formatDate, formatCurrency } from '@/lib/formatters'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/lib/constants'
+import { SAMPLE_CV } from '@/lib/mock/cv.mock'
+import {
+  calculateTotalExperience,
+  getAllSkillsFromCV,
+  validateCVCompleteness,
+  calculateDuration,
+  formatDateRange,
+} from '@/lib/helpers/cv.helpers'
 
 export default function DashboardPage() {
   const navigate = useNavigate()
@@ -19,6 +27,21 @@ export default function DashboardPage() {
   const handleTestToast = () => {
     toast.success(t('status.success'), 'This is a success message from Zustand store.')
   }
+
+  // CV Helper Tests
+  const totalExperience = calculateTotalExperience(SAMPLE_CV.experience)
+  const allSkills = getAllSkillsFromCV(SAMPLE_CV)
+  const cvCompleteness = validateCVCompleteness(SAMPLE_CV)
+  const firstExpDuration = SAMPLE_CV.experience[0]
+    ? calculateDuration(SAMPLE_CV.experience[0].startDate, SAMPLE_CV.experience[0].endDate)
+    : ''
+  const firstExpDateRange = SAMPLE_CV.experience[0]
+    ? formatDateRange(
+        SAMPLE_CV.experience[0].startDate,
+        SAMPLE_CV.experience[0].endDate,
+        SAMPLE_CV.experience[0].currentlyWorking
+      )
+    : ''
 
   return (
     <div className="space-y-6">
@@ -71,6 +94,56 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Sample CV Data</CardTitle>
+          <CardDescription>Mock CV for testing CV types and helpers</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p>
+            <strong>Name:</strong> {SAMPLE_CV.firstName} {SAMPLE_CV.middleName} {SAMPLE_CV.lastName}
+          </p>
+          <p>
+            <strong>Title:</strong> {SAMPLE_CV.title}
+          </p>
+          <p>
+            <strong>Total Experience:</strong> {totalExperience} years
+          </p>
+          <p>
+            <strong>Total Skills:</strong> {allSkills.length} ({allSkills.slice(0, 5).join(', ')}
+            ...)
+          </p>
+          <p>
+            <strong>Experiences:</strong> {SAMPLE_CV.experience.length}
+          </p>
+          <p>
+            <strong>Education:</strong> {SAMPLE_CV.education.length}
+          </p>
+          <p>
+            <strong>Certifications:</strong> {SAMPLE_CV.certifications.length}
+          </p>
+          <p>
+            <strong>Projects:</strong> {SAMPLE_CV.projects.length}
+          </p>
+          <p>
+            <strong>ATS Score:</strong> {SAMPLE_CV.atsScore}/100
+          </p>
+          <p>
+            <strong>CV Completeness:</strong> {cvCompleteness.completionPercentage}%
+          </p>
+          {firstExpDuration && (
+            <p>
+              <strong>First Job Duration:</strong> {firstExpDuration}
+            </p>
+          )}
+          {firstExpDateRange && (
+            <p>
+              <strong>First Job Period:</strong> {firstExpDateRange}
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
