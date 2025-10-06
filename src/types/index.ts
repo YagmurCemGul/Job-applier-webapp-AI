@@ -8,6 +8,7 @@ export * from './coverLetter.types'
 export * from './customPrompt.types'
 export * from './template.types'
 export * from './cvData.types'
+export * from './savedCV.types'
 
 // Common types
 export type ID = string

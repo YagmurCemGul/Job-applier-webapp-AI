@@ -1,163 +1,73 @@
-import { useAuth, useToast, useCommonTranslation } from '@/hooks'
-import { useCVStore, useJobStore, useProfileStore } from '@/store'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { ProfileHeader } from '@/components/profile/ProfileHeader'
-import { formatDate, formatCurrency } from '@/lib/formatters'
-import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '@/lib/constants'
-import { SAMPLE_CV } from '@/lib/mock/cv.mock'
-import {
-  calculateTotalExperience,
-  getAllSkillsFromCV,
-  validateCVCompleteness,
-  calculateDuration,
-  formatDateRange,
-} from '@/lib/helpers/cv.helpers'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { CVList } from '@/components/dashboard/CVList'
+import { useCVDataStore } from '@/store/cvDataStore'
+import { FileText, TrendingUp, Calendar, Award } from 'lucide-react'
 
 export default function DashboardPage() {
-  const navigate = useNavigate()
-  const { user } = useAuth()
-  const toast = useToast()
-  const { t } = useCommonTranslation()
-  const cvs = useCVStore((state) => state.cvs)
-  const savedJobs = useJobStore((state) => state.savedJobs)
-  const profiles = useProfileStore((state) => state.profiles)
-
-  const handleTestToast = () => {
-    toast.success(t('status.success'), 'This is a success message from Zustand store.')
-  }
-
-  // CV Helper Tests
-  const totalExperience = calculateTotalExperience(SAMPLE_CV.experience)
-  const allSkills = getAllSkillsFromCV(SAMPLE_CV)
-  const cvCompleteness = validateCVCompleteness(SAMPLE_CV)
-  const firstExpDuration = SAMPLE_CV.experience[0]
-    ? calculateDuration(SAMPLE_CV.experience[0].startDate, SAMPLE_CV.experience[0].endDate)
-    : ''
-  const firstExpDateRange = SAMPLE_CV.experience[0]
-    ? formatDateRange(
-        SAMPLE_CV.experience[0].startDate,
-        SAMPLE_CV.experience[0].endDate,
-        SAMPLE_CV.experience[0].currentlyWorking
-      )
-    : ''
+  const { getStatistics } = useCVDataStore()
+  const stats = getStatistics()
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">{t('navigation.dashboard')}</h1>
-        <p className="mt-2 text-muted-foreground">Welcome back, {user?.firstName || 'Guest'}!</p>
+    <div className="container mx-auto max-w-7xl px-4 py-8">
+      <div className="mb-8">
+        <h1 className="mb-2 text-3xl font-bold">Dashboard</h1>
+        <p className="text-gray-600">Manage your CVs and track your applications</p>
       </div>
 
-      {/* Profile Preview */}
-      {user && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Your Profile</CardTitle>
-            <CardDescription>Quick view of your profile information</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ProfileHeader user={user} onEditClick={() => navigate(ROUTES.PROFILE)} />
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>My CVs</CardTitle>
-            <CardDescription>Total CVs created</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{cvs.length}</div>
-          </CardContent>
+      {/* Statistics Cards */}
+      <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="mb-1 text-sm text-gray-600">Total CVs</p>
+              <p className="text-3xl font-bold">{stats.totalCVs}</p>
+            </div>
+            <FileText className="h-12 w-12 text-primary opacity-20" />
+          </div>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Saved Jobs</CardTitle>
-            <CardDescription>Jobs you've saved</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{savedJobs.length}</div>
-          </CardContent>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="mb-1 text-sm text-gray-600">Avg. ATS Score</p>
+              <div className="flex items-baseline gap-2">
+                <p className="text-3xl font-bold">{Math.round(stats.avgAtsScore)}</p>
+                <Badge
+                  variant={stats.avgAtsScore >= 80 ? 'default' : 'secondary'}
+                  className="text-xs"
+                >
+                  {stats.avgAtsScore >= 80 ? 'Great' : 'Good'}
+                </Badge>
+              </div>
+            </div>
+            <TrendingUp className="h-12 w-12 text-green-500 opacity-20" />
+          </div>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Profiles</CardTitle>
-            <CardDescription>Career profiles</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">{profiles.length}</div>
-          </CardContent>
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="mb-1 text-sm text-gray-600">Applications</p>
+              <p className="text-3xl font-bold">{stats.totalApplications}</p>
+            </div>
+            <Award className="h-12 w-12 text-blue-500 opacity-20" />
+          </div>
+        </Card>
+
+        <Card className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="mb-1 text-sm text-gray-600">Last Modified</p>
+              <p className="text-lg font-semibold">{stats.lastModified.toLocaleDateString()}</p>
+            </div>
+            <Calendar className="h-12 w-12 text-purple-500 opacity-20" />
+          </div>
         </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Sample CV Data</CardTitle>
-          <CardDescription>Mock CV for testing CV types and helpers</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <p>
-            <strong>Name:</strong> {SAMPLE_CV.firstName} {SAMPLE_CV.middleName} {SAMPLE_CV.lastName}
-          </p>
-          <p>
-            <strong>Title:</strong> {SAMPLE_CV.title}
-          </p>
-          <p>
-            <strong>Total Experience:</strong> {totalExperience} years
-          </p>
-          <p>
-            <strong>Total Skills:</strong> {allSkills.length} ({allSkills.slice(0, 5).join(', ')}
-            ...)
-          </p>
-          <p>
-            <strong>Experiences:</strong> {SAMPLE_CV.experience.length}
-          </p>
-          <p>
-            <strong>Education:</strong> {SAMPLE_CV.education.length}
-          </p>
-          <p>
-            <strong>Certifications:</strong> {SAMPLE_CV.certifications.length}
-          </p>
-          <p>
-            <strong>Projects:</strong> {SAMPLE_CV.projects.length}
-          </p>
-          <p>
-            <strong>ATS Score:</strong> {SAMPLE_CV.atsScore}/100
-          </p>
-          <p>
-            <strong>CV Completeness:</strong> {cvCompleteness.completionPercentage}%
-          </p>
-          {firstExpDuration && (
-            <p>
-              <strong>First Job Duration:</strong> {firstExpDuration}
-            </p>
-          )}
-          {firstExpDateRange && (
-            <p>
-              <strong>First Job Period:</strong> {firstExpDateRange}
-            </p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Format Tests (i18n)</CardTitle>
-          <CardDescription>Testing date and currency formatting</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <p>Date: {formatDate(new Date())}</p>
-          <p>Currency (USD): {formatCurrency(12345.67, 'USD')}</p>
-          <p>Currency (TRY): {formatCurrency(12345.67, 'TRY')}</p>
-          <p>Status: {t('status.loading')}</p>
-          <Button onClick={handleTestToast}>{t('actions.save')}</Button>
-        </CardContent>
-      </Card>
+      {/* CV List */}
+      <CVList />
     </div>
   )
 }

@@ -12,6 +12,7 @@ import { CoverLetterPreview } from '@/components/coverLetter/CoverLetterPreview'
 import { TemplateSelector } from '@/components/templates/TemplateSelector'
 import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
 import { LivePreview } from '@/components/preview/LivePreview'
+import { SaveCVDialog } from '@/components/cv/SaveCVDialog'
 import {
   PersonalInfoForm,
   ExperienceForm,
@@ -101,11 +102,15 @@ export default function CVBuilderPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="mb-2 text-3xl font-bold">AI CV Builder</h1>
-        <p className="text-gray-600">
-          Upload your CV and paste the job posting to get ATS-optimized results
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="mb-2 text-3xl font-bold">AI CV Builder</h1>
+          <p className="text-gray-600">
+            Upload your CV and paste the job posting to get ATS-optimized results
+          </p>
+        </div>
+
+        <SaveCVDialog />
       </div>
 
       {/* Progress Steps */}
