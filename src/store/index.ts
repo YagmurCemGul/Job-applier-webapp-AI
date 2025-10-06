@@ -7,6 +7,7 @@ export { useProfileStore } from './profileStore'
 export { useOptimizationStore } from './optimizationStore'
 export { useCoverLetterStore } from './coverLetterStore'
 export { useCustomPromptsStore } from './customPromptsStore'
+export { useTemplateStore } from './templateStore'
 
 // Export types
 export type * from '@/types/store.types'

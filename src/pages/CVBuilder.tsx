@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CVUpload } from '@/components/cv/CVUpload'
 import { CVPreview } from '@/components/cv/CVPreview'
 import { CVPreviewFull } from '@/components/cv/CVPreviewFull'
@@ -9,19 +9,22 @@ import { OptimizationChanges } from '@/components/optimization/OptimizationChang
 import { ExportOptions } from '@/components/export/ExportOptions'
 import { CoverLetterGenerator } from '@/components/coverLetter/CoverLetterGenerator'
 import { CoverLetterPreview } from '@/components/coverLetter/CoverLetterPreview'
+import { TemplateSelector } from '@/components/templates/TemplateSelector'
+import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Loader2, Sparkles, AlertCircle, Printer, FileText } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, Printer, FileText, LayoutTemplate } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { useOptimizationStore } from '@/store/optimizationStore'
 import { useCoverLetterStore } from '@/store/coverLetterStore'
+import { useTemplateStore } from '@/store/templateStore'
 import { Card } from '@/components/ui/card'
 
-type CVBuilderStep = 'upload' | 'job' | 'optimize' | 'cover-letter'
+type CVBuilderStep = 'upload' | 'job' | 'optimize' | 'cover-letter' | 'template'
 
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
@@ -32,6 +35,12 @@ export default function CVBuilderPage() {
     useOptimizationStore()
 
   const { currentLetter } = useCoverLetterStore()
+  const { initializeTemplates } = useTemplateStore()
+
+  // Initialize templates on mount
+  useEffect(() => {
+    initializeTemplates()
+  }, [initializeTemplates])
 
   const handleCVUpload = (data: ParsedCVData) => {
     setParsedCV(data)
@@ -102,7 +111,7 @@ export default function CVBuilderPage() {
 
       {/* Main Content */}
       <Tabs value={currentStep} onValueChange={(v) => setCurrentStep(v as CVBuilderStep)}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="upload">1. Upload CV</TabsTrigger>
           <TabsTrigger value="job" disabled={!parsedCV}>
             2. Job Posting
@@ -113,6 +122,10 @@ export default function CVBuilderPage() {
           <TabsTrigger value="cover-letter" disabled={!canOptimize}>
             <FileText className="mr-2 h-4 w-4" />
             Cover Letter
+          </TabsTrigger>
+          <TabsTrigger value="template">
+            <LayoutTemplate className="mr-2 h-4 w-4" />
+            Template
           </TabsTrigger>
         </TabsList>
 
@@ -270,6 +283,14 @@ export default function CVBuilderPage() {
               </Alert>
             </div>
           )}
+        </TabsContent>
+
+        {/* Template Tab */}
+        <TabsContent value="template" className="mt-6">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            <TemplateSelector />
+            <TemplateCustomization />
+          </div>
         </TabsContent>
       </Tabs>
     </div>
