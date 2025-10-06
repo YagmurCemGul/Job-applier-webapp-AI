@@ -25,12 +25,18 @@
       "completeness": "Tamamlanma",
       "readiness": "Hazırlık"
     },
-    "overview": "Genel Bakış",
-    "evidenceCollected": "Kanıt toplandı",
-    "responseRate": "Yanıt oranı",
-    "wordsWritten": "Yazılan kelimeler",
-    "status": "Durum",
-    "ready": "Hazır",
-    "draft": "Taslak"
+    "cycle": "Değerlendirme Döngüsü",
+    "home": "Ana Sayfa",
+    "aggregateImpact": "Etki Topla",
+    "requestFeedback": "Geri Bildirim İste",
+    "composeSelf": "Kendi Değerlendirmeni Oluştur",
+    "upcomingDeadlines": "Yaklaşan Son Tarihler",
+    "quickActions": "Hızlı İşlemler",
+    "entriesCollected": "Girdi toplandı",
+    "responseRate": "yanıt oranı",
+    "words": "kelime",
+    "notStarted": "Başlamadı",
+    "overallProgress": "Genel ilerleme",
+    "noDeadlines": "Son tarih yok"
   }
 }

@@ -25,12 +25,18 @@
       "completeness": "Completeness",
       "readiness": "Readiness"
     },
-    "overview": "Overview",
-    "evidenceCollected": "Evidence collected",
-    "responseRate": "Response rate",
-    "wordsWritten": "Words written",
-    "status": "Status",
-    "ready": "Ready",
-    "draft": "Draft"
+    "cycle": "Review Cycle",
+    "home": "Home",
+    "aggregateImpact": "Aggregate Impact",
+    "requestFeedback": "Request Feedback",
+    "composeSelf": "Compose Self-Review",
+    "upcomingDeadlines": "Upcoming Deadlines",
+    "quickActions": "Quick Actions",
+    "entriesCollected": "Entries collected",
+    "responseRate": "response rate",
+    "words": "words",
+    "notStarted": "Not started",
+    "overallProgress": "Overall progress",
+    "noDeadlines": "No deadlines set"
   }
 }

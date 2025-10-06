@@ -1,11 +1,14 @@
 import { useOnboardingStore } from '@/store/onboardingStore'
 
 /**
- * Compute coverage vs stakeholders by cadence: returns gaps list
+ * Compute coverage vs stakeholders by cadence
+ * Returns gaps list
  */
-export function computeVisibilityGaps(
-  planId?: string
-): Array<{ email: string; name: string; suggestion: string }> {
+export function computeVisibilityGaps(planId?: string): Array<{
+  email: string
+  name: string
+  suggestion: string
+}> {
   if (!planId) return []
 
   const plan = useOnboardingStore.getState().getById(planId)
@@ -18,6 +21,6 @@ export function computeVisibilityGaps(
   return gaps.map((g) => ({
     email: g.email,
     name: g.name,
-    suggestion: 'Set up biweekly 1:1',
+    suggestion: 'Set up biweekly 1:1'
   }))
 }

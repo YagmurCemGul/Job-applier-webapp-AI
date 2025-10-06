@@ -2,9 +2,11 @@
  * Promotion and calibration types
  */
 
+import type { Competency } from './review.types'
+
 export interface RubricExpectation {
   level: string // e.g., "L4", "Senior"
-  competency: 'execution' | 'craft' | 'leadership' | 'collaboration' | 'communication' | 'impact'
+  competency: Competency
   description: string
 }
 

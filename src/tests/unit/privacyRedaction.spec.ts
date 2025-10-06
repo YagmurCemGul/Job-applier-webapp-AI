@@ -3,31 +3,36 @@ import { redactPII } from '@/services/review/privacy.service'
 
 describe('privacy.service', () => {
   it('should redact names', () => {
-    const text = 'John Smith is a great engineer'
+    const text = 'John Smith did great work'
     const redacted = redactPII(text)
+
     expect(redacted).toContain('[redacted-name]')
     expect(redacted).not.toContain('John Smith')
   })
 
-  it('should redact email addresses', () => {
-    const text = 'Contact john.smith@example.com for details'
+  it('should redact emails', () => {
+    const text = 'Contact me at john.smith@example.com'
     const redacted = redactPII(text)
+
     expect(redacted).toContain('[redacted-email]')
     expect(redacted).not.toContain('john.smith@example.com')
   })
 
-  it('should preserve non-PII text', () => {
-    const text = 'Great work on the project! Very impactful.'
+  it('should preserve non-PII', () => {
+    const text = 'The project was completed on time and under budget'
     const redacted = redactPII(text)
-    expect(redacted).toContain('Great work')
-    expect(redacted).toContain('impactful')
+
+    expect(redacted).toBe(text)
   })
 
-  it('should handle mixed content', () => {
-    const text = 'Jane Doe (jane@acme.com) led the migration project'
+  it('should handle multiple names and emails', () => {
+    const text =
+      'John Smith (john@example.com) and Jane Doe (jane@example.com) collaborated'
     const redacted = redactPII(text)
-    expect(redacted).toContain('[redacted-name]')
-    expect(redacted).toContain('[redacted-email]')
-    expect(redacted).toContain('migration project')
+
+    expect(redacted).not.toContain('John Smith')
+    expect(redacted).not.toContain('Jane Doe')
+    expect(redacted).not.toContain('john@example.com')
+    expect(redacted).not.toContain('jane@example.com')
   })
 })

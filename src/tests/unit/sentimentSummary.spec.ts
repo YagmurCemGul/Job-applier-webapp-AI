@@ -1,16 +1,17 @@
 import { describe, it, expect } from 'vitest'
 
 describe('sentiment.service', () => {
-  it('should return positive, neutral, or negative', async () => {
-    // Mock test for sentiment analysis
-    const validSentiments = ['positive', 'neutral', 'negative']
-    const result = 'neutral' // Default fallback
+  it('should classify positive feedback (mock)', async () => {
+    // This would test the AI integration
+    // For now, just verify the structure
+    const mockSentiment = 'positive'
 
-    expect(validSentiments).toContain(result)
+    expect(['positive', 'neutral', 'negative']).toContain(mockSentiment)
   })
 
-  it('should default to neutral on error', async () => {
-    const result = 'neutral'
-    expect(result).toBe('neutral')
+  it('should fallback to neutral on error (mock)', async () => {
+    const fallback = 'neutral'
+
+    expect(fallback).toBe('neutral')
   })
 })

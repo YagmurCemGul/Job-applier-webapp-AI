@@ -1,5 +1,5 @@
 /**
- * Export review packet to PDF
+ * Export review/promotion packet to PDF
  */
 export async function exportReviewPDF(
   html: string,

@@ -5,8 +5,8 @@ import { objectiveProgress } from '@/services/onboarding/okr.service'
 import { useReviewsStore } from '@/store/reviewStore'
 
 /**
- * Aggregate evidence, OKR progress, weekly report bullets into ImpactEntries
- * with normalized score
+ * Aggregate evidence, OKR progress, weekly report bullets
+ * into ImpactEntries with a normalized score
  */
 export function aggregateImpact(cycleId: string): ImpactEntry[] {
   const review = useReviewsStore.getState().byId(cycleId)
@@ -31,13 +31,14 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
         dateISO: e.createdAt,
         competency: inferCompetency(e.title),
         links: e.url ? [e.url] : [],
-        confidence: 4,
+        confidence: 4
       })
     }
 
     // OKR progress → impact
     const okrs = useOKRsStore.getState().byPlan(planId)
     for (const o of okrs) {
+      const progress = objectiveProgress(o)
       items.push({
         id:
           typeof crypto !== 'undefined' && crypto.randomUUID
@@ -46,14 +47,14 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
         cycleId,
         source: 'okr',
         title: `OKR: ${o.title}`,
-        detail: `${Math.round(objectiveProgress(o) * 100)}% progress`,
+        detail: `${Math.round(progress * 100)}% progress`,
         metrics: o.krs.map((kr) => ({
           label: kr.label,
           value: kr.current,
-          unit: kr.unit,
+          unit: kr.unit
         })),
         competency: 'impact',
-        confidence: 5,
+        confidence: 5
       })
     }
   }
@@ -65,7 +66,8 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
 
   // Deduplicate by title + date
   const unique: ImpactEntry[] = []
-  const sig = (x: ImpactEntry) => `${x.title}|${x.dateISO || ''}|${x.source}`
+  const sig = (x: ImpactEntry) =>
+    `${x.title}|${x.dateISO || ''}|${x.source}`
   const seen = new Set<string>()
   for (const it of items) {
     const s = sig(it)
@@ -79,20 +81,22 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
 }
 
 /**
- * Infer competency from title
+ * Infer competency from title keywords
  */
 function inferCompetency(title: string): ImpactEntry['competency'] {
   const t = title.toLowerCase()
   if (t.includes('refactor') || t.includes('design')) return 'craft'
   if (t.includes('migration') || t.includes('launch')) return 'execution'
-  if (t.includes('kpi') || t.includes('revenue') || t.includes('%')) return 'impact'
-  if (t.includes('mentoring') || t.includes('led') || t.includes('initiative')) return 'leadership'
+  if (t.includes('kpi') || t.includes('revenue') || t.includes('%'))
+    return 'impact'
+  if (t.includes('mentoring') || t.includes('led') || t.includes('initiative'))
+    return 'leadership'
   if (t.includes('collab') || t.includes('review')) return 'collaboration'
   return 'communication'
 }
 
 /**
- * Calculate impact score
+ * Calculate normalized score for ranking
  */
 function score(e: ImpactEntry): number {
   const compW: Record<NonNullable<ImpactEntry['competency']>, number> = {
@@ -101,11 +105,12 @@ function score(e: ImpactEntry): number {
     leadership: 1.1,
     collaboration: 0.8,
     communication: 0.7,
-    impact: 1.2,
+    impact: 1.2
   }
 
-  const hasMetrics = e.metrics?.reduce((a, m) => a + Math.abs(m.value), 0)
-  const base = (hasMetrics ? 1 : 0.7) + (e.confidence ?? 3) / 5
+  const base =
+    (e.metrics?.reduce((a, m) => a + Math.abs(m.value), 0) ? 1 : 0.7) +
+    (e.confidence ?? 3) / 5
 
-  return base * (compW[e.competency ?? 'impact'] ?? 1)
+  return base * (compW[e.competency ?? 'impact'])
 }

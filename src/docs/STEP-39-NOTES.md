@@ -2,201 +2,209 @@
 
 ## Overview
 
-This step implements a comprehensive Performance Review & Promotion system that builds on Steps 17-38, particularly Step 38's evidence binder and OKRs. It provides tools for conducting performance reviews, collecting 360 feedback, generating self-reviews with AI, preparing for calibration, and building promotion packets.
+This step implements a comprehensive Performance Review & Promotion Toolkit that builds on Step 38's Evidence Binder, OKRs, and 1:1s to help users prepare for performance reviews, collect 360 feedback, compose self-reviews, and build promotion packets.
 
 ## Core Features
 
-### 1. Review Cycle Management
+### 1. Review Cycles
 
 **Cycle Types:**
 - mid_year: Mid-year performance review
 - year_end: Annual performance review
 - probation: Probation period review
-- promotion: Promotion review
+- promotion: Promotion packet preparation
 
 **Cycle Stages:**
 - draft: Initial setup
 - collecting: Gathering feedback and evidence
-- synthesizing: Compiling self-review
-- calibration: Manager calibration
+- synthesizing: Composing self-review
+- calibration: Manager preparation
 - finalized: Review complete
 - archived: Historical record
 
-**Deadline Management:**
+**Deadlines:**
 - self_review: Self-review due date
 - feedback_due: Feedback collection deadline
 - calibration: Calibration meeting
 - submit: Final submission
-- Calendar integration (Step 35) for reminders
+- other: Custom deadlines
 
 ### 2. Impact Aggregation
 
 **Sources:**
 - evidence: From Step 38 Evidence Binder
 - okr: From Step 38 OKR progress
-- weekly: From Step 38 Weekly Reports
-- oneonone: From Step 38 1:1 notes
+- weekly: From weekly reports
+- oneonone: From 1:1 notes
 - manual: User-entered impacts
 
-**Scoring Algorithm:**
+**Competencies:**
+- execution: Delivering on commitments
+- craft: Technical excellence
+- leadership: Leading initiatives
+- collaboration: Teamwork
+- communication: Clear communication
+- impact: Measurable business results
+
+**Scoring:**
 ```typescript
-score(impact):
-  competencyWeight = {
-    execution: 1.0,
-    craft: 0.9,
-    leadership: 1.1,
-    collaboration: 0.8,
-    communication: 0.7,
-    impact: 1.2
-  }
-  
-  baseScore = (hasMetrics ? 1 : 0.7) + (confidence / 5)
-  finalScore = baseScore × competencyWeight[competency]
-  
-  return finalScore
+Base score = (hasMetrics ? 1 : 0.7) + (confidence / 5)
+Final score = baseScore × competencyWeight
+
+Competency Weights:
+  impact: 1.2
+  leadership: 1.1
+  execution: 1.0
+  craft: 0.9
+  collaboration: 0.8
+  communication: 0.7
 ```
 
-**Competency Inference:**
-- "refactor", "design" → craft
-- "migration", "launch" → execution
-- "kpi", "revenue", "%" → impact
-- "mentoring", "led", "initiative" → leadership
-- "collab", "review" → collaboration
-- Default → communication
+### 3. 360 Feedback
 
-### 3. 360 Feedback System
+**Request Flow:**
+1. Select reviewers (from Step 38 stakeholders)
+2. Choose relationship type (manager, peer, etc.)
+3. Enable anonymous mode (optional)
+4. Send via Gmail (Step 35)
+5. Track responses
+6. Send reminders
 
-**Request Management:**
-- Select reviewers from Step 38 stakeholders
-- Send via Gmail (Step 35)
-- Track status (pending, sent, responded, reminded)
-- Optional anonymous mode
-- Reminder scheduling
-
-**Response Collection:**
-- Manual paste or form submission
+**Response Processing:**
 - AI sentiment analysis (positive/neutral/negative)
 - PII redaction for anonymous view
-- Labels (strength, area_for_growth)
-- Export options (redacted/raw)
+- Quote extraction
+- Export options (raw/redacted)
 
-**Privacy (Redaction):**
+**Anonymization:**
 ```typescript
-redactPII(text):
-  // Redact names: "John Smith" → "[redacted-name]"
-  text.replace(/\b[A-Z][a-z]+ [A-Z][a-z]+\b/g, '[redacted-name]')
+Client-side redaction (best-effort):
+  - Names: [redacted-name]
+  - Emails: [redacted-email]
   
-  // Redact emails: "user@example.com" → "[redacted-email]"
-  text.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[redacted-email]')
+Best practices:
+  - Inform reviewers about anonymity limits
+  - Review redacted output before sharing
+  - Server-side anonymization for production
 ```
 
-### 4. AI Self-Review Generation
-
-**STAR Framework:**
-- Situation: Context and background
-- Task: Objective or goal
-- Action: Steps taken
-- Result: Outcomes and impact
+### 4. Self-Review AI
 
 **Generation Process:**
+1. Aggregate top 20 impact entries
+2. Generate with AI using STAR format
+3. Parse into structured sections
+4. Compute metrics (word count, clarity)
+5. Allow user editing
+
+**STAR Format:**
+- Situation: Context and challenge
+- Task: What needed to be done
+- Action: What you did
+- Result: Measurable outcome
+
+**Quality Metrics:**
 ```typescript
-generateSelfReview(cycleId, lang, impacts):
-  1. Build prompt with STAR instructions
-  2. Include top 20 impact items
-  3. Call Step 31 AI orchestrator
-  4. Parse response into sections:
-     - Overview (3-5 sentences)
-     - Highlights (4-7 bullets with metrics)
-     - Growth Areas (2-4 bullets)
-     - Next Objectives (3-5 bullets)
-  5. Calculate word count
-  6. Calculate clarity score (shorter = clearer)
-  7. Return SelfReview object
+Word Count: Track against 600 target
+Clarity Score: 1 - (wordCount / 900)
+  < 400 words: Excellent (>0.55)
+  400-600: Good (0.33-0.55)
+  > 600: Needs editing (<0.33)
+
+Strong Verbs: Shipped, Led, Improved, Reduced, Increased
+Avoid: Helped, Worked on, Participated
 ```
 
-**Clarity Score:**
-```typescript
-clarityScore = max(0.1, min(1, 1 - wordCount / 900))
-
-Example:
-  300 words: 1 - 300/900 = 0.67 (good)
-  600 words: 1 - 600/900 = 0.33 (verbose)
-  900+ words: capped at 0.1 (too long)
-```
-
-### 5. Calibration Preparation
+### 5. Calibration Prep
 
 **Rubric Mapping:**
 ```typescript
-mapToRubric(level, rubric, impacts):
-  For each rubric expectation at level:
-    1. Find matching impacts by competency
-    2. Calculate average strength:
-       strength = sum(impact.score) / count
-    3. Compute delta (-2 to +2):
-       strength >= 1.0: +2 (exceeds)
-       strength >= 0.9: +1 (meets+)
-       strength >= 0.7:  0 (meets)
-       strength >= 0.5: -1 (below)
-       strength <  0.5: -2 (concerns)
-    4. Return top 5 evidence items
+For each competency:
+  1. Filter impacts by competency
+  2. Calculate average score
+  3. Compute delta:
+     strength >= 1.0: +2 (exceeds)
+     strength >= 0.9: +1 (meets+)
+     strength >= 0.7:  0 (meets)
+     strength >= 0.5: -1 (developing)
+     strength <  0.5: -2 (below)
+  4. List top 5 evidence items
+
+Output: Delta matrix for calibration conversation
 ```
 
-**Delta Interpretation:**
-- +2: Exceeds expectations
-- +1: Meets expectations+
+**Delta Meaning:**
+- +2: Strong exceeds expectations
+- +1: Solid performance
 -  0: Meets expectations
-- -1: Below expectations
-- -2: Significant concerns
+- -1: Development area
+- -2: Below expectations
 
 ### 6. Promotion Packet
 
 **Components:**
-- Confidential banner
-- Target level
-- Self-review overview
-- Highlights (STAR format)
-- Top 8 impacts
-- Selected quotes from feedback
-- Supporting attachments
+- Overview: Self-review summary
+- Highlights: Key accomplishments
+- Top Impacts: 8 highest-scored items
+- Quotes: Selected feedback snippets
+- OKR Results: Progress on objectives
 
-**Export Options:**
-- PDF (for printing/archival)
-- Google Docs (for editing)
-- Gmail sharing (Step 35)
-
-**HTML Structure:**
+**Export:**
 ```html
-<div>
-  <div style="confidential banner">
-    CONFIDENTIAL — for calibration use only
-  </div>
-  <h2>Promotion Packet — [Title] (Target: [Level])</h2>
-  <h3>Overview</h3>
-  <p>[Self-review overview]</p>
-  <h3>Highlights</h3>
-  <ul>[STAR bullets]</ul>
-  <h3>Top Impacts</h3>
-  <ul>[Evidence with metrics]</ul>
-  <h3>Quotes</h3>
-  <blockquote>[Feedback snippets]</blockquote>
-</div>
+CONFIDENTIAL — for calibration use only
+
+Promotion Packet — {CycleTitle} (Target: {TargetLevel})
+
+## Overview
+{self.overview}
+
+## Highlights
+{self.highlights as bullets}
+
+## Top Impacts
+{impacts.slice(0,8) with details}
+
+## Quotes
+{quotes as blockquotes}
+```
+
+### 7. Visibility Map
+
+**Analysis:**
+```typescript
+From Step 38 stakeholders:
+  1. Filter high influence OR high interest
+  2. Check for regular cadence (weekly/biweekly)
+  3. Identify gaps (no cadence or ad-hoc)
+  4. Suggest actions (set up 1:1s)
+
+Gap Detection:
+  needs = stakeholders.filter(s =>
+    (s.influence === 'high' || s.interest === 'high') &&
+    (!s.cadence || s.cadence === 'ad_hoc')
+  )
 ```
 
 ## Type System
 
 ### ReviewCycle
+
 ```typescript
 interface ReviewCycle {
   id: string
-  applicationId?: string  // Step 33
-  planId?: string        // Step 38
+  applicationId?: string      // Step 33
+  planId?: string              // Step 38
   title: string
-  kind: ReviewKind
-  stage: ReviewStage
+  kind: 'mid_year' | 'year_end' | 'probation' | 'promotion'
+  stage: 'draft' | 'collecting' | 'synthesizing' | 'calibration' | 'finalized' | 'archived'
   startISO: string
   endISO: string
-  deadlines: Deadline[]
+  deadlines: Array<{
+    id: string
+    label: string
+    atISO: string
+    kind: 'self_review' | 'feedback_due' | 'calibration' | 'submit' | 'other'
+  }>
   retentionDays: 30 | 60 | 90 | 180 | 365
   createdAt: string
   updatedAt: string
@@ -204,6 +212,7 @@ interface ReviewCycle {
 ```
 
 ### ImpactEntry
+
 ```typescript
 interface ImpactEntry {
   id: string
@@ -212,15 +221,20 @@ interface ImpactEntry {
   title: string
   detail?: string
   dateISO?: string
-  metrics?: Metric[]
+  metrics?: Array<{
+    label: string
+    value: number
+    unit?: string
+  }>
   competency?: Competency
   confidence?: 0 | 1 | 2 | 3 | 4 | 5
   links?: string[]
-  score?: number  // 0..1+ for ranking
+  score?: number                // normalized 0..1 for ranking
 }
 ```
 
 ### FeedbackRequest & Response
+
 ```typescript
 interface FeedbackRequest {
   id: string
@@ -241,9 +255,27 @@ interface FeedbackResponse {
   receivedAt: string
   anonymousView?: boolean
   body: string
-  labels?: string[]
+  labels?: string[]             // 'strength', 'area_for_growth'
   sentiment?: 'positive' | 'neutral' | 'negative'
   redactedBody?: string
+}
+```
+
+### SelfReview
+
+```typescript
+interface SelfReview {
+  id: string
+  cycleId: string
+  lang: 'en' | 'tr'
+  overview: string
+  highlights: string[]
+  growthAreas: string[]
+  nextObjectives: string[]
+  wordCount: number
+  clarityScore: number          // 0..1
+  generatedAt?: string
+  updatedAt: string
 }
 ```
 
@@ -251,99 +283,157 @@ interface FeedbackResponse {
 
 ### impactAggregator.service.ts
 
-**aggregateImpact(cycleId):**
-1. Get review cycle
-2. If has planId:
-   - Pull evidence from Step 38 onboarding plan
-   - Pull OKRs from Step 38 OKRs store
-   - Calculate OKR progress
-3. For each item:
-   - Infer competency from title
-   - Calculate score
-4. Deduplicate by signature (title + date + source)
-5. Sort by score descending
-6. Return ImpactEntry[]
+```typescript
+aggregateImpact(cycleId): ImpactEntry[]
+  Process:
+    1. Get review cycle
+    2. Get linked onboarding plan
+    3. Pull evidence items → convert to ImpactEntry
+    4. Pull OKRs → convert with progress metrics
+    5. Infer competency from title keywords
+    6. Calculate score for each
+    7. Deduplicate by title+date+source
+    8. Sort by score descending
+
+inferCompetency(title):
+  Keyword matching:
+    'refactor', 'design' → craft
+    'migration', 'launch' → execution
+    'kpi', 'revenue', '%' → impact
+    'mentoring', 'led' → leadership
+    'collab', 'review' → collaboration
+    default → communication
+
+score(impact):
+  base = (hasMetrics ? 1 : 0.7) + (confidence/5)
+  weighted = base × competencyWeight[impact.competency]
+```
+
+### privacy.service.ts
+
+```typescript
+redactPII(text): string
+  Patterns:
+    Names: /\b[A-Z][a-z]+ [A-Z][a-z]+\b/g
+      → '[redacted-name]'
+    
+    Emails: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi
+      → '[redacted-email]'
+
+Note: Best-effort client-side only
+Production should use server-side NER
+```
+
+### sentiment.service.ts
+
+```typescript
+analyzeSentiment(text): Promise<'positive'|'neutral'|'negative'>
+  Process:
+    1. Call Step 31 AI with prompt:
+       "Label as POSITIVE, NEUTRAL, or NEGATIVE.
+        Return only the label."
+    2. Parse response (contains POS/NEG?)
+    3. Fallback to 'neutral' on error
+
+Usage:
+  - Categorize feedback
+  - Filter by sentiment
+  - Summary statistics
+```
 
 ### feedback.service.ts
 
-**buildFeedbackEmail(request, vars):**
-- Template with subject and body
-- Variable substitution
-- Optional anonymous link
-- Returns {subject, html, text}
+```typescript
+buildFeedbackEmail(req, vars): {subject, html, text}
+  Template:
+    Subject: Feedback request for {YourName} ({CycleTitle})
+    Body:
+      Hi {ReviewerName},
+      I'm collecting feedback for {CycleTitle}.
+      Would you share observations on:
+      - What went well?
+      - What could be improved?
+      - Examples/impact numbers
+      
+      You can reply directly{Anon}.
 
-**sendFeedbackRequests(opts):**
-1. Get Gmail bearer token (Step 35)
-2. For each request:
-   - Build email with template
-   - Create RFC 822 MIME message
-   - Base64 encode
-   - POST to Gmail API
-   - Mark as sent
-
-**recordFeedbackResponse(request, body):**
-1. Redact PII
-2. Analyze sentiment (AI via Step 31)
-3. Create FeedbackResponse
-4. Save to store
-5. Return response
+recordFeedbackResponse(req, body): FeedbackResponse
+  Process:
+    1. Redact PII → redactedBody
+    2. Analyze sentiment → positive/neutral/negative
+    3. Create FeedbackResponse object
+    4. Store in feedbackStore
+    5. Return response
+```
 
 ### selfReviewAI.service.ts
 
-**generateSelfReview(cycleId, lang, impacts):**
-1. Build STAR-focused prompt
-2. Include top 20 impacts
-3. Call Step 31 AI (temp=0.4, max=1200)
-4. Parse response into sections
-5. Calculate word count & clarity
-6. Return SelfReview
+```typescript
+generateSelfReview(cycleId, lang, impacts): SelfReview
+  Process:
+    1. Build AI prompt:
+       - Language: EN or TR
+       - Format: STAR with sections
+       - Constraints: <600 words, strong verbs
+       - Grounding: Top 20 impacts JSON
+    
+    2. Call Step 31 AI
+    
+    3. Parse response:
+       materializeSelfReview(cycleId, lang, text)
+    
+    4. Return structured SelfReview
 
-**materializeSelfReview(cycleId, lang, text):**
-1. Extract sections (overview, highlights, growth, objectives)
-2. Parse bullets from each section
-3. Count words
-4. Calculate clarity score
-5. Return structured SelfReview
+materializeSelfReview(cycleId, lang, text): SelfReview
+  Parse sections:
+    overview: First paragraph or Overview section
+    highlights: Bullets from Highlights section
+    growthAreas: Bullets from Growth section
+    nextObjectives: Bullets from Objectives/Next Steps
+  
+  Compute metrics:
+    wordCount = text.split(/\s+/).length
+    clarityScore = max(0.1, min(1, 1 - wordCount/900))
+```
 
 ### calibrationPrep.service.ts
 
-**mapToRubric(level, rubric, impacts):**
-1. Filter rubric for target level
-2. For each expectation:
-   - Find impacts matching competency
-   - Calculate average strength
-   - Compute delta (-2 to +2)
-   - Select top 5 evidence items
-3. Return mapped array
+```typescript
+mapToRubric(level, rubric, impacts): Array<{rubric, evidence, delta}>
+  Process:
+    1. Filter rubric by level (e.g., "L4", "Senior")
+    2. For each rubric expectation:
+       a. Find impacts matching competency
+       b. Calculate average score
+       c. Compute delta (-2 to +2):
+          ≥1.0: +2, ≥0.9: +1, ≥0.7: 0, ≥0.5: -1, else: -2
+       d. List top 5 evidence titles
+    3. Return mapping array
+
+Usage:
+  - Visualize strength/delta matrix
+  - Prepare calibration conversation
+  - Identify support needs
+```
 
 ### promotionPacket.service.ts
 
-**buildPromotionPacketHTML(opts):**
-1. Confidential banner
-2. Title with target level
-3. Self-review overview
-4. Highlights (bullets)
-5. Top 8 impacts
-6. Selected quotes (blockquotes)
-7. Footer with disclaimer
-8. Return HTML string
+```typescript
+buildPromotionPacketHTML(opts): string
+  Components:
+    - Confidential banner (red dashed border)
+    - Title with target level
+    - Overview (self.overview)
+    - Highlights (self.highlights as UL)
+    - Top Impacts (impacts.slice(0,8) as UL with details)
+    - Quotes (selected feedback as blockquotes)
+    - Footer disclaimer
 
-## UI Components
-
-### ConfidentialBanner
-- Red dashed border
-- Lock icon
-- "CONFIDENTIAL" warning
-- ARIA live region for screen readers
-
-### ReviewHome
-- KPI cards:
-  - Impacts count
-  - Feedback response rate
-  - Self-review word count
-  - Readiness status
-- Cycle details (title, kind, dates)
-- Stage badge
+Export:
+  - PDF via reviewExport.pdf.service
+  - Google Docs via reviewExport.docs.service
+  - Share via Gmail (Step 35)
+```
 
 ## Integration with Steps 17-38
 
@@ -351,171 +441,410 @@ interface FeedbackResponse {
 ```typescript
 // Self-review generation
 const review = await generateSelfReview(cycleId, lang, impacts)
-  → Uses aiRoute() for STAR content
+  → Uses aiRoute()
 
 // Sentiment analysis
-const sentiment = await analyzeSentiment(feedback)
-  → Uses aiRoute() for classification
+const sentiment = await analyzeSentiment(feedbackText)
+  → Uses aiRoute()
 ```
 
 ### Step 33 (Applications)
 ```typescript
 // Link review to application
-reviewCycle.applicationId = application.id
+cycle.applicationId = application.id
+
+// Create cycle from application
+if (application.stage === 'offer_accepted') {
+  createReviewCycle({
+    applicationId: application.id,
+    kind: 'probation'
+  })
+}
 ```
 
 ### Step 35 (Gmail/Calendar)
 ```typescript
 // Send feedback requests
-await sendFeedbackRequests({...})
-  → Uses Gmail API send
+await sendFeedbackRequests() → Gmail API
 
 // Schedule deadlines
-await scheduleCycleDeadline({...})
-  → Uses calendarCreate()
+await scheduleCycleDeadline() → Calendar API
 
 // Share promotion packet
-await shareViaGmail(html, recipients)
-  → Uses Gmail API send
+await shareViaEmail() → Gmail API
 ```
 
 ### Step 38 (Onboarding)
 ```typescript
 // Pull evidence
-const plan = useOnboardingStore.getState().getById(planId)
-plan.evidence → ImpactEntry[]
+const plan = getOnboardingPlan(cycle.planId)
+const evidence = plan.evidence → ImpactEntry[]
 
 // Pull OKRs
-const okrs = useOKRsStore.getState().byPlan(planId)
-okrs → ImpactEntry[] with progress
+const okrs = getOKRs(plan.id) → ImpactEntry[]
 
-// Reference stakeholders
-plan.stakeholders → feedback reviewers
+// Get stakeholders
+const stakeholders = plan.stakeholders → FeedbackRequest[]
+
+// Visibility gaps
+const gaps = computeVisibilityGaps(plan.id)
 ```
 
 ## Algorithms
 
 ### Impact Scoring
+
 ```typescript
+Algorithm:
+  1. Base score:
+     hasMetrics = impact.metrics && impact.metrics.length > 0
+     base = (hasMetrics ? 1 : 0.7) + (confidence ?? 3) / 5
+  
+  2. Competency weight:
+     weights = {
+       impact: 1.2,
+       leadership: 1.1,
+       execution: 1.0,
+       craft: 0.9,
+       collaboration: 0.8,
+       communication: 0.7
+     }
+  
+  3. Final score:
+     score = base × weights[competency ?? 'impact']
+
 Example:
-  Impact: "Migrated 500k users to new platform"
-  Metrics: [{label: "Users", value: 500000}]
-  Competency: execution (weight 1.0)
-  Confidence: 5
+  Impact with metrics, confidence 4, competency 'impact':
+    base = 1 + 4/5 = 1.8
+    score = 1.8 × 1.2 = 2.16
   
-  baseScore = 1 (has metrics) + 5/5 (confidence)
-           = 2.0
-  
-  finalScore = 2.0 × 1.0 (execution weight)
-             = 2.0
+  Impact without metrics, confidence 3, competency 'communication':
+    base = 0.7 + 3/5 = 1.3
+    score = 1.3 × 0.7 = 0.91
 ```
 
-### Clarity Scoring
+### Deduplication
+
 ```typescript
-Example:
-  Self-review with 450 words
+Algorithm:
+  signature(impact) = `${title}|${dateISO}|${source}`
   
-  clarityScore = 1 - 450/900
-               = 1 - 0.5
-               = 0.5 (moderate)
+  unique = []
+  seen = Set<string>()
+  
+  for impact in impacts:
+    sig = signature(impact)
+    if !seen.has(sig):
+      unique.push(impact)
+      seen.add(sig)
+  
+  return unique.sort((a,b) => b.score - a.score)
 ```
 
-### Calibration Delta
+## Confidentiality & Privacy
+
+### Confidential Banner
+
+**Display:**
+- Red border (dashed)
+- Lock icon
+- ARIA live announcement
+- On all review pages
+
+**Message:**
+> CONFIDENTIAL — for review/calibration use only
+> 
+> This information is private and should only be shared with your manager and HR during official performance reviews. Retention window applies.
+
+### Data Retention
+
+**Configurable Windows:**
+- 30 days: Short cycles
+- 60 days: Standard reviews
+- 90 days: Annual reviews (default)
+- 180 days: Promotion packets
+- 365 days: Long-term reference
+
+**What's Retained:**
+- Review cycles
+- Impact entries
+- Feedback (requests and responses)
+- Self-reviews
+- Calibration notes
+
+**Auto-Purge:**
+- After retentionDays elapsed
+- User can export before purge
+- Explicit user delete anytime
+
+### Anonymization
+
+**Client-Side (Best-Effort):**
 ```typescript
-Example:
-  Rubric: "Senior → Execution"
-  Impacts: [1.2, 1.1, 0.9]
-  
-  strength = (1.2 + 1.1 + 0.9) / 3
-           = 1.07
-  
-  delta = +2 (exceeds, since >= 1.0)
+redactPII(text):
+  - Names → [redacted-name]
+  - Emails → [redacted-email]
+  - Preserve structure and sentiment
+
+Limitations:
+  - Regex-based (not NER)
+  - May miss context clues
+  - Not cryptographically secure
+
+Production Recommendations:
+  - Server-side NER (spaCy, AWS Comprehend)
+  - Differential privacy
+  - Secure multi-party computation
 ```
 
-## Consent & Privacy
+### Consent
 
-### Confidentiality
-- CONFIDENTIAL banner on all review pages
-- Watermark on exported packets
-- "for calibration use only" disclaimer
+**Required:**
+- Explicit opt-in for calendar/email mining
+- Clear explanation of data usage
+- Dismissible banners
+- Can disable anytime
 
-### Anonymity
-- Client-side PII redaction (best-effort)
-- Redacts names (capitalized words)
-- Redacts email addresses
-- Anonymous view toggle
-- Not cryptographically secure
-
-### Retention
-- Configurable windows: 30/60/90/180/365 days
-- Auto-purge after retention period
-- User can manually delete
-- Export before purge recommended
+**What's Collected:**
+- Event titles (not content)
+- Event dates and attendees
+- Email metadata (not bodies unless pasted)
 
 ## Accessibility
 
-- Keyboard navigation
+### Keyboard Navigation
+
+- Tab through all controls
+- Enter/Space to activate buttons
+- Arrow keys for lists and matrices
+- Escape to dismiss dialogs
+
+### Screen Reader Support
+
 - ARIA labels on all inputs
 - ARIA live regions for banners
-- High contrast mode
-- Focus indicators
-- Table alternatives for matrices
+- Semantic HTML (nav, main, article)
+- Alt text for icons
+- Table headers for matrices
+
+### High Contrast
+
+- Color contrast ratio ≥ 4.5:1
+- Focus indicators (2px outline)
+- Non-color-only information
+- Delta matrix uses symbols + color
+
+### Mobile Support
+
+- Responsive grid layout
+- Touch-friendly targets (44×44px)
+- Swipe gestures for tabs
+- Mobile-first design
 
 ## Testing
 
-**Unit Tests (6 files):**
-- impactAggregator.spec.ts
-- privacyRedaction.spec.ts
-- feedbackAnonymize.spec.ts
-- selfReviewAI.spec.ts
-- calibrationMath.spec.ts
-- sentimentSummary.spec.ts
+### Unit Tests (6 files)
+
+**impactAggregator.spec.ts:**
+- Aggregate evidence and OKRs
+- Empty array for non-existent cycle
+
+**privacyRedaction.spec.ts:**
+- Redact names
+- Redact emails
+- Preserve non-PII
+- Handle multiple instances
+
+**feedbackAnonymize.spec.ts:**
+- Build feedback email with subject
+- Include anonymous link when provided
+
+**selfReviewAI.spec.ts:**
+- Parse overview and highlights
+- Compute word count
+- Compute clarity score
+
+**calibrationMath.spec.ts:**
+- Map impacts to rubric with deltas
+- Handle empty impacts
+
+**sentimentSummary.spec.ts:**
+- Classify positive feedback (mock)
+- Fallback to neutral on error
 
 ## Known Limitations
 
-1. **PII Redaction**: Client-side only, not cryptographically secure
-2. **AI Generation**: Requires verification, not HR advice
-3. **Sentiment Analysis**: Basic classification, may miss nuance
-4. **Export Formats**: HTML blobs, not full PDF/Docs integration
+### 1. Impact Aggregation (Heuristic)
+
+**What Works:**
+- Evidence and OKR pull
+- Competency inference from keywords
+- Basic scoring and ranking
+
+**What's Missing:**
+- Weekly report persistence (Step 38)
+- 1:1 note mining
+- External achievements
+- Peer recognition
+
+### 2. Anonymization (Client-Side)
+
+**What Works:**
+- Simple name/email redaction
+- Preserves structure and sentiment
+
+**What's Missing:**
+- NER (Named Entity Recognition)
+- Context clue detection
+- Cryptographic anonymity
+- Differential privacy
+
+**Production:**
+- Server-side processing
+- ML-based NER
+- Secure computation
+
+### 3. Sentiment Analysis (AI)
+
+**What Works:**
+- Basic positive/neutral/negative
+- Step 31 AI integration
+- Graceful fallback
+
+**What's Missing:**
+- Fine-grained emotions
+- Sarcasm detection
+- Context awareness
+- Multi-language support
+
+### 4. Calibration (Simplified)
+
+**What Works:**
+- Rubric mapping
+- Delta calculation
+- Evidence linking
+
+**What's Missing:**
+- Peer comparison
+- Historical trends
+- Industry benchmarks
+- Compensation modeling
 
 ## Best Practices
 
-### Review Cycle
-- Start early (2-4 weeks before deadline)
-- Set clear deadlines
-- Send reminders proactively
-- Keep confidential
+### Review Preparation
 
-### Feedback
-- Request from diverse sources (manager, peers, stakeholders)
-- Ask specific questions
-- Respect anonymous responses
-- Follow up on themes
+**Do:**
+- Start 2-4 weeks before deadline
+- Aggregate impact weekly
+- Request feedback early (2 weeks)
+- Review and edit AI drafts
+- Get manager input
 
-### Self-Review
-- Ground in evidence and metrics
-- Use STAR framework
-- Be concise (< 600 words)
-- Focus on impact, not just activity
-- Verify AI-generated content
+**Don't:**
+- Wait until last minute
+- Rely solely on AI
+- Skip evidence collection
+- Ignore growth areas
 
-### Calibration
-- Map to official rubric
-- Provide specific evidence
-- Quantify when possible
-- Note confidence levels
-- Prepare for discussion
+### Feedback Requests
 
-### Promotion
-- Build case over time
-- Collect quotes early
-- Quantify scope increase
-- Show trajectory
-- Get feedback before submitting
+**Do:**
+- Select diverse reviewers (manager, peers, stakeholders)
+- Provide context (project, interaction)
+- Send 2 weeks before deadline
+- Send reminder after 1 week
+- Thank respondents
+
+**Don't:**
+- Only ask friendly reviewers
+- Send day before deadline
+- Skip manager/key stakeholders
+- Forget to follow up
+
+### Self-Review Writing
+
+**Do:**
+- Use STAR format
+- Include metrics and impact
+- Be specific and concrete
+- Acknowledge growth areas
+- Align with company values
+- Keep under 600 words
+
+**Don't:**
+- Use vague language
+- List tasks without impact
+- Exaggerate or inflate
+- Skip growth areas
+- Exceed word limit
+
+### Promotion Packets
+
+**Do:**
+- Build incrementally (not last minute)
+- Include diverse evidence
+- Show scope increase over time
+- Get manager feedback early
+- Prepare for questions
+- Export and share selectively
+
+**Don't:**
+- Rely on single project
+- Inflate impact
+- Skip peer feedback
+- Wait for manager to build
+- Share publicly
+
+## Troubleshooting
+
+### Impact Not Aggregating
+
+**Problem:** aggregateImpact returns empty
+
+**Solution:**
+1. Check cycle has planId
+2. Verify onboarding plan exists
+3. Check evidence and OKRs exist
+4. Review browser console
+
+### Feedback Email Not Sending
+
+**Problem:** Requests not marked as sent
+
+**Solution:**
+1. Check Gmail account connected (Step 35)
+2. Verify OAuth token valid
+3. Check recipient addresses
+4. Review sending limits
+5. Use fallback: manual copy-paste
+
+### Self-Review Generation Fails
+
+**Problem:** AI returns empty or error
+
+**Solution:**
+1. Check Step 31 AI configured
+2. Verify impact entries exist (min 5)
+3. Check internet connection
+4. Try manual composition
+5. Review AI settings
+
+### PII Not Redacting
+
+**Problem:** Names/emails still visible
+
+**Solution:**
+1. Check exact format (First Last)
+2. Review regex patterns
+3. Use manual review
+4. Remember: best-effort only
+5. Don't rely for legal compliance
 
 ## References
 
-- STAR Method: https://www.indeed.com/career-advice/interviewing/how-to-use-the-star-interview-response-technique
-- Performance Reviews: https://www.radicalcandor.com/
-- Calibration: https://www.cultureamp.com/blog/performance-calibration
-- Promotion: https://www.progression.fyi/
+- Performance Reviews: https://hbr.org/2016/10/how-to-write-a-performance-review
+- STAR Method: https://www.themuse.com/advice/star-interview-method
+- 360 Feedback: https://www.cultureamp.com/blog/360-feedback-questions
+- Calibration: https://lattice.com/library/what-is-performance-calibration
+- Promotion Packets: https://staffeng.com/guides/promo-packets

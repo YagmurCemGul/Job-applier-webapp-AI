@@ -1,6 +1,8 @@
 /**
  * Redact simple PII markers (names, emails) from feedback bodies
  * for anonymous view
+ *
+ * Note: This is best-effort client-side redaction
  */
 export function redactPII(text: string): string {
   return text
