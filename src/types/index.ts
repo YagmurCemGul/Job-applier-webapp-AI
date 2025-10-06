@@ -14,6 +14,8 @@ export * from './ats.types'
 export * from './job.types'
 export * from './variants.types'
 export * from './export.types'
+export * from './coverletter.types'
+export * from './prompts.types'
 export * from './jobPosting.types'
 
 // Common types

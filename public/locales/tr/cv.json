@@ -1,4 +1,55 @@
 {
+  "cl": {
+    "tab": "Ön Yazı",
+    "toolbar": {
+      "lang": "Dil",
+      "tone": "Ton",
+      "length": "Uzunluk",
+      "template": "Şablon",
+      "generate": "Oluştur",
+      "promptLib": "Prompt Kütüphanesi",
+      "export": "Dışa Aktar…"
+    },
+    "editor": {
+      "copy": "Metin Olarak Kopyala",
+      "noDoc": "Seçili ön yazı yok. Oluştur'a tıklayın."
+    },
+    "preview": { "title": "Önizleme" },
+    "assist": {
+      "title": "Anahtar Kelime Yardımı",
+      "hint": "İmleç konumuna eklemek için tıklayın."
+    },
+    "saved": {
+      "title": "Kaydedilmiş Ön Yazılar",
+      "search": "Ön yazı ara…",
+      "none": "Ön yazı bulunamadı.",
+      "open": "Aç",
+      "duplicate": "Kopyala",
+      "delete": "Sil"
+    },
+    "export": {
+      "title": "Ön Yazı Dışa Aktarma",
+      "pdf": "PDF",
+      "docx": "DOCX",
+      "gdoc": "Google Doküman",
+      "close": "Kapat",
+      "export": "Dışa Aktar"
+    },
+    "history": { "title": "Geçmiş", "restore": "Geri Yükle" },
+    "promptLibrary": {
+      "title": "Prompt Kütüphanesi",
+      "folders": "Klasörler",
+      "prompts": "Promptlar",
+      "addFolder": "Klasör Ekle",
+      "newFolder": "Yeni klasör adı",
+      "promptName": "Prompt adı",
+      "promptBody": "Prompt içeriği",
+      "save": "Prompt Kaydet",
+      "clear": "Temizle",
+      "noFolder": "(Klasörsüz)",
+      "noPrompts": "Bu klasörde prompt yok"
+    }
+  },
   "variants": {
     "tab": "Varyantlar",
     "create": "Varyant Oluştur",

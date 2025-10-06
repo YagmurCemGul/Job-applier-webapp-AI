@@ -1,4 +1,55 @@
 {
+  "cl": {
+    "tab": "Cover Letter",
+    "toolbar": {
+      "lang": "Language",
+      "tone": "Tone",
+      "length": "Length",
+      "template": "Template",
+      "generate": "Generate",
+      "promptLib": "Prompt Library",
+      "export": "Export…"
+    },
+    "editor": {
+      "copy": "Copy as Text",
+      "noDoc": "No cover letter selected. Click Generate to create one."
+    },
+    "preview": { "title": "Preview" },
+    "assist": {
+      "title": "Keyword Assist",
+      "hint": "Click to insert at cursor."
+    },
+    "saved": {
+      "title": "Saved Cover Letters",
+      "search": "Search cover letters…",
+      "none": "No cover letters found.",
+      "open": "Open",
+      "duplicate": "Duplicate",
+      "delete": "Delete"
+    },
+    "export": {
+      "title": "Export Cover Letter",
+      "pdf": "PDF",
+      "docx": "DOCX",
+      "gdoc": "Google Doc",
+      "close": "Close",
+      "export": "Export"
+    },
+    "history": { "title": "History", "restore": "Restore" },
+    "promptLibrary": {
+      "title": "Prompt Library",
+      "folders": "Folders",
+      "prompts": "Prompts",
+      "addFolder": "Add Folder",
+      "newFolder": "New folder name",
+      "promptName": "Prompt name",
+      "promptBody": "Prompt body",
+      "save": "Save Prompt",
+      "clear": "Clear",
+      "noFolder": "(No folder)",
+      "noPrompts": "No prompts in this folder"
+    }
+  },
   "variants": {
     "tab": "Variants",
     "create": "Create Variant",

@@ -88,9 +88,7 @@ export const useVariantsStore = create<VariantsState>()(
       note: (id, note) => {
         set({
           items: get().items.map((v) =>
-            v.meta.id === id
-              ? { ...v, meta: { ...v.meta, notes: note, updatedAt: new Date() } }
-              : v
+            v.meta.id === id ? { ...v, meta: { ...v.meta, notes: note, updatedAt: new Date() } } : v
           ),
         })
       },

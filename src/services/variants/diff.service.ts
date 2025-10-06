@@ -43,8 +43,20 @@ function diffArray(a: any[], b: any[], basePath: string): DiffBlock[] {
     const before = a[i]?.description ?? stringify(a[i])
     const after = b[i]?.description ?? stringify(b[i])
     const change: DiffChange =
-      !a[i] && b[i] ? 'added' : a[i] && !b[i] ? 'removed' : before === after ? 'unchanged' : 'modified'
-    out.push({ path: `${basePath}.${i}.description`, before, after, change, inline: inlineDiff(before, after) })
+      !a[i] && b[i]
+        ? 'added'
+        : a[i] && !b[i]
+          ? 'removed'
+          : before === after
+            ? 'unchanged'
+            : 'modified'
+    out.push({
+      path: `${basePath}.${i}.description`,
+      before,
+      after,
+      change,
+      inline: inlineDiff(before, after),
+    })
   }
   return out
 }

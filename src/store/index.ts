@@ -16,6 +16,9 @@ export { useATSUIStore } from './atsUIStore'
 export { useATSWeightsStore } from './atsWeightsStore'
 export { useVariantsStore } from './variantsStore'
 export { useExportPresetsStore } from './exportPresetsStore'
+export { useCoverLetterStore } from './coverLetterStore'
+export { usePromptLibraryStore } from './promptLibraryStore'
+export { useCLUIStore } from './clUIStore'
 
 // Export types
 export type * from '@/types/store.types'

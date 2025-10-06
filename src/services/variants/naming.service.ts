@@ -24,9 +24,5 @@ export function renderFilename(tpl: string, ctx: RenderContext): string {
   }
 
   // Collapse spaces/double dashes
-  return out
-    .replace(/\s+/g, ' ')
-    .replace(/-+/g, '-')
-    .replace(/\s-\s/g, '-')
-    .trim()
+  return out.replace(/\s+/g, ' ').replace(/-+/g, '-').replace(/\s-\s/g, '-').trim()
 }

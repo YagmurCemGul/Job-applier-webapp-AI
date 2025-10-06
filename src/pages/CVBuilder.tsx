@@ -24,6 +24,7 @@ import {
 import { JobInputTabs } from '@/components/job'
 import { ATSPanel, ATSDetails } from '@/components/ats'
 import { VariantsTab } from '@/components/variants'
+import { CoverLetterTab } from '@/components/coverletter'
 import { useATSStore } from '@/store/atsStore'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
@@ -324,6 +325,14 @@ export default function CVBuilderPage() {
 
         {/* Cover Letter Tab */}
         <TabsContent value="cover-letter" className="mt-6">
+          <Card className="p-6">
+            <h2 className="mb-4 text-xl font-semibold">Cover Letter Studio</h2>
+            <CoverLetterTab />
+          </Card>
+        </TabsContent>
+
+        {/* Legacy Cover Letter Content (Deprecated) */}
+        <TabsContent value="cover-letter-legacy" className="mt-6">
           {parsedCV && jobPosting ? (
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <div>
