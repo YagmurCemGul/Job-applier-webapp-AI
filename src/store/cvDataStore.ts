@@ -44,6 +44,10 @@ interface CVDataState {
   getSavedCVById: (id: string) => SavedCV | undefined
   getStatistics: () => CVStatistics
 
+  // Cloud Sync
+  syncToCloud: () => Promise<void>
+  loadFromCloud: () => Promise<void>
+
   // General
   toggleAutoSave: () => void
 }
@@ -72,6 +76,9 @@ export const useCVDataStore = create<CVDataState>()(
       savedCVs: [],
       currentSavedCVId: null,
       autoSaveEnabled: true,
+      isSyncing: false,
+      lastSyncTime: null,
+      syncError: null,
 
       initializeCV: () => {
         if (!get().currentCV) {
@@ -298,20 +305,25 @@ export const useCVDataStore = create<CVDataState>()(
 
         if (existingCV) {
           // Update existing
+          const updatedCV = {
+            ...existingCV,
+            name,
+            description,
+            cvData: currentCV,
+            lastModified: new Date(),
+            version: existingCV.version + 1,
+          }
+
           set((state) => ({
-            savedCVs: state.savedCVs.map((cv) =>
-              cv.id === existingCV.id
-                ? {
-                    ...cv,
-                    name,
-                    description,
-                    cvData: currentCV,
-                    lastModified: new Date(),
-                    version: cv.version + 1,
-                  }
-                : cv
-            ),
+            savedCVs: state.savedCVs.map((cv) => (cv.id === existingCV.id ? updatedCV : cv)),
           }))
+
+          // Sync to cloud
+          const { user } = useAuthStore.getState()
+          if (user) {
+            firestoreService.saveCV(user.uid, updatedCV).catch(console.error)
+          }
+
           return existingCV.id
         } else {
           // Create new
@@ -332,6 +344,13 @@ export const useCVDataStore = create<CVDataState>()(
             savedCVs: [...state.savedCVs, newSavedCV],
             currentSavedCVId: newSavedCV.id,
           }))
+
+          // Sync to cloud
+          const { user } = useAuthStore.getState()
+          if (user) {
+            firestoreService.saveCV(user.uid, newSavedCV).catch(console.error)
+          }
+
           return newSavedCV.id
         }
       },
@@ -349,6 +368,12 @@ export const useCVDataStore = create<CVDataState>()(
           savedCVs: state.savedCVs.filter((cv) => cv.id !== id),
           currentSavedCVId: state.currentSavedCVId === id ? null : state.currentSavedCVId,
         }))
+
+        // Delete from cloud
+        const { user } = useAuthStore.getState()
+        if (user) {
+          firestoreService.deleteCV(id).catch(console.error)
+        }
       },
 
       loadSavedCV: (id) => {
@@ -406,6 +431,67 @@ export const useCVDataStore = create<CVDataState>()(
               : new Date(),
           mostUsedTemplate: savedCVs.length > 0 ? savedCVs[0].templateId : '',
           totalApplications: 0,
+        }
+      },
+
+      // Cloud Sync
+      syncToCloud: async () => {
+        const { user } = useAuthStore.getState()
+        if (!user) {
+          console.warn('No user logged in, skipping cloud sync')
+          return
+        }
+
+        const { savedCVs } = get()
+        set({ isSyncing: true, syncError: null })
+
+        try {
+          await firestoreService.syncCVs(user.uid, savedCVs)
+          set({ lastSyncTime: new Date(), isSyncing: false })
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Sync failed'
+          set({ syncError: errorMessage, isSyncing: false })
+          throw error
+        }
+      },
+
+      loadFromCloud: async () => {
+        const { user } = useAuthStore.getState()
+        if (!user) {
+          console.warn('No user logged in, skipping cloud load')
+          return
+        }
+
+        set({ isSyncing: true, syncError: null })
+
+        try {
+          const cloudCVs = await firestoreService.getUserCVs(user.uid)
+          const { savedCVs } = get()
+
+          // Merge strategy: cloud CVs take precedence if newer
+          const mergedCVs = [...cloudCVs]
+
+          savedCVs.forEach((localCV) => {
+            const cloudCV = cloudCVs.find((cv) => cv.id === localCV.id)
+            if (!cloudCV) {
+              // Local CV not in cloud, add it
+              mergedCVs.push(localCV)
+            } else if (localCV.lastModified > cloudCV.lastModified) {
+              // Local CV is newer, use local version
+              const index = mergedCVs.findIndex((cv) => cv.id === localCV.id)
+              mergedCVs[index] = localCV
+            }
+          })
+
+          set({
+            savedCVs: mergedCVs,
+            lastSyncTime: new Date(),
+            isSyncing: false,
+          })
+        } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Load failed'
+          set({ syncError: errorMessage, isSyncing: false })
+          throw error
         }
       },
 
