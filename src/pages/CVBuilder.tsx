@@ -11,8 +11,14 @@ import { CoverLetterGenerator } from '@/components/coverLetter/CoverLetterGenera
 import { CoverLetterPreview } from '@/components/coverLetter/CoverLetterPreview'
 import { TemplateSelector } from '@/components/templates/TemplateSelector'
 import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
-import { PersonalInfoForm } from '@/components/forms/PersonalInfoForm'
-import { ExperienceForm } from '@/components/forms/ExperienceForm'
+import {
+  PersonalInfoForm,
+  ExperienceForm,
+  EducationForm,
+  SkillsForm,
+  SummaryForm,
+  ProjectsForm,
+} from '@/components/forms'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -164,8 +170,11 @@ export default function CVBuilderPage() {
           <ScrollArea className="h-[calc(100vh-250px)]">
             <div className="space-y-6 pr-4">
               <PersonalInfoForm />
+              <SummaryForm />
               <ExperienceForm />
-              {/* Add more form components here in future steps */}
+              <EducationForm />
+              <SkillsForm />
+              <ProjectsForm />
             </div>
           </ScrollArea>
 
