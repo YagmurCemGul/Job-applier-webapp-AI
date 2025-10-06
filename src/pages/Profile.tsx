@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { PhoneInput } from '@/components/common/PhoneInput'
 import { URLInput } from '@/components/common/URLInput'
 import { AvatarUpload } from '@/components/profile/AvatarUpload'
+import { AIPhotoGenerator } from '@/components/profile/AIPhotoGenerator'
 import { useAuth, useToast, useCommonTranslation } from '@/hooks'
 import { userService } from '@/services/user.service'
 import { userProfileSchema, type UserProfileFormData } from '@/lib/validations/user.validation'
@@ -110,13 +111,14 @@ export default function ProfilePage() {
             <CardTitle>Profile Photo</CardTitle>
             <CardDescription>Upload or change your profile picture</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <AvatarUpload
               userId={user.id}
               currentAvatar={user.profilePhoto}
               firstName={user.firstName}
               lastName={user.lastName}
             />
+            <AIPhotoGenerator userId={user.id} />
           </CardContent>
         </Card>
       )}
