@@ -16,8 +16,8 @@ export function mapGreenhouse(args: {
       { id: 'cv', name: 'cv.pdf', type: 'cv', url: args.cvFile },
       ...(args.clFile
         ? [{ id: 'cl', name: 'cover-letter.pdf', type: 'coverLetter', url: args.clFile }]
-        : [])
+        : []),
     ],
-    answers: args.answers ?? {}
+    answers: args.answers ?? {},
   }
 }

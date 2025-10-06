@@ -14,6 +14,6 @@ export async function createEvent(opts: {
   return {
     ok: true,
     id: `cal-${Date.now()}`,
-    link: '#'
+    link: '#',
   }
 }

@@ -12,11 +12,7 @@ interface Bucket {
 
 const buckets: Record<string, Bucket> = {}
 
-export async function applyThrottle(
-  key: string,
-  cap = 20,
-  refillMs = 1000
-): Promise<void> {
+export async function applyThrottle(key: string, cap = 20, refillMs = 1000): Promise<void> {
   const now = Date.now()
   const b = buckets[key] ?? (buckets[key] = { rem: cap, cap, last: now, refillMs })
 

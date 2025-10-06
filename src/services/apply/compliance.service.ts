@@ -8,5 +8,5 @@ export const applyCompliance = {
       return { ok: false, reason: 'optOut' }
     }
     return { ok: true }
-  }
+  },
 }

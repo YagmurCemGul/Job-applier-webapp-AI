@@ -5,7 +5,7 @@ describe('workday.mapper', () => {
   it('should map to Workday platform', () => {
     const result = mapWorkday({
       jobUrl: 'https://workday.com/careers/job',
-      cvFile: 'cv.pdf'
+      cvFile: 'cv.pdf',
     })
 
     expect(result.platform).toBe('workday')
@@ -15,11 +15,11 @@ describe('workday.mapper', () => {
   it('should include workdayLocale in extra', () => {
     const result = mapWorkday({
       jobUrl: 'https://workday.com/careers/job',
-      cvFile: 'cv.pdf'
+      cvFile: 'cv.pdf',
     })
 
     expect(result.extra).toEqual({
-      workdayLocale: 'en-US'
+      workdayLocale: 'en-US',
     })
   })
 
@@ -27,7 +27,7 @@ describe('workday.mapper', () => {
     const result = mapWorkday({
       jobUrl: 'https://workday.com/careers/job',
       cvFile: 'cv.pdf',
-      answers: { eligibility: 'yes' }
+      answers: { eligibility: 'yes' },
     })
 
     expect(result.answers).toEqual({ eligibility: 'yes' })

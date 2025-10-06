@@ -4,9 +4,7 @@ import type { OutreachSequence } from '@/types/outreach.types'
 
 interface OutreachState {
   sequences: OutreachSequence[]
-  upsert: (
-    s: Omit<OutreachSequence, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }
-  ) => string
+  upsert: (s: Omit<OutreachSequence, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => string
   remove: (id: string) => void
   getById: (id: string) => OutreachSequence | undefined
 }
@@ -29,23 +27,22 @@ export const useOutreachStore = create<OutreachState>()(
           id,
           createdAt: now,
           updatedAt: now,
-          ...s
+          ...s,
         }
         set({
-          sequences: [doc, ...get().sequences.filter((x) => x.id !== id)]
+          sequences: [doc, ...get().sequences.filter((x) => x.id !== id)],
         })
         return id
       },
 
-      remove: (id) =>
-        set({ sequences: get().sequences.filter((x) => x.id !== id) }),
+      remove: (id) => set({ sequences: get().sequences.filter((x) => x.id !== id) }),
 
-      getById: (id) => get().sequences.find((x) => x.id === id)
+      getById: (id) => get().sequences.find((x) => x.id === id),
     }),
     {
       name: 'outreach',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

@@ -13,15 +13,14 @@ export const useContactsStore = create<ContactsState>()(
     (set, get) => ({
       items: [],
 
-      upsert: (c) =>
-        set({ items: [c, ...get().items.filter((x) => x.id !== c.id)] }),
+      upsert: (c) => set({ items: [c, ...get().items.filter((x) => x.id !== c.id)] }),
 
-      remove: (id) => set({ items: get().items.filter((x) => x.id !== id) })
+      remove: (id) => set({ items: get().items.filter((x) => x.id !== id) }),
     }),
     {
       name: 'contacts',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

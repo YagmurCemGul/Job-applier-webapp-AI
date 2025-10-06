@@ -5,7 +5,7 @@ describe('greenhouse.mapper', () => {
   it('should map CV file to payload', () => {
     const result = mapGreenhouse({
       jobUrl: 'https://greenhouse.com/jobs/123',
-      cvFile: 'cv.pdf'
+      cvFile: 'cv.pdf',
     })
 
     expect(result.platform).toBe('greenhouse')
@@ -18,7 +18,7 @@ describe('greenhouse.mapper', () => {
     const result = mapGreenhouse({
       jobUrl: 'https://greenhouse.com/jobs/123',
       cvFile: 'cv.pdf',
-      clFile: 'cl.pdf'
+      clFile: 'cl.pdf',
     })
 
     expect(result.files).toHaveLength(2)
@@ -29,12 +29,12 @@ describe('greenhouse.mapper', () => {
     const result = mapGreenhouse({
       jobUrl: 'https://greenhouse.com/jobs/123',
       cvFile: 'cv.pdf',
-      answers: { question1: 'answer1', question2: 'answer2' }
+      answers: { question1: 'answer1', question2: 'answer2' },
     })
 
     expect(result.answers).toEqual({
       question1: 'answer1',
-      question2: 'answer2'
+      question2: 'answer2',
     })
   })
 })

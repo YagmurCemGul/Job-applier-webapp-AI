@@ -16,11 +16,11 @@ export function mapWorkday(args: {
       { id: 'cv', name: 'resume.pdf', type: 'cv', url: args.cvFile },
       ...(args.clFile
         ? [{ id: 'cl', name: 'cover_letter.pdf', type: 'coverLetter', url: args.clFile }]
-        : [])
+        : []),
     ],
     answers: args.answers ?? {},
     extra: {
-      workdayLocale: 'en-US'
-    }
+      workdayLocale: 'en-US',
+    },
   }
 }

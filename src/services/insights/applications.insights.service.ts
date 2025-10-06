@@ -20,6 +20,6 @@ export function funnel(): {
     interview: g('interview'),
     offer: g('offer'),
     rejected: g('rejected'),
-    hold: g('hold')
+    hold: g('hold'),
   }
 }

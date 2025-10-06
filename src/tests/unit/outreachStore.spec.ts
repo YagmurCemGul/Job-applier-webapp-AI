@@ -10,7 +10,7 @@ describe('outreachStore', () => {
     const id = useOutreachStore.getState().upsert({
       name: 'Follow-Up',
       steps: [],
-      active: true
+      active: true,
     })
 
     expect(id).toBeDefined()
@@ -23,14 +23,14 @@ describe('outreachStore', () => {
     const id = useOutreachStore.getState().upsert({
       name: 'Sequence 1',
       steps: [],
-      active: true
+      active: true,
     })
 
     useOutreachStore.getState().upsert({
       id,
       name: 'Updated Sequence',
       steps: [{ id: 's1', offsetDays: 3, templateId: 't1', sendTime: '09:00' }],
-      active: false
+      active: false,
     })
 
     const sequences = useOutreachStore.getState().sequences
@@ -43,7 +43,7 @@ describe('outreachStore', () => {
     const id = useOutreachStore.getState().upsert({
       name: 'Test',
       steps: [],
-      active: true
+      active: true,
     })
 
     useOutreachStore.getState().remove(id)
@@ -54,7 +54,7 @@ describe('outreachStore', () => {
     const id = useOutreachStore.getState().upsert({
       name: 'Find Me',
       steps: [],
-      active: true
+      active: true,
     })
 
     const seq = useOutreachStore.getState().getById(id)

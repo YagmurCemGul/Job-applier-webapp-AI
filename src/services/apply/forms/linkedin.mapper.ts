@@ -16,8 +16,8 @@ export function mapLinkedIn(args: {
       { id: 'cv', name: 'CV.pdf', type: 'cv', url: args.cvFile },
       ...(args.clFile
         ? [{ id: 'cl', name: 'CoverLetter.pdf', type: 'coverLetter', url: args.clFile }]
-        : [])
+        : []),
     ],
-    answers: args.answers ?? {}
+    answers: args.answers ?? {},
   }
 }

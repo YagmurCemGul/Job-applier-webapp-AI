@@ -16,8 +16,8 @@ export function mapIndeed(args: {
       { id: 'cv', name: 'resume.pdf', type: 'cv', url: args.cvFile },
       ...(args.clFile
         ? [{ id: 'cl', name: 'cover_letter.pdf', type: 'coverLetter', url: args.clFile }]
-        : [])
+        : []),
     ],
-    answers: args.answers ?? {}
+    answers: args.answers ?? {},
   }
 }

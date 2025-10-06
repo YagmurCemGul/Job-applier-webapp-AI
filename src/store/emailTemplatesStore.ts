@@ -4,9 +4,7 @@ import type { EmailTemplate } from '@/types/outreach.types'
 
 interface TemplateState {
   items: EmailTemplate[]
-  upsert: (
-    t: Omit<EmailTemplate, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }
-  ) => string
+  upsert: (t: Omit<EmailTemplate, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => string
   remove: (id: string) => void
   getById: (id: string) => EmailTemplate | undefined
 }
@@ -29,7 +27,7 @@ export const useEmailTemplatesStore = create<TemplateState>()(
           id,
           createdAt: now,
           updatedAt: now,
-          ...t
+          ...t,
         }
         set({ items: [doc, ...get().items.filter((x) => x.id !== id)] })
         return id
@@ -37,12 +35,12 @@ export const useEmailTemplatesStore = create<TemplateState>()(
 
       remove: (id) => set({ items: get().items.filter((x) => x.id !== id) }),
 
-      getById: (id) => get().items.find((x) => x.id === id)
+      getById: (id) => get().items.find((x) => x.id === id),
     }),
     {
       name: 'email-templates',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

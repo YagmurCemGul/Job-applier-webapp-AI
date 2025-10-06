@@ -13,7 +13,7 @@ describe('resumePicker.service', () => {
   it('should return both CV and CL when both provided', async () => {
     const files = await pickFiles({
       variantId: 'variant-123',
-      coverLetterId: 'cl-456'
+      coverLetterId: 'cl-456',
     })
 
     expect(files.length).toBeGreaterThanOrEqual(1)

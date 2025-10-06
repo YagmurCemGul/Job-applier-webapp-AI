@@ -15,7 +15,7 @@ describe('apply.engine', () => {
         company: 'Acme',
         role: 'Engineer',
         mapperArgs: { jobUrl: 'https://greenhouse.com/jobs/123' },
-        optIn: false
+        optIn: false,
       })
     ).rejects.toThrow('Auto-apply requires explicit opt-in')
   })
@@ -27,7 +27,7 @@ describe('apply.engine', () => {
       company: 'Acme',
       role: 'Engineer',
       mapperArgs: { jobUrl: 'https://greenhouse.com/jobs/123' },
-      optIn: true
+      optIn: true,
     })
 
     expect(appId).toBeDefined()
@@ -44,7 +44,7 @@ describe('apply.engine', () => {
       company: 'Tech Corp',
       role: 'Developer',
       mapperArgs: { jobUrl: 'https://jobs.lever.co/company/job' },
-      optIn: true
+      optIn: true,
     })
 
     const items = useApplicationsStore.getState().items
@@ -61,7 +61,7 @@ describe('apply.engine', () => {
       company: 'StartUp',
       role: 'Backend',
       mapperArgs: { jobUrl: 'https://indeed.com/job/123' },
-      optIn: true
+      optIn: true,
     })
 
     const items = useApplicationsStore.getState().items

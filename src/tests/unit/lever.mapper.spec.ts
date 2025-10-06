@@ -5,7 +5,7 @@ describe('lever.mapper', () => {
   it('should map to Lever platform', () => {
     const result = mapLever({
       jobUrl: 'https://jobs.lever.co/company/job-id',
-      cvFile: 'resume.pdf'
+      cvFile: 'resume.pdf',
     })
 
     expect(result.platform).toBe('lever')
@@ -17,7 +17,7 @@ describe('lever.mapper', () => {
     const result = mapLever({
       jobUrl: 'https://jobs.lever.co/company/job-id',
       cvFile: 'resume.pdf',
-      clFile: 'cover.pdf'
+      clFile: 'cover.pdf',
     })
 
     expect(result.files).toHaveLength(2)

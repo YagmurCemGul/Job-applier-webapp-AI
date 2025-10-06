@@ -15,7 +15,7 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
     expect(id).toBeDefined()
@@ -32,7 +32,7 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
     useApplicationsStore.getState().setStage(id, 'interview')
@@ -48,7 +48,7 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
     useApplicationsStore.getState().update(id, { notes: 'Test note' })
@@ -64,14 +64,14 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
     const event: AppEvent = {
       id: 'ev1',
       type: 'interview',
       title: 'First Interview',
-      when: new Date().toISOString()
+      when: new Date().toISOString(),
     }
 
     useApplicationsStore.getState().addEvent(id, event)
@@ -88,14 +88,14 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
     useApplicationsStore.getState().addLog(id, {
       id: 'log1',
       at: new Date().toISOString(),
       level: 'info',
-      message: 'Test log'
+      message: 'Test log',
     })
 
     const app = useApplicationsStore.getState().items[0]
@@ -111,12 +111,10 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
-    useApplicationsStore
-      .getState()
-      .attachFiles(id, [{ id: 'f1', name: 'cv.pdf', type: 'cv' }])
+    useApplicationsStore.getState().attachFiles(id, [{ id: 'f1', name: 'cv.pdf', type: 'cv' }])
 
     const app = useApplicationsStore.getState().items[0]
     expect(app.files).toHaveLength(1)
@@ -131,7 +129,7 @@ describe('applicationsStore', () => {
       stage: 'applied',
       files: [],
       contacts: [],
-      events: []
+      events: [],
     })
 
     useApplicationsStore.getState().select(id)
