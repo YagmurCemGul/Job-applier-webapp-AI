@@ -1,7 +1,6 @@
 // Re-export all types from here
 export * from './user.types'
 export * from './cv.types'
-export * from './job.types'
 export * from './api.types'
 export * from './store.types'
 
