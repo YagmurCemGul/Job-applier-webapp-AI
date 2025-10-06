@@ -5,16 +5,16 @@
 const patterns = [
   {
     re: /\b(culture fit)\b/i,
-    suggest: 'Consider "culture add" and focus on values & behaviors.'
+    suggest: 'Consider "culture add" and focus on values & behaviors.',
   },
   {
     re: /\b(aggressive|bossy)\b/i,
-    suggest: 'Describe specific behaviors and impact instead of labels.'
+    suggest: 'Describe specific behaviors and impact instead of labels.',
   },
   {
     re: /\b(rockstar|ninja)\b/i,
-    suggest: 'Use job-relevant competencies instead of stereotypes.'
-  }
+    suggest: 'Use job-relevant competencies instead of stereotypes.',
+  },
 ]
 
 /**

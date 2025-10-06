@@ -5,7 +5,7 @@ import type {
   PlanStage,
   PlanTask,
   EvidenceItem,
-  Stakeholder
+  Stakeholder,
 } from '@/types/onboarding.types'
 
 interface OnboardingState {
@@ -14,11 +14,7 @@ interface OnboardingState {
   update: (id: string, patch: Partial<OnboardingPlan>) => void
   setStage: (id: string, stage: PlanStage) => void
   addTask: (planId: string, t: PlanTask) => void
-  setTask: (
-    planId: string,
-    taskId: string,
-    patch: Partial<PlanTask>
-  ) => void
+  setTask: (planId: string, taskId: string, patch: Partial<PlanTask>) => void
   addEvidence: (planId: string, e: EvidenceItem) => void
   addStakeholder: (planId: string, s: Stakeholder) => void
   getById: (id: string) => OnboardingPlan | undefined
@@ -29,32 +25,25 @@ export const useOnboardingStore = create<OnboardingState>()(
     (set, get) => ({
       plans: [],
 
-      upsert: (p) =>
-        set({ plans: [p, ...get().plans.filter((x) => x.id !== p.id)] }),
+      upsert: (p) => set({ plans: [p, ...get().plans.filter((x) => x.id !== p.id)] }),
 
       update: (id, patch) =>
         set({
           plans: get().plans.map((p) =>
-            p.id === id
-              ? { ...p, ...patch, updatedAt: new Date().toISOString() }
-              : p
-          )
+            p.id === id ? { ...p, ...patch, updatedAt: new Date().toISOString() } : p
+          ),
         }),
 
       setStage: (id, stage) =>
         set({
           plans: get().plans.map((p) =>
-            p.id === id
-              ? { ...p, stage, updatedAt: new Date().toISOString() }
-              : p
-          )
+            p.id === id ? { ...p, stage, updatedAt: new Date().toISOString() } : p
+          ),
         }),
 
       addTask: (planId, t) =>
         set({
-          plans: get().plans.map((p) =>
-            p.id === planId ? { ...p, tasks: [t, ...p.tasks] } : p
-          )
+          plans: get().plans.map((p) => (p.id === planId ? { ...p, tasks: [t, ...p.tasks] } : p)),
         }),
 
       setTask: (planId, taskId, patch) =>
@@ -63,36 +52,32 @@ export const useOnboardingStore = create<OnboardingState>()(
             p.id === planId
               ? {
                   ...p,
-                  tasks: p.tasks.map((t) =>
-                    t.id === taskId ? { ...t, ...patch } : t
-                  )
+                  tasks: p.tasks.map((t) => (t.id === taskId ? { ...t, ...patch } : t)),
                 }
               : p
-          )
+          ),
         }),
 
       addEvidence: (planId, e) =>
         set({
           plans: get().plans.map((p) =>
             p.id === planId ? { ...p, evidence: [e, ...p.evidence] } : p
-          )
+          ),
         }),
 
       addStakeholder: (planId, s) =>
         set({
           plans: get().plans.map((p) =>
-            p.id === planId
-              ? { ...p, stakeholders: [s, ...p.stakeholders] }
-              : p
-          )
+            p.id === planId ? { ...p, stakeholders: [s, ...p.stakeholders] } : p
+          ),
         }),
 
-      getById: (id) => get().plans.find((p) => p.id === id)
+      getById: (id) => get().plans.find((p) => p.id === id),
     }),
     {
       name: 'onboarding',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

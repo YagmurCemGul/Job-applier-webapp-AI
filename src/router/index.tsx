@@ -21,6 +21,7 @@ import InterviewDetailPage from '@/components/interview/InterviewDetail'
 import OffersPage from '@/pages/Offers'
 import OfferDetailPage from '@/components/offer/OfferDetail'
 import OnboardingPage from '@/pages/Onboarding'
+import ReviewsPage from '@/pages/Reviews'
 import ProfilePage from '@/pages/Profile'
 import SettingsPage from '@/pages/Settings'
 import NotFoundPage from '@/pages/NotFound'
@@ -147,6 +148,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <OnboardingPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/reviews/:id',
+        element: (
+          <ProtectedRoute>
+            <ReviewsPage />
           </ProtectedRoute>
         ),
       },

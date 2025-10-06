@@ -18,6 +18,6 @@ export async function scheduleReminder(
   return await calendarCreate(bearer, {
     title: label,
     whenISO,
-    durationMin: 15
+    durationMin: 15,
   })
 }

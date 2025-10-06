@@ -1,0 +1,36 @@
+{
+  "review": {
+    "confidential": "CONFIDENTIAL — for review/calibration use only.",
+    "startCycle": "Start Review Cycle",
+    "impact": "Impact",
+    "feedback": "Feedback",
+    "selfReview": "Self-Review",
+    "calibration": "Calibration",
+    "promotion": "Promotion Case",
+    "visibility": "Visibility",
+    "sendRequests": "Send Requests",
+    "remind": "Remind",
+    "anonymous": "Anonymous",
+    "redacted": "Redacted",
+    "exportPDF": "Export PDF",
+    "exportDocs": "Export Google Doc",
+    "shareEmail": "Share via Email",
+    "clarity": "Clarity",
+    "wordCount": "Word Count",
+    "targetLevel": "Target Level",
+    "aiSummary": "AI Summary",
+    "kpis": {
+      "impacts": "Impacts",
+      "responses": "Responses",
+      "completeness": "Completeness",
+      "readiness": "Readiness"
+    },
+    "overview": "Overview",
+    "evidenceCollected": "Evidence collected",
+    "responseRate": "Response rate",
+    "wordsWritten": "Words written",
+    "status": "Status",
+    "ready": "Ready",
+    "draft": "Draft"
+  }
+}

@@ -41,6 +41,9 @@ export { useOfferSettingsStore } from './offerSettingsStore'
 export { useOnboardingStore } from './onboardingStore'
 export { useOneOnOnesStore } from './oneononesStore'
 export { useOKRsStore } from './okrsStore'
+export { useReviewsStore } from './reviewStore'
+export { useFeedbackStore } from './feedbackStore'
+export { usePromotionStore } from './promotionStore'
 
 // Export types
 export type * from '@/types/store.types'

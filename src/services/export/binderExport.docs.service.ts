@@ -4,9 +4,7 @@ import type { EvidenceItem } from '@/types/onboarding.types'
 /**
  * Export evidence binder to Google Docs format
  */
-export async function exportBinderDoc(
-  items: EvidenceItem[]
-): Promise<string> {
+export async function exportBinderDoc(items: EvidenceItem[]): Promise<string> {
   const html = renderBinderHTML(items)
 
   // In production, use Google Docs API

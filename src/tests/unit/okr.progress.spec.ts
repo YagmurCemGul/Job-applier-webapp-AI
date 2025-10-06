@@ -16,7 +16,7 @@ describe('okr.service', () => {
           target: 100,
           current: 100,
           unit: '%',
-          weight: 1
+          weight: 1,
         },
         {
           id: 'kr2',
@@ -24,12 +24,12 @@ describe('okr.service', () => {
           target: 100,
           current: 50,
           unit: '%',
-          weight: 2
-        }
+          weight: 2,
+        },
       ],
       confidence: 3,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const progress = objectiveProgress(objective)
@@ -47,7 +47,7 @@ describe('okr.service', () => {
       krs: [],
       confidence: 0,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     expect(objectiveProgress(objective)).toBe(0)
@@ -65,12 +65,12 @@ describe('okr.service', () => {
           label: 'Test',
           target: 0,
           current: 10,
-          weight: 1
-        }
+          weight: 1,
+        },
       ],
       confidence: 0,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     expect(objectiveProgress(objective)).toBe(0)
@@ -88,12 +88,12 @@ describe('okr.service', () => {
           label: 'Over target',
           target: 100,
           current: 150,
-          weight: 1
-        }
+          weight: 1,
+        },
       ],
       confidence: 5,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     expect(objectiveProgress(objective)).toBe(1)

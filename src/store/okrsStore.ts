@@ -14,24 +14,21 @@ export const useOKRsStore = create<OKRState>()(
     (set, get) => ({
       items: [],
 
-      upsert: (o) =>
-        set({ items: [o, ...get().items.filter((x) => x.id !== o.id)] }),
+      upsert: (o) => set({ items: [o, ...get().items.filter((x) => x.id !== o.id)] }),
 
       update: (id, patch) =>
         set({
           items: get().items.map((o) =>
-            o.id === id
-              ? { ...o, ...patch, updatedAt: new Date().toISOString() }
-              : o
-          )
+            o.id === id ? { ...o, ...patch, updatedAt: new Date().toISOString() } : o
+          ),
         }),
 
-      byPlan: (planId) => get().items.filter((o) => o.planId === planId)
+      byPlan: (planId) => get().items.filter((o) => o.planId === planId),
     }),
     {
       name: 'okrs',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

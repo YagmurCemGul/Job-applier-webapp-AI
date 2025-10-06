@@ -6,7 +6,7 @@ describe('aiActionItems.service', () => {
     // For now, just verify the structure
     const mockActions = [
       { text: 'Follow up on proposal', owner: 'me' },
-      { text: 'Schedule next 1:1', dueISO: '2025-11-01T10:00:00Z' }
+      { text: 'Schedule next 1:1', dueISO: '2025-11-01T10:00:00Z' },
     ]
 
     expect(mockActions).toHaveLength(2)

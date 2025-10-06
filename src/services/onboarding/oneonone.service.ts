@@ -22,22 +22,19 @@ export async function scheduleOneOnOne(
     title: `1:1 with ${s.counterpartName}`,
     whenISO: next,
     durationMin: s.durationMin,
-    attendees: [s.counterpartEmail]
+    attendees: [s.counterpartEmail],
   })
 
   return {
     eventId: (ev as any).id || String(Date.now()),
-    whenISO: next
+    whenISO: next,
   }
 }
 
 /**
  * Compute next occurrence ISO date
  */
-export function computeNextOccurISO(
-  weekday: number,
-  timeHHMM: string
-): string {
+export function computeNextOccurISO(weekday: number, timeHHMM: string): string {
   const [h, m] = timeHHMM.split(':').map(Number)
   const now = new Date()
   const d = new Date(now)

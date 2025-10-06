@@ -9,10 +9,7 @@ export function objectiveProgress(o: Objective): number {
 
   const totals = o.krs.map((kr) => ({
     w: kr.weight ?? 1,
-    frac: Math.min(
-      1,
-      Math.max(0, kr.target ? kr.current / kr.target : 0)
-    )
+    frac: Math.min(1, Math.max(0, kr.target ? kr.current / kr.target : 0)),
   }))
 
   const W = totals.reduce((a, b) => a + b.w, 0)

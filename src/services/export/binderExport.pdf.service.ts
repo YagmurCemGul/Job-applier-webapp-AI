@@ -4,9 +4,7 @@ import type { EvidenceItem } from '@/types/onboarding.types'
 /**
  * Export evidence binder to PDF
  */
-export async function exportBinderPDF(
-  items: EvidenceItem[]
-): Promise<string> {
+export async function exportBinderPDF(items: EvidenceItem[]): Promise<string> {
   const html = renderBinderHTML(items)
 
   // Create blob URL for now

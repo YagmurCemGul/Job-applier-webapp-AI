@@ -1,0 +1,36 @@
+{
+  "review": {
+    "confidential": "GİZLİ — yalnızca değerlendirme/kalibrasyon için.",
+    "startCycle": "Değerlendirme Döngüsü Başlat",
+    "impact": "Etkiler",
+    "feedback": "Geri Bildirim",
+    "selfReview": "Kendini Değerlendirme",
+    "calibration": "Kalibrasyon",
+    "promotion": "Terfi Dosyası",
+    "visibility": "Görünürlük",
+    "sendRequests": "İstek Gönder",
+    "remind": "Hatırlat",
+    "anonymous": "Anonim",
+    "redacted": "Sansürlü",
+    "exportPDF": "PDF Dışa Aktar",
+    "exportDocs": "Google Doc Olarak",
+    "shareEmail": "E-posta ile Paylaş",
+    "clarity": "Açıklık",
+    "wordCount": "Kelime Sayısı",
+    "targetLevel": "Hedef Seviye",
+    "aiSummary": "AI Özet",
+    "kpis": {
+      "impacts": "Etkiler",
+      "responses": "Yanıtlar",
+      "completeness": "Tamamlanma",
+      "readiness": "Hazırlık"
+    },
+    "overview": "Genel Bakış",
+    "evidenceCollected": "Kanıt toplandı",
+    "responseRate": "Yanıt oranı",
+    "wordsWritten": "Yazılan kelimeler",
+    "status": "Durum",
+    "ready": "Hazır",
+    "draft": "Taslak"
+  }
+}

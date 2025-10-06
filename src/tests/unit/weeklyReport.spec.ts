@@ -18,14 +18,14 @@ describe('weeklyReport.service', () => {
       evidence: [],
       retentionDays: 90,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const html = buildWeeklyHTML(plan, {
       highlights: ['Completed onboarding', 'Met team'],
       risks: ['Timeline tight'],
       asks: ['Need access to prod'],
-      okrProgress: [{ title: 'Launch Feature', pct: 0.5 }]
+      okrProgress: [{ title: 'Launch Feature', pct: 0.5 }],
     })
 
     expect(html).toContain('Acme')
@@ -54,13 +54,13 @@ describe('weeklyReport.service', () => {
       evidence: [],
       retentionDays: 90,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const html = buildWeeklyHTML(plan, {
       highlights: [],
       risks: [],
-      asks: []
+      asks: [],
     })
 
     expect(html).toContain('Acme')
@@ -83,13 +83,13 @@ describe('weeklyReport.service', () => {
       evidence: [],
       retentionDays: 90,
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     }
 
     const html = buildWeeklyHTML(plan, {
       highlights: ['Türkçe karakter testi'],
       risks: [],
-      asks: []
+      asks: [],
     })
 
     expect(html).toContain('Şirket')

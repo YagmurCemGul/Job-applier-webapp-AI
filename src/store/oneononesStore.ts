@@ -19,27 +19,21 @@ export const useOneOnOnesStore = create<OneOnOneState>()(
       series: [],
       entries: [],
 
-      upsertSeries: (s) =>
-        set({ series: [s, ...get().series.filter((x) => x.id !== s.id)] }),
+      upsertSeries: (s) => set({ series: [s, ...get().series.filter((x) => x.id !== s.id)] }),
 
-      upsertEntry: (e) =>
-        set({ entries: [e, ...get().entries.filter((x) => x.id !== e.id)] }),
+      upsertEntry: (e) => set({ entries: [e, ...get().entries.filter((x) => x.id !== e.id)] }),
 
       byPlan: (planId) => ({
         series: get().series.filter((s) => s.planId === planId),
         entries: get().entries.filter((e) =>
-          get()
-            .series.find((s) => s.id === e.seriesId)
-            ?.planId === planId
-            ? true
-            : false
-        )
-      })
+          get().series.find((s) => s.id === e.seriesId)?.planId === planId ? true : false
+        ),
+      }),
     }),
     {
       name: 'oneonones',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

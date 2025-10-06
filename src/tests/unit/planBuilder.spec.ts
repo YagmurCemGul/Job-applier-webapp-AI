@@ -1,8 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import {
-  defaultMilestones,
-  seedTasks
-} from '@/services/onboarding/planBuilder.service'
+import { defaultMilestones, seedTasks } from '@/services/onboarding/planBuilder.service'
 
 describe('planBuilder.service', () => {
   it('should create default milestones', () => {

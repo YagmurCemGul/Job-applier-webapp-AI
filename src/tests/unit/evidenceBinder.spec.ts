@@ -11,15 +11,15 @@ describe('evidenceBinder.service', () => {
         kind: 'doc',
         text: 'Delivered ahead of schedule',
         createdAt: '2025-10-01T00:00:00Z',
-        tags: ['achievement']
+        tags: ['achievement'],
       },
       {
         id: 'ev2',
         title: 'Metric Dashboard',
         kind: 'link',
         url: 'https://example.com/dashboard',
-        createdAt: '2025-10-05T00:00:00Z'
-      }
+        createdAt: '2025-10-05T00:00:00Z',
+      },
     ]
 
     const html = renderBinderHTML(items)
@@ -37,8 +37,8 @@ describe('evidenceBinder.service', () => {
         id: 'ev1',
         title: 'Test',
         kind: 'note',
-        createdAt: '2025-10-15T00:00:00Z'
-      }
+        createdAt: '2025-10-15T00:00:00Z',
+      },
     ]
 
     const html = renderBinderHTML(items)

@@ -14,7 +14,7 @@ export async function extractActions(
         task: 'generate',
         prompt,
         temperature: 0.3,
-        maxTokens: 500
+        maxTokens: 500,
       },
       { allowCache: true }
     )
@@ -23,10 +23,7 @@ export async function extractActions(
       return []
     }
 
-    const parsed =
-      typeof result.text === 'string'
-        ? JSON.parse(result.text)
-        : result.text
+    const parsed = typeof result.text === 'string' ? JSON.parse(result.text) : result.text
 
     return Array.isArray(parsed) ? parsed : []
   } catch {

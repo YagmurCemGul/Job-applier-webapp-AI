@@ -15,9 +15,7 @@ export function buildWeeklyHTML(
   }
 ): string {
   const rows = (title: string, items: string[]) =>
-    items.length
-      ? `<h3>${title}</h3><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul>`
-      : ''
+    items.length ? `<h3>${title}</h3><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''
 
   const okrs = opts.okrProgress?.length
     ? `<h3>OKRs</h3><ul>${opts.okrProgress.map((x) => `<li>${x.title}: ${(x.pct * 100).toFixed(0)}%</li>`).join('')}</ul>`
@@ -38,15 +36,13 @@ export async function sendWeeklyEmail(
 ): Promise<any> {
   const msg = {
     id:
-      typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now()),
+      typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     accountId: from,
     to,
     subject,
     html,
     status: 'pending',
-    createdAt: new Date().toISOString()
+    createdAt: new Date().toISOString(),
   } as any
 
   // Build RFC 822 MIME message
@@ -62,7 +58,7 @@ export async function sendWeeklyEmail(
     'Content-Type: text/html; charset=UTF-8',
     '',
     html,
-    `--${boundary}--`
+    `--${boundary}--`,
   ].join('\r\n')
 
   const encoded = btoa(unescape(encodeURIComponent(raw)))
@@ -70,17 +66,14 @@ export async function sendWeeklyEmail(
     .replace(/\//g, '_')
     .replace(/=+$/, '')
 
-  const res = await fetch(
-    'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${bearer}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ raw: encoded })
-    }
-  )
+  const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${bearer}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ raw: encoded }),
+  })
 
   if (!res.ok) throw new Error('Weekly send failed')
 
@@ -98,6 +91,6 @@ export function progressForPlan(
     .filter((o) => o.planId === plan.id)
     .map((o) => ({
       title: o.title,
-      pct: objectiveProgress(o)
+      pct: objectiveProgress(o),
     }))
 }

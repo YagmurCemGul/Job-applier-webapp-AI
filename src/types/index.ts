@@ -34,6 +34,8 @@ export * from './negotiation.types'
 export * from './onboarding.types'
 export * from './oneonone.types'
 export * from './okr.types'
+export * from './review.types'
+export * from './promotion.types'
 
 // Common types
 export type ID = string

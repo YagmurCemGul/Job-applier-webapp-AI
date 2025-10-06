@@ -17,7 +17,6 @@ export function dedupeStakeholders(items: Stakeholder[]): Stakeholder[] {
  * Score stakeholder by influence and interest
  */
 function score(s: Stakeholder): number {
-  const v = (x: 'low' | 'med' | 'high') =>
-    x === 'high' ? 3 : x === 'med' ? 2 : 1
+  const v = (x: 'low' | 'med' | 'high') => (x === 'high' ? 3 : x === 'med' ? 2 : 1)
   return v(s.influence) + v(s.interest)
 }
