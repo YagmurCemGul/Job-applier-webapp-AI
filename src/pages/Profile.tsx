@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { PhoneInput } from '@/components/common/PhoneInput'
 import { URLInput } from '@/components/common/URLInput'
+import { AvatarUpload } from '@/components/profile/AvatarUpload'
 import { useAuth, useToast, useCommonTranslation } from '@/hooks'
 import { userService } from '@/services/user.service'
 import { userProfileSchema, type UserProfileFormData } from '@/lib/validations/user.validation'
@@ -101,6 +102,24 @@ export default function ProfilePage() {
           Manage your personal information and social links
         </p>
       </div>
+
+      {/* Avatar Upload Section */}
+      {user && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Profile Photo</CardTitle>
+            <CardDescription>Upload or change your profile picture</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AvatarUpload
+              userId={user.id}
+              currentAvatar={user.profilePhoto}
+              firstName={user.firstName}
+              lastName={user.lastName}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Personal Information */}

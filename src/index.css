@@ -95,3 +95,30 @@
   margin-left: 0.25rem !important;
   opacity: 0.5 !important;
 }
+
+/* React Image Crop Styles */
+.ReactCrop {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.ReactCrop__image {
+  max-height: 400px;
+}
+
+.ReactCrop__crop-selection {
+  border: 2px solid hsl(var(--primary));
+  box-shadow: 0 0 0 9999em rgba(0, 0, 0, 0.5);
+}
+
+.ReactCrop__drag-handle {
+  background-color: hsl(var(--primary));
+  border: 1px solid hsl(var(--background));
+  width: 12px;
+  height: 12px;
+}
+
+.ReactCrop__drag-handle::after {
+  background-color: hsl(var(--primary));
+  border: 1px solid hsl(var(--background));
+}
