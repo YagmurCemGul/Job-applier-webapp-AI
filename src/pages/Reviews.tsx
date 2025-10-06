@@ -2,14 +2,7 @@ import { useParams } from 'react-router-dom'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ReviewHome, ConfidentialBanner } from '@/components/review'
 import { useReviewsStore } from '@/store/reviewStore'
-import {
-  Home,
-  Target,
-  MessageSquare,
-  FileText,
-  Users,
-  Award
-} from 'lucide-react'
+import { Home, Target, MessageSquare, FileText, Users, Award } from 'lucide-react'
 
 export default function Reviews() {
   const { id } = useParams<{ id: string }>()
@@ -19,9 +12,7 @@ export default function Reviews() {
   if (!cycle) {
     return (
       <div className="container mx-auto py-6">
-        <div className="text-center py-12 text-muted-foreground">
-          Review cycle not found
-        </div>
+        <div className="py-12 text-center text-muted-foreground">Review cycle not found</div>
       </div>
     )
   }
@@ -31,27 +22,27 @@ export default function Reviews() {
       <Tabs defaultValue="home" className="space-y-4">
         <TabsList>
           <TabsTrigger value="home">
-            <Home className="h-4 w-4 mr-2" />
+            <Home className="mr-2 h-4 w-4" />
             Home
           </TabsTrigger>
           <TabsTrigger value="impact">
-            <Target className="h-4 w-4 mr-2" />
+            <Target className="mr-2 h-4 w-4" />
             Impact
           </TabsTrigger>
           <TabsTrigger value="feedback">
-            <MessageSquare className="h-4 w-4 mr-2" />
+            <MessageSquare className="mr-2 h-4 w-4" />
             Feedback
           </TabsTrigger>
           <TabsTrigger value="self">
-            <FileText className="h-4 w-4 mr-2" />
+            <FileText className="mr-2 h-4 w-4" />
             Self-Review
           </TabsTrigger>
           <TabsTrigger value="calibration">
-            <Users className="h-4 w-4 mr-2" />
+            <Users className="mr-2 h-4 w-4" />
             Calibration
           </TabsTrigger>
           <TabsTrigger value="promotion">
-            <Award className="h-4 w-4 mr-2" />
+            <Award className="mr-2 h-4 w-4" />
             Promotion
           </TabsTrigger>
         </TabsList>
@@ -62,35 +53,35 @@ export default function Reviews() {
 
         <TabsContent value="impact">
           <ConfidentialBanner />
-          <div className="mt-4 text-center py-12 text-muted-foreground">
+          <div className="mt-4 py-12 text-center text-muted-foreground">
             Impact tracker - coming soon
           </div>
         </TabsContent>
 
         <TabsContent value="feedback">
           <ConfidentialBanner />
-          <div className="mt-4 text-center py-12 text-muted-foreground">
+          <div className="mt-4 py-12 text-center text-muted-foreground">
             Feedback management - coming soon
           </div>
         </TabsContent>
 
         <TabsContent value="self">
           <ConfidentialBanner />
-          <div className="mt-4 text-center py-12 text-muted-foreground">
+          <div className="mt-4 py-12 text-center text-muted-foreground">
             Self-review composer - coming soon
           </div>
         </TabsContent>
 
         <TabsContent value="calibration">
           <ConfidentialBanner />
-          <div className="mt-4 text-center py-12 text-muted-foreground">
+          <div className="mt-4 py-12 text-center text-muted-foreground">
             Calibration prep - coming soon
           </div>
         </TabsContent>
 
         <TabsContent value="promotion">
           <ConfidentialBanner />
-          <div className="mt-4 text-center py-12 text-muted-foreground">
+          <div className="mt-4 py-12 text-center text-muted-foreground">
             Promotion packet - coming soon
           </div>
         </TabsContent>

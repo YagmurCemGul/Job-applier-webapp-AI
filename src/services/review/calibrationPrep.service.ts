@@ -16,28 +16,17 @@ export function mapToRubric(
   const relevant = rubric.filter((r) => r.level === level)
 
   return relevant.map((r) => {
-    const hits = impacts.filter(
-      (i) => (i.competency ?? 'impact') === r.competency
-    )
+    const hits = impacts.filter((i) => (i.competency ?? 'impact') === r.competency)
 
-    const strength =
-      hits.reduce((a, b) => a + (b.score ?? 0), 0) / Math.max(1, hits.length)
+    const strength = hits.reduce((a, b) => a + (b.score ?? 0), 0) / Math.max(1, hits.length)
 
     const delta: -2 | -1 | 0 | 1 | 2 =
-      strength >= 1
-        ? 2
-        : strength >= 0.9
-          ? 1
-          : strength >= 0.7
-            ? 0
-            : strength >= 0.5
-              ? -1
-              : -2
+      strength >= 1 ? 2 : strength >= 0.9 ? 1 : strength >= 0.7 ? 0 : strength >= 0.5 ? -1 : -2
 
     return {
       rubric: r,
       evidence: hits.slice(0, 5).map((h) => h.title),
-      delta
+      delta,
     }
   })
 }

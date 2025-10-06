@@ -21,6 +21,6 @@ export function computeVisibilityGaps(planId?: string): Array<{
   return gaps.map((g) => ({
     email: g.email,
     name: g.name,
-    suggestion: 'Set up biweekly 1:1'
+    suggestion: 'Set up biweekly 1:1',
   }))
 }

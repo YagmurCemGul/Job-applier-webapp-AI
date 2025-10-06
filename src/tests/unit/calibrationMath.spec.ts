@@ -9,13 +9,13 @@ describe('calibrationPrep.service', () => {
       {
         level: 'L4',
         competency: 'execution',
-        description: 'Delivers on commitments'
+        description: 'Delivers on commitments',
       },
       {
         level: 'L4',
         competency: 'impact',
-        description: 'Drives measurable results'
-      }
+        description: 'Drives measurable results',
+      },
     ]
 
     const impacts: ImpactEntry[] = [
@@ -25,7 +25,7 @@ describe('calibrationPrep.service', () => {
         source: 'manual',
         title: 'Shipped feature',
         competency: 'execution',
-        score: 1.0
+        score: 1.0,
       },
       {
         id: 'i2',
@@ -33,8 +33,8 @@ describe('calibrationPrep.service', () => {
         source: 'manual',
         title: 'Improved KPI',
         competency: 'impact',
-        score: 0.8
-      }
+        score: 0.8,
+      },
     ]
 
     const mapped = mapToRubric('L4', rubric, impacts)
@@ -51,8 +51,8 @@ describe('calibrationPrep.service', () => {
       {
         level: 'L4',
         competency: 'execution',
-        description: 'Test'
-      }
+        description: 'Test',
+      },
     ]
 
     const mapped = mapToRubric('L4', rubric, [])

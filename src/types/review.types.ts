@@ -33,12 +33,7 @@ export interface ReviewCycle {
     id: string
     label: string
     atISO: string
-    kind:
-      | 'self_review'
-      | 'feedback_due'
-      | 'calibration'
-      | 'submit'
-      | 'other'
+    kind: 'self_review' | 'feedback_due' | 'calibration' | 'submit' | 'other'
   }>
   retentionDays: 30 | 60 | 90 | 180 | 365
   createdAt: string
@@ -68,12 +63,7 @@ export interface FeedbackRequest {
   cycleId: string
   reviewerEmail: string
   reviewerName?: string
-  relationship?:
-    | 'manager'
-    | 'peer'
-    | 'stakeholder'
-    | 'direct_report'
-    | 'other'
+  relationship?: 'manager' | 'peer' | 'stakeholder' | 'direct_report' | 'other'
   sentAt?: string
   respondedAt?: string
   anonymous?: boolean

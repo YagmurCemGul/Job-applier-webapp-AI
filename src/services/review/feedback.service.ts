@@ -1,8 +1,5 @@
 import { useFeedbackStore } from '@/store/feedbackStore'
-import type {
-  FeedbackRequest,
-  FeedbackResponse
-} from '@/types/review.types'
+import type { FeedbackRequest, FeedbackResponse } from '@/types/review.types'
 import { renderTemplate } from '@/services/outreach/templateRender.service'
 import { redactPII } from './privacy.service'
 import { analyzeSentiment } from './sentiment.service'
@@ -22,8 +19,8 @@ export function buildFeedbackEmail(
       `I'm collecting feedback for {{CycleTitle}}. Would you be willing to share observations on strengths, impact, and growth areas?`,
       `You can reply directly to this email{{Anon}}.`,
       `<ul><li>What went well?</li><li>What could be improved?</li><li>Examples/impact numbers</li></ul>`,
-      `Thanks so much!`
-    ].join('\n')
+      `Thanks so much!`,
+    ].join('\n'),
   }
 
   const bodyWithAnon = tpl.body.replace(
@@ -31,10 +28,7 @@ export function buildFeedbackEmail(
     vars['AnonLink'] ? ` or use this anonymous form: ${vars['AnonLink']}` : ''
   )
 
-  return renderTemplate(
-    { subject: tpl.subject, body: bodyWithAnon },
-    vars
-  )
+  return renderTemplate({ subject: tpl.subject, body: bodyWithAnon }, vars)
 }
 
 /**
@@ -67,15 +61,13 @@ export async function recordFeedbackResponse(
 
   const res: FeedbackResponse = {
     id:
-      typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : String(Date.now()),
+      typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
     requestId: req.id,
     cycleId: req.cycleId,
     receivedAt: new Date().toISOString(),
     body,
     redactedBody: redacted,
-    sentiment
+    sentiment,
   }
 
   useFeedbackStore.getState().upsertResponse(res)

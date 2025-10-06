@@ -1,10 +1,7 @@
 /**
  * Export review/promotion packet to Google Docs format
  */
-export async function exportReviewDoc(
-  html: string,
-  title = 'Review Packet'
-): Promise<string> {
+export async function exportReviewDoc(html: string, title = 'Review Packet'): Promise<string> {
   // In production, use Google Docs API
   // For now, return HTML blob
   const blob = new Blob([html], { type: 'text/html' })

@@ -31,7 +31,7 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
         dateISO: e.createdAt,
         competency: inferCompetency(e.title),
         links: e.url ? [e.url] : [],
-        confidence: 4
+        confidence: 4,
       })
     }
 
@@ -51,10 +51,10 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
         metrics: o.krs.map((kr) => ({
           label: kr.label,
           value: kr.current,
-          unit: kr.unit
+          unit: kr.unit,
         })),
         competency: 'impact',
-        confidence: 5
+        confidence: 5,
       })
     }
   }
@@ -66,8 +66,7 @@ export function aggregateImpact(cycleId: string): ImpactEntry[] {
 
   // Deduplicate by title + date
   const unique: ImpactEntry[] = []
-  const sig = (x: ImpactEntry) =>
-    `${x.title}|${x.dateISO || ''}|${x.source}`
+  const sig = (x: ImpactEntry) => `${x.title}|${x.dateISO || ''}|${x.source}`
   const seen = new Set<string>()
   for (const it of items) {
     const s = sig(it)
@@ -87,10 +86,8 @@ function inferCompetency(title: string): ImpactEntry['competency'] {
   const t = title.toLowerCase()
   if (t.includes('refactor') || t.includes('design')) return 'craft'
   if (t.includes('migration') || t.includes('launch')) return 'execution'
-  if (t.includes('kpi') || t.includes('revenue') || t.includes('%'))
-    return 'impact'
-  if (t.includes('mentoring') || t.includes('led') || t.includes('initiative'))
-    return 'leadership'
+  if (t.includes('kpi') || t.includes('revenue') || t.includes('%')) return 'impact'
+  if (t.includes('mentoring') || t.includes('led') || t.includes('initiative')) return 'leadership'
   if (t.includes('collab') || t.includes('review')) return 'collaboration'
   return 'communication'
 }
@@ -105,12 +102,11 @@ function score(e: ImpactEntry): number {
     leadership: 1.1,
     collaboration: 0.8,
     communication: 0.7,
-    impact: 1.2
+    impact: 1.2,
   }
 
   const base =
-    (e.metrics?.reduce((a, m) => a + Math.abs(m.value), 0) ? 1 : 0.7) +
-    (e.confidence ?? 3) / 5
+    (e.metrics?.reduce((a, m) => a + Math.abs(m.value), 0) ? 1 : 0.7) + (e.confidence ?? 3) / 5
 
-  return base * (compW[e.competency ?? 'impact'])
+  return base * compW[e.competency ?? 'impact']
 }

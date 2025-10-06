@@ -9,13 +9,13 @@ describe('feedback.service', () => {
       cycleId: 'cycle1',
       reviewerEmail: 'reviewer@example.com',
       reviewerName: 'Jane Reviewer',
-      status: 'pending'
+      status: 'pending',
     }
 
     const vars = {
       YourName: 'John',
       CycleTitle: '2025 Q4 Review',
-      ReviewerName: 'Jane'
+      ReviewerName: 'Jane',
     }
 
     const email = buildFeedbackEmail(req, vars)
@@ -31,14 +31,14 @@ describe('feedback.service', () => {
       cycleId: 'cycle1',
       reviewerEmail: 'reviewer@example.com',
       anonymous: true,
-      status: 'pending'
+      status: 'pending',
     }
 
     const vars = {
       YourName: 'John',
       CycleTitle: 'Review',
       ReviewerName: 'Jane',
-      AnonLink: 'https://example.com/anon/123'
+      AnonLink: 'https://example.com/anon/123',
     }
 
     const email = buildFeedbackEmail(req, vars)

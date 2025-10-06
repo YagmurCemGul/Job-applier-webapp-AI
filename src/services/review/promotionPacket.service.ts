@@ -13,10 +13,7 @@ export function buildPromotionPacketHTML(opts: {
 }): string {
   const top = opts.impacts
     .slice(0, 8)
-    .map(
-      (i) =>
-        `<li><b>${i.title}</b>${i.detail ? `: ${i.detail}` : ''}</li>`
-    )
+    .map((i) => `<li><b>${i.title}</b>${i.detail ? `: ${i.detail}` : ''}</li>`)
     .join('')
 
   const q = opts.quotes

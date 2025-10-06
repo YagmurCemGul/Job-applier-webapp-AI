@@ -18,6 +18,6 @@ export async function scheduleCycleDeadline(opts: {
     title: opts.label,
     whenISO: opts.atISO,
     durationMin: 30,
-    attendees: opts.attendees ?? []
+    attendees: opts.attendees ?? [],
   })
 }

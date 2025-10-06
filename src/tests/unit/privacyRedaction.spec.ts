@@ -26,8 +26,7 @@ describe('privacy.service', () => {
   })
 
   it('should handle multiple names and emails', () => {
-    const text =
-      'John Smith (john@example.com) and Jane Doe (jane@example.com) collaborated'
+    const text = 'John Smith (john@example.com) and Jane Doe (jane@example.com) collaborated'
     const redacted = redactPII(text)
 
     expect(redacted).not.toContain('John Smith')

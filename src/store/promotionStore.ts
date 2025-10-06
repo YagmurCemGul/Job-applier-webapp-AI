@@ -1,10 +1,6 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type {
-  PromotionCase,
-  CalibrationNote,
-  RubricExpectation
-} from '@/types/promotion.types'
+import type { PromotionCase, CalibrationNote, RubricExpectation } from '@/types/promotion.types'
 
 interface PromotionState {
   cases: PromotionCase[]
@@ -29,7 +25,7 @@ export const usePromotionStore = create<PromotionState>()(
 
       upsertCase: (c) =>
         set({
-          cases: [c, ...get().cases.filter((x) => x.cycleId !== c.cycleId)]
+          cases: [c, ...get().cases.filter((x) => x.cycleId !== c.cycleId)],
         }),
 
       addNote: (n) => set({ notes: [n, ...get().notes] }),
@@ -39,13 +35,13 @@ export const usePromotionStore = create<PromotionState>()(
       byCycle: (cycleId) => ({
         case: get().cases.find((c) => c.cycleId === cycleId),
         notes: get().notes.filter((n) => n.cycleId === cycleId),
-        rubric: get().rubric
-      })
+        rubric: get().rubric,
+      }),
     }),
     {
       name: 'promotion',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

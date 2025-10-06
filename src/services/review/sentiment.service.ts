@@ -3,16 +3,14 @@ import { aiRoute } from '@/services/ai/router.service'
 /**
  * Return 'positive'|'neutral'|'negative' for a block of feedback text
  */
-export async function analyzeSentiment(
-  text: string
-): Promise<'positive' | 'neutral' | 'negative'> {
+export async function analyzeSentiment(text: string): Promise<'positive' | 'neutral' | 'negative'> {
   try {
     const result = await aiRoute(
       {
         task: 'generate',
         prompt: `Label as POSITIVE, NEUTRAL, or NEGATIVE. Return only the label.\nText:\n${text}`,
         temperature: 0.2,
-        maxTokens: 10
+        maxTokens: 10,
       },
       { allowCache: true }
     )
@@ -22,11 +20,7 @@ export async function analyzeSentiment(
     }
 
     const t = String(result.text || '').toUpperCase()
-    return t.includes('POS')
-      ? 'positive'
-      : t.includes('NEG')
-        ? 'negative'
-        : 'neutral'
+    return t.includes('POS') ? 'positive' : t.includes('NEG') ? 'negative' : 'neutral'
   } catch {
     return 'neutral'
   }
