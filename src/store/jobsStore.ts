@@ -26,13 +26,13 @@ export const useJobsStore = create<JobsState>()(
           map.set(j.id, {
             ...(map.get(j.id) ?? j),
             ...j,
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
           })
         }
         set({
-          items: Array.from(map.values()).sort(
-            (a, b) => (b.postedAt || '').localeCompare(a.postedAt || '')
-          )
+          items: Array.from(map.values()).sort((a, b) =>
+            (b.postedAt || '').localeCompare(a.postedAt || '')
+          ),
         })
       },
 
@@ -42,18 +42,18 @@ export const useJobsStore = create<JobsState>()(
 
       updateScore: (id, score) =>
         set({
-          items: get().items.map((j) => (j.id === id ? { ...j, score } : j))
+          items: get().items.map((j) => (j.id === id ? { ...j, score } : j)),
         }),
 
       removeBySource: (key) =>
         set({
-          items: get().items.filter((j) => j.source.name !== key)
-        })
+          items: get().items.filter((j) => j.source.name !== key),
+        }),
     }),
     {
       name: 'jobs',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

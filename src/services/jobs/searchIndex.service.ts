@@ -15,7 +15,7 @@ function reset() {
   return {
     byId: new Map(),
     keywords: new Map(),
-    vectors: new Map()
+    vectors: new Map(),
   }
 }
 
@@ -30,9 +30,7 @@ export async function rebuildIndex(jobs: JobNormalized[]) {
   }
 
   // Semantic vectors (best-effort via Step 31 AI)
-  const texts = jobs.map(
-    (j) => `${j.title} ${j.company} ${j.descriptionText.slice(0, 512)}`
-  )
+  const texts = jobs.map((j) => `${j.title} ${j.company} ${j.descriptionText.slice(0, 512)}`)
 
   const emb = await aiEmbed(texts).catch(() => [])
 

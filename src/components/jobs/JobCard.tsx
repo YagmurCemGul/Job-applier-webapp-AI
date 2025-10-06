@@ -2,15 +2,18 @@ import type { JobNormalized } from '@/types/jobs.types'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useVariantsStore } from '@/store/variantsStore'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useJobsStore } from '@/store/jobsStore'
 import { useATSStore } from '@/store/atsStore'
+import { Send } from 'lucide-react'
+import ApplyDialog from '@/components/applications/ApplyDialog'
 
 export default function JobCard({ job }: { job: JobNormalized }) {
   const { activeId } = useVariantsStore()
   const { updateScore } = useJobsStore()
   const { result } = useATSStore()
   const missing = new Set(result?.missingKeywords ?? [])
+  const [applyOpen, setApplyOpen] = useState(false)
 
   useEffect(() => {
     // Simple match score: title/company overlap with active variant summary/skills
@@ -50,16 +53,28 @@ export default function JobCard({ job }: { job: JobNormalized }) {
             ))}
           </div>
         )}
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button size="sm" variant="outline" asChild>
             <a href={job.url} target="_blank" rel="noreferrer">
               Open
             </a>
           </Button>
+          <Button size="sm" variant="outline" onClick={() => setApplyOpen(true)}>
+            <Send className="mr-1 h-3 w-3" />
+            Quick Apply
+          </Button>
           <Button size="sm" variant="outline">
             Save
           </Button>
         </div>
+
+        <ApplyDialog
+          open={applyOpen}
+          onOpenChange={setApplyOpen}
+          initialJobUrl={job.url}
+          initialCompany={job.company}
+          initialRole={job.title}
+        />
       </CardContent>
     </Card>
   )

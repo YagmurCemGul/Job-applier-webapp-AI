@@ -19,7 +19,7 @@ describe('jobsStore', () => {
       url: 'https://example.com/1',
       source: { name: 'test', kind: 'api', domain: 'test.com' },
       createdAt: '2025-01-01',
-      updatedAt: '2025-01-01'
+      updatedAt: '2025-01-01',
     }
 
     useJobsStore.getState().upsertMany([job])
@@ -39,12 +39,12 @@ describe('jobsStore', () => {
       url: 'https://example.com/1',
       source: { name: 'test', kind: 'api', domain: 'test.com' },
       createdAt: '2025-01-01',
-      updatedAt: '2025-01-01'
+      updatedAt: '2025-01-01',
     }
 
     const job2: JobNormalized = {
       ...job1,
-      title: 'Senior Engineer'
+      title: 'Senior Engineer',
     }
 
     useJobsStore.getState().upsertMany([job1])
@@ -68,7 +68,7 @@ describe('jobsStore', () => {
       ok: true,
       created: 5,
       updated: 2,
-      skipped: 0
+      skipped: 0,
     }
 
     useJobsStore.getState().addLog(log)
@@ -88,7 +88,7 @@ describe('jobsStore', () => {
       url: 'https://example.com/1',
       source: { name: 'test', kind: 'api', domain: 'test.com' },
       createdAt: '2025-01-01',
-      updatedAt: '2025-01-01'
+      updatedAt: '2025-01-01',
     }
 
     useJobsStore.getState().upsertMany([job])
@@ -110,7 +110,7 @@ describe('jobsStore', () => {
         url: 'https://example.com/1',
         source: { name: 'source-a', kind: 'api', domain: 'a.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
+        updatedAt: '2025-01-01',
       },
       {
         id: 'job_2',
@@ -123,8 +123,8 @@ describe('jobsStore', () => {
         url: 'https://example.com/2',
         source: { name: 'source-b', kind: 'api', domain: 'b.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
-      }
+        updatedAt: '2025-01-01',
+      },
     ]
 
     useJobsStore.getState().upsertMany(jobs)

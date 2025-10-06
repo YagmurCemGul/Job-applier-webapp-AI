@@ -16,7 +16,7 @@ describe('dedupe.service', () => {
         url: 'https://example.com/1',
         source: { name: 'test', kind: 'api', domain: 'test.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
+        updatedAt: '2025-01-01',
       },
       {
         id: 'job_2',
@@ -30,8 +30,8 @@ describe('dedupe.service', () => {
         url: 'https://example.com/2',
         source: { name: 'test', kind: 'api', domain: 'test.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
-      }
+        updatedAt: '2025-01-01',
+      },
     ]
 
     const result = dedupe(jobs)
@@ -53,7 +53,7 @@ describe('dedupe.service', () => {
         url: 'https://example.com/1',
         source: { name: 'test', kind: 'api', domain: 'test.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
+        updatedAt: '2025-01-01',
       },
       {
         id: 'job_2',
@@ -66,8 +66,8 @@ describe('dedupe.service', () => {
         url: 'https://example.com/2',
         source: { name: 'test', kind: 'api', domain: 'test.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
-      }
+        updatedAt: '2025-01-01',
+      },
     ]
 
     const result = dedupe(jobs)
@@ -87,7 +87,7 @@ describe('dedupe.service', () => {
         url: 'https://example.com/1',
         source: { name: 'test', kind: 'api', domain: 'test.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
+        updatedAt: '2025-01-01',
       },
       {
         id: 'job_2',
@@ -101,8 +101,8 @@ describe('dedupe.service', () => {
         url: 'https://example.com/2',
         source: { name: 'test', kind: 'api', domain: 'test.com' },
         createdAt: '2025-01-01',
-        updatedAt: '2025-01-01'
-      }
+        updatedAt: '2025-01-01',
+      },
     ]
 
     const result = dedupe(jobs)

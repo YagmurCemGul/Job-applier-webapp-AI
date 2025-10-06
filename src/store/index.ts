@@ -2,6 +2,7 @@
 export { useUserStore } from './userStore'
 export { useCVStore } from './cvStore'
 export { useJobStore } from './jobStore'
+// Step 32: Job Finder stores (different from jobStore)
 export { useUIStore } from './uiStore'
 export { useProfileStore } from './profileStore'
 export { useOptimizationStore } from './optimizationStore'
@@ -23,6 +24,10 @@ export { useJobsStore } from './jobsStore'
 export { useJobSearchesStore } from './jobSearchesStore'
 export { useJobSchedulerStore } from './jobSchedulerStore'
 export { useJobSourcesStore } from './jobSourcesStore'
+export { useApplicationsStore } from './applicationsStore'
+export { useEmailTemplatesStore } from './emailTemplatesStore'
+export { useOutreachStore } from './outreachStore'
+export { useContactsStore } from './contactsStore'
 
 // Export types
 export type * from '@/types/store.types'

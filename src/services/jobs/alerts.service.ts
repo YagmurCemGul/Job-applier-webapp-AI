@@ -44,9 +44,7 @@ function passFilters(j: JobNormalized, s: SavedSearch): boolean {
   }
 
   if (s.filters.postedWithinDays) {
-    const d =
-      (Date.now() - new Date(j.postedAt ?? j.createdAt).getTime()) /
-      (1000 * 60 * 60 * 24)
+    const d = (Date.now() - new Date(j.postedAt ?? j.createdAt).getTime()) / (1000 * 60 * 60 * 24)
     if (d > s.filters.postedWithinDays) return false
   }
 

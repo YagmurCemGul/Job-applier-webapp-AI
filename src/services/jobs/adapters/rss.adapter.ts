@@ -9,9 +9,7 @@ export async function fetchRSS(source: SourceConfig): Promise<JobRaw[]> {
   if (!feed) return []
 
   const xml = await fetch(feed).then((r) => r.text())
-  const items = Array.from(xml.matchAll(/<item>([\s\S]*?)<\/item>/g)).map(
-    (m) => m[1]
-  )
+  const items = Array.from(xml.matchAll(/<item>([\s\S]*?)<\/item>/g)).map((m) => m[1])
 
   const out: JobRaw[] = items.map((it, i) => {
     const title = tag(it, 'title')
@@ -29,7 +27,7 @@ export async function fetchRSS(source: SourceConfig): Promise<JobRaw[]> {
       location: sniffLocation(desc),
       description: desc,
       fetchedAt: new Date().toISOString(),
-      postedAt: pub
+      postedAt: pub,
     }
   })
 
@@ -42,9 +40,7 @@ function tag(xml: string, name: string): string {
 }
 
 function sniffCompany(title?: string, desc?: string): string | undefined {
-  const m =
-    (title || '').match(/ at ([^|,-]+)/i) ||
-    (desc || '').match(/Company: ([^<]+)/i)
+  const m = (title || '').match(/ at ([^|,-]+)/i) || (desc || '').match(/Company: ([^<]+)/i)
   return m?.[1]?.trim()
 }
 

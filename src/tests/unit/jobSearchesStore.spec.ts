@@ -11,7 +11,7 @@ describe('jobSearchesStore', () => {
       name: 'My Search',
       query: 'JavaScript',
       filters: {},
-      alerts: { enabled: true, intervalMin: 60 }
+      alerts: { enabled: true, intervalMin: 60 },
     })
 
     expect(useJobSearchesStore.getState().searches).toHaveLength(1)
@@ -23,7 +23,7 @@ describe('jobSearchesStore', () => {
       name: 'Search 1',
       query: 'Python',
       filters: {},
-      alerts: { enabled: false, intervalMin: 60 }
+      alerts: { enabled: false, intervalMin: 60 },
     })
 
     useJobSearchesStore.getState().upsert({
@@ -31,7 +31,7 @@ describe('jobSearchesStore', () => {
       name: 'Updated Search',
       query: 'Python Django',
       filters: {},
-      alerts: { enabled: true, intervalMin: 30 }
+      alerts: { enabled: true, intervalMin: 30 },
     })
 
     expect(useJobSearchesStore.getState().searches).toHaveLength(1)
@@ -44,7 +44,7 @@ describe('jobSearchesStore', () => {
       name: 'Test',
       query: 'Test',
       filters: {},
-      alerts: { enabled: false, intervalMin: 60 }
+      alerts: { enabled: false, intervalMin: 60 },
     })
 
     useJobSearchesStore.getState().remove(id)
@@ -56,7 +56,7 @@ describe('jobSearchesStore', () => {
       name: 'Find Me',
       query: 'React',
       filters: {},
-      alerts: { enabled: false, intervalMin: 60 }
+      alerts: { enabled: false, intervalMin: 60 },
     })
 
     const search = useJobSearchesStore.getState().getById(id)

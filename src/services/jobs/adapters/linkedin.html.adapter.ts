@@ -2,13 +2,11 @@ import type { SourceConfig, JobRaw } from '@/types/jobs.types'
 
 /**
  * LinkedIn HTML adapter (stub)
- * 
+ *
  * REQUIRES legalMode=true and user-provided content
  * This is for testing or when user has explicit rights to fetch
  */
-export async function fetchLinkedInHTML(
-  source: SourceConfig
-): Promise<JobRaw[]> {
+export async function fetchLinkedInHTML(source: SourceConfig): Promise<JobRaw[]> {
   if (!source.legalMode) {
     throw new Error('legalMode required for html adapter')
   }
@@ -27,7 +25,7 @@ export async function fetchLinkedInHTML(
     source: { name: 'linkedin.html', kind: 'html', domain: 'linkedin.com' },
     title: strip(m[2]),
     fetchedAt: new Date().toISOString(),
-    description: ''
+    description: '',
   }))
 }
 

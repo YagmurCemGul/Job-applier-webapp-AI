@@ -5,7 +5,7 @@ import {
   classify,
   detectRemote,
   extractKeywords,
-  fingerprint
+  fingerprint,
 } from '@/services/jobs/normalize.service'
 import type { JobRaw } from '@/types/jobs.types'
 
@@ -86,14 +86,34 @@ describe('normalize.service', () => {
 
   describe('fingerprint', () => {
     it('should generate stable fingerprint', () => {
-      const fp1 = fingerprint('Software Engineer', 'Acme Inc', 'San Francisco', 'https://example.com/job1')
-      const fp2 = fingerprint('Software Engineer', 'Acme Inc', 'San Francisco', 'https://example.com/job1')
+      const fp1 = fingerprint(
+        'Software Engineer',
+        'Acme Inc',
+        'San Francisco',
+        'https://example.com/job1'
+      )
+      const fp2 = fingerprint(
+        'Software Engineer',
+        'Acme Inc',
+        'San Francisco',
+        'https://example.com/job1'
+      )
       expect(fp1).toBe(fp2)
     })
 
     it('should generate different fingerprints for different jobs', () => {
-      const fp1 = fingerprint('Software Engineer', 'Acme Inc', 'San Francisco', 'https://example.com/job1')
-      const fp2 = fingerprint('Data Scientist', 'Acme Inc', 'San Francisco', 'https://example.com/job2')
+      const fp1 = fingerprint(
+        'Software Engineer',
+        'Acme Inc',
+        'San Francisco',
+        'https://example.com/job1'
+      )
+      const fp2 = fingerprint(
+        'Data Scientist',
+        'Acme Inc',
+        'San Francisco',
+        'https://example.com/job2'
+      )
       expect(fp1).not.toBe(fp2)
     })
 
@@ -113,8 +133,9 @@ describe('normalize.service', () => {
         title: 'Senior Software Engineer',
         company: 'Acme Inc',
         location: 'San Francisco, CA',
-        description: 'Great opportunity for a senior developer. Remote work available. $120K-$150K per year.',
-        fetchedAt: new Date().toISOString()
+        description:
+          'Great opportunity for a senior developer. Remote work available. $120K-$150K per year.',
+        fetchedAt: new Date().toISOString(),
       }
 
       const normalized = normalizeJobs([raw])

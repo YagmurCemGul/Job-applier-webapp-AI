@@ -15,7 +15,7 @@ describe('searchIndex.service', () => {
       url: 'https://example.com/1',
       source: { name: 'test', kind: 'api', domain: 'test.com' },
       createdAt: '2025-01-01',
-      updatedAt: '2025-01-01'
+      updatedAt: '2025-01-01',
     },
     {
       id: 'job_2',
@@ -28,8 +28,8 @@ describe('searchIndex.service', () => {
       url: 'https://example.com/2',
       source: { name: 'test', kind: 'api', domain: 'test.com' },
       createdAt: '2025-01-01',
-      updatedAt: '2025-01-01'
-    }
+      updatedAt: '2025-01-01',
+    },
   ]
 
   beforeEach(async () => {
@@ -74,7 +74,7 @@ describe('searchIndex.service', () => {
       url: 'https://example.com/3',
       source: { name: 'test', kind: 'api', domain: 'test.com' },
       createdAt: '2025-01-01',
-      updatedAt: '2025-01-01'
+      updatedAt: '2025-01-01',
     }
 
     addToIndex(newJob)

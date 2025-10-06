@@ -2,13 +2,11 @@ import type { SourceConfig, JobRaw } from '@/types/jobs.types'
 
 /**
  * Kariyer.net HTML adapter (stub)
- * 
+ *
  * REQUIRES legalMode=true and user-provided content
  * Turkish job board
  */
-export async function fetchKariyerNetHTML(
-  source: SourceConfig
-): Promise<JobRaw[]> {
+export async function fetchKariyerNetHTML(source: SourceConfig): Promise<JobRaw[]> {
   if (!source.legalMode) {
     throw new Error('legalMode required for html adapter')
   }
@@ -17,9 +15,7 @@ export async function fetchKariyerNetHTML(
   if (!html) return []
 
   // Conservative parser: extract job links
-  const matches = Array.from(
-    html.matchAll(/<a[^>]+href="([^"]*\/ilan\/[^"]+)"[^>]*>(.*?)<\/a>/gi)
-  )
+  const matches = Array.from(html.matchAll(/<a[^>]+href="([^"]*\/ilan\/[^"]+)"[^>]*>(.*?)<\/a>/gi))
 
   return matches.map((m, i) => ({
     id: `${m[1]}#${i}`,
@@ -27,7 +23,7 @@ export async function fetchKariyerNetHTML(
     source: { name: 'kariyernet.html', kind: 'html', domain: 'kariyer.net' },
     title: strip(m[2]),
     fetchedAt: new Date().toISOString(),
-    description: ''
+    description: '',
   }))
 }
 

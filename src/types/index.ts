@@ -20,6 +20,9 @@ export * from './ai.types'
 export * from './jobPosting.types'
 export * from './jobs.types'
 export * from './searches.types'
+export * from './apply.types'
+export * from './applications.types'
+export * from './outreach.types'
 
 // Common types
 export type ID = string

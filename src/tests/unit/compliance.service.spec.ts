@@ -9,7 +9,7 @@ describe('compliance.service', () => {
         key: 'test.api',
         enabled: true,
         kind: 'api',
-        domain: 'test.com'
+        domain: 'test.com',
       }
       const result = compliance.canFetch(source)
       expect(result.ok).toBe(true)
@@ -20,7 +20,7 @@ describe('compliance.service', () => {
         key: 'test.rss',
         enabled: true,
         kind: 'rss',
-        domain: 'test.com'
+        domain: 'test.com',
       }
       const result = compliance.canFetch(source)
       expect(result.ok).toBe(true)
@@ -32,7 +32,7 @@ describe('compliance.service', () => {
         enabled: true,
         kind: 'html',
         domain: 'test.com',
-        legalMode: false
+        legalMode: false,
       }
       const result = compliance.canFetch(source)
       expect(result.ok).toBe(false)
@@ -45,7 +45,7 @@ describe('compliance.service', () => {
         enabled: true,
         kind: 'html',
         domain: 'test.com',
-        legalMode: true
+        legalMode: true,
       }
       const result = compliance.canFetch(source)
       expect(result.ok).toBe(true)

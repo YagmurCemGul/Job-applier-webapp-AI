@@ -20,13 +20,13 @@ export const useJobSchedulerStore = create<SchedulerState>()(
       setRunning: (on) =>
         set({
           running: on,
-          lastRun: on ? new Date().toISOString() : undefined
-        })
+          lastRun: on ? new Date().toISOString() : undefined,
+        }),
     }),
     {
       name: 'job-scheduler',
       storage: createJSONStorage(() => localStorage),
-      version: 1
+      version: 1,
     }
   )
 )

@@ -3,7 +3,7 @@ import type {
   JobNormalized,
   SalaryRange,
   Seniority,
-  EmploymentType
+  EmploymentType,
 } from '@/types/jobs.types'
 
 /**
@@ -38,7 +38,7 @@ export function normalizeJobs(raws: JobRaw[]): JobNormalized[] {
       source: r.source,
       createdAt: now,
       updatedAt: now,
-      fingerprint: fp
+      fingerprint: fp,
     }
   })
 }
@@ -132,12 +132,7 @@ export function extractKeywords(text: string): string[] {
 /**
  * Generate stable fingerprint for deduplication
  */
-export function fingerprint(
-  title: string,
-  company: string,
-  location: string,
-  url: string
-): string {
+export function fingerprint(title: string, company: string, location: string, url: string): string {
   const s = `${title}|${company}|${location}|${url.split('?')[0]}`
     .toLowerCase()
     .replace(/\s+/g, ' ')
@@ -165,11 +160,7 @@ function toCur(sym?: string): string | undefined {
 
 function toNum(s: string): number {
   const n = s.replace(/[^\d.]/g, '')
-  return /k$/i.test(s)
-    ? Number(n) * 1000
-    : /m$/i.test(s)
-      ? Number(n) * 1_000_000
-      : Number(n)
+  return /k$/i.test(s) ? Number(n) * 1000 : /m$/i.test(s) ? Number(n) * 1_000_000 : Number(n)
 }
 
 function guessCompany(text: string): string | undefined {

@@ -52,9 +52,10 @@ export async function runOne(source: SourceConfig) {
     message = e?.message ?? String(e)
   } finally {
     const log: FetchLog = {
-      id: typeof crypto !== 'undefined' && crypto.randomUUID
-        ? crypto.randomUUID()
-        : `log_${Date.now()}`,
+      id:
+        typeof crypto !== 'undefined' && crypto.randomUUID
+          ? crypto.randomUUID()
+          : `log_${Date.now()}`,
       source: source.key,
       startedAt,
       finishedAt: new Date().toISOString(),
@@ -62,7 +63,7 @@ export async function runOne(source: SourceConfig) {
       message,
       created,
       updated,
-      skipped
+      skipped,
     }
     useJobsStore.getState().addLog(log)
   }

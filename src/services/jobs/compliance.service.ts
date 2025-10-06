@@ -22,9 +22,7 @@ export const compliance = {
   async robotsAllows(domain: string, path: string): Promise<boolean> {
     try {
       const url = `https://${domain}/robots.txt`
-      const txt = await fetch(url, { method: 'GET' }).then((r) =>
-        r.ok ? r.text() : ''
-      )
+      const txt = await fetch(url, { method: 'GET' }).then((r) => (r.ok ? r.text() : ''))
       if (!txt) return true
 
       const lines = txt.split('\n').map((l) => l.trim())
@@ -36,5 +34,5 @@ export const compliance = {
     } catch {
       return true
     }
-  }
+  },
 }
