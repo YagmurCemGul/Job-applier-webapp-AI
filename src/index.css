@@ -51,6 +51,39 @@
   .shadow-lg {
     box-shadow: none !important;
   }
+
+  /* CV Renderer Print Styles */
+  .cv-renderer {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .cv-renderer,
+  .cv-renderer * {
+    visibility: visible;
+  }
+
+  .cv-renderer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+  }
+
+  /* Page breaks */
+  .cv-page-break {
+    page-break-after: always;
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+/* Smooth scroll for CV preview */
+.cv-preview-scroll {
+  scroll-behavior: smooth;
 }
 
 @layer base {

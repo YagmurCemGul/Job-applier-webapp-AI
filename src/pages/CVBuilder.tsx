@@ -11,6 +11,7 @@ import { CoverLetterGenerator } from '@/components/coverLetter/CoverLetterGenera
 import { CoverLetterPreview } from '@/components/coverLetter/CoverLetterPreview'
 import { TemplateSelector } from '@/components/templates/TemplateSelector'
 import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
+import { LivePreview } from '@/components/preview/LivePreview'
 import {
   PersonalInfoForm,
   ExperienceForm,
@@ -33,6 +34,8 @@ import {
   FileText,
   LayoutTemplate,
   FileEdit,
+  PanelLeftClose,
+  PanelRightClose,
 } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { useOptimizationStore } from '@/store/optimizationStore'
@@ -47,6 +50,7 @@ export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
   const [currentStep, setCurrentStep] = useState<CVBuilderStep>('upload')
+  const [showPreview, setShowPreview] = useState(true)
 
   const { result, isOptimizing, error, currentCV, setResult, setOptimizing, setError, reset } =
     useOptimizationStore()
@@ -165,24 +169,54 @@ export default function CVBuilderPage() {
           )}
         </TabsContent>
 
-        {/* Edit Tab */}
+        {/* Edit Tab with Split View */}
         <TabsContent value="edit" className="mt-6">
-          <ScrollArea className="h-[calc(100vh-250px)]">
-            <div className="space-y-6 pr-4">
-              <PersonalInfoForm />
-              <SummaryForm />
-              <ExperienceForm />
-              <EducationForm />
-              <SkillsForm />
-              <ProjectsForm />
-            </div>
-          </ScrollArea>
+          <div className="flex gap-6">
+            {/* Forms Column */}
+            <div className={`transition-all duration-300 ${showPreview ? 'w-1/2' : 'w-full'}`}>
+              <div className="mb-4 flex justify-end">
+                <Button variant="outline" size="sm" onClick={() => setShowPreview(!showPreview)}>
+                  {showPreview ? (
+                    <>
+                      <PanelRightClose className="mr-2 h-4 w-4" />
+                      Hide Preview
+                    </>
+                  ) : (
+                    <>
+                      <PanelLeftClose className="mr-2 h-4 w-4" />
+                      Show Preview
+                    </>
+                  )}
+                </Button>
+              </div>
 
-          <div className="mt-6 flex justify-between border-t pt-6">
-            <Button variant="outline" onClick={() => setCurrentStep('upload')}>
-              ← Back to Upload
-            </Button>
-            <Button onClick={() => setCurrentStep('job')}>Continue to Job Posting →</Button>
+              <ScrollArea className="h-[calc(100vh-300px)]">
+                <div className="space-y-6 pr-4">
+                  <PersonalInfoForm />
+                  <SummaryForm />
+                  <ExperienceForm />
+                  <EducationForm />
+                  <SkillsForm />
+                  <ProjectsForm />
+                </div>
+              </ScrollArea>
+
+              <div className="mt-6 flex justify-between border-t pt-6">
+                <Button variant="outline" onClick={() => setCurrentStep('upload')}>
+                  ← Back to Upload
+                </Button>
+                <Button onClick={() => setCurrentStep('job')}>Continue to Job Posting →</Button>
+              </div>
+            </div>
+
+            {/* Preview Column */}
+            {showPreview && (
+              <div className="sticky top-0 w-1/2">
+                <div className="h-[calc(100vh-200px)]">
+                  <LivePreview />
+                </div>
+              </div>
+            )}
           </div>
         </TabsContent>
 
