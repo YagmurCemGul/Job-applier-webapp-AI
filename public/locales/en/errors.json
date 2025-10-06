@@ -1,0 +1,36 @@
+{
+  "general": {
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Please try again",
+    "contactSupport": "If the problem persists, please contact support"
+  },
+  "network": {
+    "offline": "You are offline",
+    "timeout": "Request timed out",
+    "serverError": "Server error. Please try again later"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "invalidPhone": "Please enter a valid phone number",
+    "invalidUrl": "Please enter a valid URL",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "auth": {
+    "invalidCredentials": "Invalid email or password",
+    "emailAlreadyExists": "Email already exists",
+    "userNotFound": "User not found",
+    "sessionExpired": "Your session has expired. Please log in again"
+  },
+  "upload": {
+    "fileTooLarge": "File is too large. Maximum size is {{maxSize}}",
+    "invalidFileType": "Invalid file type. Allowed types: {{allowedTypes}}",
+    "uploadFailed": "Upload failed. Please try again"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "Sorry, we couldn't find the page you're looking for",
+    "goHome": "Go to homepage"
+  }
+}

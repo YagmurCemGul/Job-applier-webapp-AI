@@ -14,12 +14,12 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Sidebar } from './Sidebar'
 import { APP_NAME, ROUTES } from '@/lib/constants'
 import { LanguageSwitcher } from './LanguageSwitcher'
-import { useAuth } from '@/hooks'
+import { useAuth, useCommonTranslation } from '@/hooks'
 
 export function Header() {
   const { user, logout } = useAuth()
+  const { t } = useCommonTranslation()
 
-  // Default values when no user
   const displayName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
   const displayEmail = user?.email || 'guest@example.com'
   const displayAvatar = user?.profilePhoto || ''
@@ -28,9 +28,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
-        {/* Left: Logo + Mobile Menu */}
         <div className="flex items-center gap-4">
-          {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="lg:hidden">
@@ -43,47 +41,42 @@ export function Header() {
             </SheetContent>
           </Sheet>
 
-          {/* Logo */}
           <Link to={ROUTES.HOME} className="flex items-center space-x-2">
             <FileText className="h-6 w-6 text-primary" />
             <span className="hidden font-bold sm:inline-block">{APP_NAME}</span>
           </Link>
         </div>
 
-        {/* Center: Desktop Navigation */}
         <nav className="hidden items-center gap-6 md:flex">
           <Link
             to={ROUTES.DASHBOARD}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Dashboard
+            {t('navigation.dashboard')}
           </Link>
           <Link
             to={ROUTES.CV_BUILDER}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            CV Builder
+            {t('navigation.cvBuilder')}
           </Link>
           <Link
             to={ROUTES.COVER_LETTER}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Cover Letter
+            {t('navigation.coverLetter')}
           </Link>
           <Link
             to={ROUTES.JOBS}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Jobs
+            {t('navigation.jobs')}
           </Link>
         </nav>
 
-        {/* Right: Language + User Menu */}
         <div className="flex items-center gap-2">
-          {/* Language Switcher */}
           <LanguageSwitcher />
 
-          {/* User Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -104,19 +97,19 @@ export function Header() {
               <DropdownMenuItem asChild>
                 <Link to={ROUTES.PROFILE} className="cursor-pointer">
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <span>{t('user.profile')}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to={ROUTES.SETTINGS} className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <span>{t('user.settings')}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="cursor-pointer text-destructive">
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>{t('user.logout')}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

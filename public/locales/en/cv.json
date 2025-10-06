@@ -1,0 +1,98 @@
+{
+  "title": "CV Builder",
+  "subtitle": "Create your professional CV",
+  "sections": {
+    "personalInfo": "Personal Information",
+    "summary": "Professional Summary",
+    "experience": "Work Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "certifications": "Licenses & Certifications",
+    "projects": "Projects",
+    "languages": "Languages",
+    "references": "References"
+  },
+  "fields": {
+    "firstName": "First Name",
+    "middleName": "Middle Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
+    "phoneCountryCode": "Country Code",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "portfolio": "Portfolio Website",
+    "whatsapp": "WhatsApp",
+    "location": "Location",
+    "summary": "Summary",
+    "jobTitle": "Job Title",
+    "company": "Company",
+    "employmentType": "Employment Type",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "currentlyWorking": "I currently work here",
+    "description": "Description",
+    "school": "School",
+    "degree": "Degree",
+    "fieldOfStudy": "Field of Study",
+    "grade": "Grade/GPA",
+    "activities": "Activities and Societies",
+    "skillName": "Skill Name",
+    "skillLevel": "Skill Level",
+    "certificationName": "Certification Name",
+    "issuingOrganization": "Issuing Organization",
+    "issueDate": "Issue Date",
+    "expirationDate": "Expiration Date",
+    "credentialId": "Credential ID",
+    "credentialUrl": "Credential URL",
+    "projectName": "Project Name",
+    "projectDescription": "Project Description",
+    "projectUrl": "Project URL",
+    "associatedWith": "Associated with"
+  },
+  "employmentTypes": {
+    "fullTime": "Full-time",
+    "partTime": "Part-time",
+    "contract": "Contract",
+    "freelance": "Freelance",
+    "internship": "Internship"
+  },
+  "locationTypes": {
+    "onSite": "On-site",
+    "hybrid": "Hybrid",
+    "remote": "Remote"
+  },
+  "skillLevels": {
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "expert": "Expert"
+  },
+  "actions": {
+    "addExperience": "Add Experience",
+    "addEducation": "Add Education",
+    "addSkill": "Add Skill",
+    "addCertification": "Add Certification",
+    "addProject": "Add Project",
+    "uploadCV": "Upload CV",
+    "downloadCV": "Download CV",
+    "previewCV": "Preview CV",
+    "optimizeCV": "Optimize for ATS",
+    "selectTemplate": "Select Template"
+  },
+  "templates": {
+    "title": "CV Templates",
+    "classic": "Classic",
+    "modern": "Modern",
+    "creative": "Creative",
+    "professional": "Professional",
+    "minimal": "Minimal"
+  },
+  "ats": {
+    "title": "ATS Optimization",
+    "score": "ATS Score",
+    "suggestions": "Suggestions",
+    "missingKeywords": "Missing Keywords",
+    "improvements": "Improvements"
+  }
+}

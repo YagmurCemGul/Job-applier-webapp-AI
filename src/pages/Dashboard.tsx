@@ -1,28 +1,29 @@
-import { useAuth, useToast } from '@/hooks'
+import { useAuth, useToast, useCommonTranslation } from '@/hooks'
 import { useCVStore, useJobStore, useProfileStore } from '@/store'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatDate, formatCurrency } from '@/lib/formatters'
 
 export default function DashboardPage() {
   const { user } = useAuth()
   const toast = useToast()
+  const { t } = useCommonTranslation()
   const cvs = useCVStore((state) => state.cvs)
   const savedJobs = useJobStore((state) => state.savedJobs)
   const profiles = useProfileStore((state) => state.profiles)
 
   const handleTestToast = () => {
-    toast.success('Success!', 'This is a success message from Zustand store.')
+    toast.success(t('status.success'), 'This is a success message from Zustand store.')
   }
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">{t('navigation.dashboard')}</h1>
         <p className="mt-2 text-muted-foreground">Welcome back, {user?.firstName || 'Guest'}!</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {/* CVs Card */}
         <Card>
           <CardHeader>
             <CardTitle>My CVs</CardTitle>
@@ -33,7 +34,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Saved Jobs Card */}
         <Card>
           <CardHeader>
             <CardTitle>Saved Jobs</CardTitle>
@@ -44,7 +44,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Profiles Card */}
         <Card>
           <CardHeader>
             <CardTitle>Profiles</CardTitle>
@@ -56,18 +55,21 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Test Store Button */}
+      {/* Format Test */}
       <Card>
         <CardHeader>
-          <CardTitle>Store Test</CardTitle>
-          <CardDescription>Test Zustand store functionality</CardDescription>
+          <CardTitle>Format Tests (i18n)</CardTitle>
+          <CardDescription>Testing date and currency formatting</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Button onClick={handleTestToast}>Test Toast Notification</Button>
+        <CardContent className="space-y-2">
+          <p>Date: {formatDate(new Date())}</p>
+          <p>Currency (USD): {formatCurrency(12345.67, 'USD')}</p>
+          <p>Currency (TRY): {formatCurrency(12345.67, 'TRY')}</p>
+          <p>Status: {t('status.loading')}</p>
+          <Button onClick={handleTestToast}>{t('actions.save')}</Button>
         </CardContent>
       </Card>
 
-      {/* User Info */}
       <Card>
         <CardHeader>
           <CardTitle>User Information</CardTitle>

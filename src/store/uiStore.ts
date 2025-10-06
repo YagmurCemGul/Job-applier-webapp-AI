@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import { UIStore } from '@/types/store.types'
+import i18n from '@/config/i18n'
 
 const initialState = {
   theme: 'system' as const,
@@ -40,6 +41,8 @@ export const useUIStore = create<UIStore>()(
       setLanguage: (language) =>
         set((state) => {
           state.language = language
+          // Update i18next language
+          i18n.changeLanguage(language)
         }),
 
       toggleSidebar: () =>
