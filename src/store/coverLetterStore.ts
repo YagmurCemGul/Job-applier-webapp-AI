@@ -60,7 +60,9 @@ export const useCoverLetterStore = create<CLState>()(
           templateId: init.templateId ?? 'cl-01',
           variables: init.variables ?? {},
           promptsUsed: init.promptsUsed ?? [],
-          history: [{ id: rid(), at: now, note: 'init', content: sanitizeHtml(init.content ?? '') }],
+          history: [
+            { id: rid(), at: now, note: 'init', content: sanitizeHtml(init.content ?? '') },
+          ],
         }
         set({ items: [doc, ...get().items], activeId: id })
         return id
@@ -75,10 +77,10 @@ export const useCoverLetterStore = create<CLState>()(
             ...d,
             content: safe,
             meta: { ...d.meta, updatedAt: now },
-            history: [{ id: rid(), at: now, note: note || 'edit', content: safe }, ...d.history].slice(
-              0,
-              25
-            ),
+            history: [
+              { id: rid(), at: now, note: note || 'edit', content: safe },
+              ...d.history,
+            ].slice(0, 25),
           }
         })
         set({ items })

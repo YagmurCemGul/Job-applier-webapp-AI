@@ -42,16 +42,16 @@ export default function CLPromptLibraryDialog({
                 setFolderName('')
               }}
             >
-              <FolderPlus className="h-4 w-4 mr-2" />
+              <FolderPlus className="mr-2 h-4 w-4" />
               Add Folder
             </Button>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label>Folders</Label>
               <select
-                className="border rounded-md p-2 w-full"
+                className="w-full rounded-md border p-2"
                 value={selFolder}
                 onChange={(e) => setSelFolder(e.target.value)}
               >
@@ -65,10 +65,10 @@ export default function CLPromptLibraryDialog({
 
               <div className="space-y-2">
                 <Label>Prompts</Label>
-                <div className="border rounded-md divide-y max-h-48 overflow-auto">
+                <div className="max-h-48 divide-y overflow-auto rounded-md border">
                   {lib.listByFolder(selFolder).map((p) => (
-                    <div key={p.id} className="p-2 flex items-center justify-between">
-                      <div className="text-sm truncate flex-1">{p.name}</div>
+                    <div key={p.id} className="flex items-center justify-between p-2">
+                      <div className="flex-1 truncate text-sm">{p.name}</div>
                       <div className="flex gap-2">
                         <Button
                           size="sm"
@@ -88,7 +88,7 @@ export default function CLPromptLibraryDialog({
                     </div>
                   ))}
                   {lib.listByFolder(selFolder).length === 0 && (
-                    <div className="p-4 text-sm text-muted-foreground text-center">
+                    <div className="p-4 text-center text-sm text-muted-foreground">
                       No prompts in this folder
                     </div>
                   )}
@@ -109,7 +109,7 @@ export default function CLPromptLibraryDialog({
                 value={promptBody}
                 onChange={(e) => setPromptBody(e.target.value)}
               />
-              <div className="flex gap-2 justify-end">
+              <div className="flex justify-end gap-2">
                 <Button
                   variant="ghost"
                   onClick={() => {
@@ -131,7 +131,7 @@ export default function CLPromptLibraryDialog({
                     setPromptBody('')
                   }}
                 >
-                  <Plus className="h-4 w-4 mr-2" />
+                  <Plus className="mr-2 h-4 w-4" />
                   Save Prompt
                 </Button>
               </div>

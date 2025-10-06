@@ -14,17 +14,17 @@ export default function CLSavedRow({
   const { toggleFavorite, remove, duplicate } = useCoverLetterStore()
 
   return (
-    <div className="flex items-center justify-between p-3 rounded-md border bg-background hover:bg-muted/50 transition-colors">
+    <div className="flex items-center justify-between rounded-md border bg-background p-3 transition-colors hover:bg-muted/50">
       <div className="min-w-0 flex-1">
-        <div className="font-medium truncate flex items-center gap-2">
+        <div className="flex items-center gap-2 truncate font-medium">
           {d.meta.name}
           <span className="text-muted-foreground">• {d.variables?.Company ?? '—'}</span>
         </div>
-        <div className="text-xs text-muted-foreground truncate">
+        <div className="truncate text-xs text-muted-foreground">
           {d.variables?.Role ?? '—'} • {new Date(d.meta.updatedAt).toLocaleString()}
         </div>
       </div>
-      <div className="flex items-center gap-2 ml-4">
+      <div className="ml-4 flex items-center gap-2">
         <Button
           variant="ghost"
           size="icon"
@@ -37,11 +37,11 @@ export default function CLSavedRow({
           Open
         </Button>
         <Button variant="outline" size="sm" onClick={() => duplicate(d.meta.id)}>
-          <Copy className="h-4 w-4 mr-1" />
+          <Copy className="mr-1 h-4 w-4" />
           Duplicate
         </Button>
         <Button variant="outline" size="sm" onClick={() => exportCoverLetter(d, 'pdf')}>
-          <FileDown className="h-4 w-4 mr-1" />
+          <FileDown className="mr-1 h-4 w-4" />
           PDF
         </Button>
         <Button variant="destructive" size="sm" onClick={() => remove(d.meta.id)}>

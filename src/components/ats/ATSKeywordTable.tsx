@@ -27,7 +27,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Check, X, Plus, ChevronDown } from 'lucide-react'
+import { Check, X, Plus, ChevronDown, Sparkles } from 'lucide-react'
 
 interface ATSKeywordTableProps {
   result: ATSAnalysisResult

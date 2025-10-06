@@ -19,6 +19,7 @@ export { useExportPresetsStore } from './exportPresetsStore'
 export { useCoverLetterStore } from './coverLetterStore'
 export { usePromptLibraryStore } from './promptLibraryStore'
 export { useCLUIStore } from './clUIStore'
+export { useAIStore } from './aiStore'
 
 // Export types
 export type * from '@/types/store.types'

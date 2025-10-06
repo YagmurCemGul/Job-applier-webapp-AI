@@ -7,10 +7,10 @@ import CLHistory from './CLHistory'
 
 export default function CoverLetterTab() {
   return (
-    <div className="grid xl:grid-cols-3 gap-6">
-      <div className="xl:col-span-2 space-y-4">
+    <div className="grid gap-6 xl:grid-cols-3">
+      <div className="space-y-4 xl:col-span-2">
         <CLToolbar />
-        <div className="grid lg:grid-cols-2 gap-4">
+        <div className="grid gap-4 lg:grid-cols-2">
           <CLEditor />
           <CLPreview />
         </div>

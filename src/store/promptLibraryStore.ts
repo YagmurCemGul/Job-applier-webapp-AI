@@ -7,9 +7,7 @@ interface PromptState {
   prompts: SavedPrompt[]
   upsertFolder: (name: string, id?: string) => string
   deleteFolder: (id: string) => void
-  upsertPrompt: (
-    p: Omit<SavedPrompt, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }
-  ) => string
+  upsertPrompt: (p: Omit<SavedPrompt, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => string
   deletePrompt: (id: string) => void
   listByFolder: (folderId?: string) => SavedPrompt[]
 }
@@ -37,7 +35,9 @@ export const usePromptLibraryStore = create<PromptState>()(
       deleteFolder: (id) => {
         set({
           folders: get().folders.filter((f) => f.id !== id),
-          prompts: get().prompts.map((p) => (p.folderId === id ? { ...p, folderId: undefined } : p)),
+          prompts: get().prompts.map((p) =>
+            p.folderId === id ? { ...p, folderId: undefined } : p
+          ),
         })
       },
 

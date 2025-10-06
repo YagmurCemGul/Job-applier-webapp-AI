@@ -16,6 +16,7 @@ export * from './variants.types'
 export * from './export.types'
 export * from './coverletter.types'
 export * from './prompts.types'
+export * from './ai.types'
 export * from './jobPosting.types'
 
 // Common types

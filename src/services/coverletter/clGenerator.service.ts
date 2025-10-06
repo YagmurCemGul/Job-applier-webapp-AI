@@ -15,28 +15,35 @@ export interface GenerateOptions {
 }
 
 export async function generateCoverLetter(opts: GenerateOptions): Promise<{ html: string }> {
-  // Try AI provider if available
+  // Try AI router if available
   try {
-    const { aiGenerate } = await import('@/services/ai/provider.service')
-    return await aiGenerateCoverLetter(aiGenerate, opts)
+    const { aiRoute } = await import('@/services/ai/router.service')
+    return await aiGenerateCoverLetter(aiRoute, opts)
   } catch {
     // Deterministic fallback
     return { html: fallbackGenerate(opts) }
   }
 }
 
-async function aiGenerateCoverLetter(aiGenerate: any, opts: GenerateOptions) {
+async function aiGenerateCoverLetter(aiRoute: any, opts: GenerateOptions) {
   const tpl = getTemplateById(opts.templateId)
   const vars = buildVariables({ cv: opts.cv, job: opts.job })
   const sys = buildSystemPrompt(opts)
   const user = renderTemplate(tpl.body, vars, opts.lang)
   const appended = [user, ...(opts.prompts ?? [])].join('\n\n')
   const full = `${appended}\n\n${opts.extraPrompt ?? ''}`
-  const out = await aiGenerate({
-    system: sys,
-    user: full,
-    maxTokens: lengthBudget(opts.length, opts.lang),
-  })
+
+  const result = await aiRoute(
+    {
+      task: 'coverLetter',
+      system: sys,
+      prompt: full,
+      maxTokens: lengthBudget(opts.length, opts.lang),
+    },
+    { allowCache: true }
+  )
+
+  const out = result.text ?? ''
   return { html: wrap(out) }
 }
 
@@ -69,7 +76,10 @@ function renderTemplate(body: string, vars: Record<string, string>, lang: CLLang
       .replace(/Dear Hiring Manager,/gi, 'Merhaba İK Ekibi,')
       .replace(/Best regards,/gi, 'Saygılarımla,')
       .replace(/Sincerely,/gi, 'Saygılarımla,')
-      .replace(/Thank you for considering my application\./gi, 'Başvurumu değerlendirdiğiniz için teşekkür ederim.')
+      .replace(
+        /Thank you for considering my application\./gi,
+        'Başvurumu değerlendirdiğiniz için teşekkür ederim.'
+      )
   }
   return out
 }
@@ -88,11 +98,7 @@ function applyTone(text: string, tone: CLTone, lang: CLLang): string {
 
 function applyLength(text: string, l: CLLength): string {
   if (l === 'short') {
-    return text
-      .split('\n')
-      .filter(Boolean)
-      .slice(0, 6)
-      .join('\n')
+    return text.split('\n').filter(Boolean).slice(0, 6).join('\n')
   }
   if (l === 'long') {
     return (

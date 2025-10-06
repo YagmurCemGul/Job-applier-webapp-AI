@@ -16,7 +16,8 @@ export default function CLSavedList() {
   const filtered = useMemo(() => {
     const t = q.toLowerCase()
     return items.filter((d) => {
-      const blob = `${d.meta.name} ${d.variables?.Company ?? ''} ${d.variables?.Role ?? ''}`.toLowerCase()
+      const blob =
+        `${d.meta.name} ${d.variables?.Company ?? ''} ${d.variables?.Role ?? ''}`.toLowerCase()
       return blob.includes(t)
     })
   }, [q, items])
@@ -30,7 +31,7 @@ export default function CLSavedList() {
     <div className="space-y-2">
       <div className="text-sm font-medium">Saved Cover Letters</div>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           className="pl-9"
           placeholder="Search cover letters…"
@@ -44,7 +45,7 @@ export default function CLSavedList() {
         ))}
       </div>
       {!filtered.length && (
-        <div className="text-sm text-muted-foreground text-center p-4">No cover letters found.</div>
+        <div className="p-4 text-center text-sm text-muted-foreground">No cover letters found.</div>
       )}
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -52,7 +53,7 @@ export default function CLSavedList() {
           <DialogHeader>
             <DialogTitle>Edit Cover Letter</DialogTitle>
           </DialogHeader>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid gap-4 md:grid-cols-2">
             <CLEditor />
             <CLPreview />
           </div>

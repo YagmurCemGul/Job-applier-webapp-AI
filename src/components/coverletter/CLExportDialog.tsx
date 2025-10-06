@@ -62,7 +62,7 @@ export default function CLExportDialog({
           </div>
         </div>
 
-        <div className="flex gap-2 justify-end">
+        <div className="flex justify-end gap-2">
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             Close
           </Button>

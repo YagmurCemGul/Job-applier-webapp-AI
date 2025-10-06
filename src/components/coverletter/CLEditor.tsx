@@ -17,7 +17,7 @@ export default function CLEditor() {
 
   if (!doc) {
     return (
-      <div className="text-sm text-muted-foreground text-center p-8">
+      <div className="p-8 text-center text-sm text-muted-foreground">
         No cover letter selected. Click Generate to create one.
       </div>
     )
@@ -39,13 +39,13 @@ export default function CLEditor() {
         ref={ref}
         contentEditable
         suppressContentEditableWarning
-        className="min-h-[240px] border rounded-md p-3 prose prose-sm max-w-none focus:outline-none focus:ring-2 focus:ring-primary"
+        className="prose prose-sm min-h-[240px] max-w-none rounded-md border p-3 focus:outline-none focus:ring-2 focus:ring-primary"
         onBlur={(e) => updateContent(doc.meta.id, e.currentTarget.innerHTML || '', 'edit')}
         aria-label="Cover letter editor"
       />
       <div className="flex gap-2">
         <Button variant="outline" onClick={copyText}>
-          <Copy className="h-4 w-4 mr-2" />
+          <Copy className="mr-2 h-4 w-4" />
           Copy as Text
         </Button>
       </div>

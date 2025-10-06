@@ -9,8 +9,11 @@ export default function CLPreview() {
   return (
     <div className="space-y-2">
       <div className="text-sm font-medium">Preview</div>
-      <div className="border rounded-md p-4 bg-background min-h-[240px]">
-        <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: doc.content }} />
+      <div className="min-h-[240px] rounded-md border bg-background p-4">
+        <div
+          className="prose prose-sm max-w-none"
+          dangerouslySetInnerHTML={{ __html: doc.content }}
+        />
       </div>
     </div>
   )

@@ -1,0 +1,32 @@
+{
+  "ai": {
+    "settings": "AI Settings",
+    "perTask": "Per-Task Models",
+    "defaults": "Defaults",
+    "toggles": "Toggles",
+    "providerReady": "Ready",
+    "providerMissing": "Not configured",
+    "testConsole": "AI Test Console",
+    "run": "Run",
+    "safety": "Safety",
+    "cache": "Cache",
+    "meters": "Show meters",
+    "cacheTtl": "Cache TTL (ms)",
+    "parsing": "Parsing",
+    "generation": "General Generation",
+    "matching": "Job Matching",
+    "coverLetter": "Cover Letter",
+    "suggest": "Keyword Suggest",
+    "embed": "Embeddings",
+    "moderate": "Moderation",
+    "resetDefaults": "Reset Defaults",
+    "provider": "Provider",
+    "model": "Model",
+    "temperature": "Temperature",
+    "timeout": "Timeout (ms)",
+    "retries": "Retries",
+    "suggestSimilar": "Suggest Similar",
+    "suggesting": "Suggesting...",
+    "aiSuggested": "AI-Suggested Keywords"
+  }
+}

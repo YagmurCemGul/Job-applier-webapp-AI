@@ -75,7 +75,7 @@ export default function CLToolbar() {
   }
 
   return (
-    <div className="flex flex-wrap gap-2 items-center">
+    <div className="flex flex-wrap items-center gap-2">
       <Select value={ui.lang} onValueChange={(v) => ui.setLang(v as any)}>
         <SelectTrigger className="w-28">
           <SelectValue placeholder="Lang" />
@@ -132,17 +132,17 @@ export default function CLToolbar() {
       </Select>
 
       <Button onClick={handleGenerate} disabled={generating || !currentCV}>
-        <Sparkles className="h-4 w-4 mr-2" />
+        <Sparkles className="mr-2 h-4 w-4" />
         {generating ? 'Generating...' : 'Generate'}
       </Button>
 
       <Button variant="outline" onClick={() => setPromptOpen(true)}>
-        <Library className="h-4 w-4 mr-2" />
+        <Library className="mr-2 h-4 w-4" />
         Prompt Library
       </Button>
 
       <Button variant="outline" disabled={!cl} onClick={() => setExportOpen(true)}>
-        <Download className="h-4 w-4 mr-2" />
+        <Download className="mr-2 h-4 w-4" />
         Export…
       </Button>
 

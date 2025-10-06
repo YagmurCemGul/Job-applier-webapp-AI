@@ -13,7 +13,10 @@ export default function CLHistory() {
       <div className="font-semibold">History</div>
       <div className="space-y-1">
         {doc.history.slice(0, 10).map((h) => (
-          <div key={h.id} className="flex items-center justify-between p-2 rounded-md border text-sm">
+          <div
+            key={h.id}
+            className="flex items-center justify-between rounded-md border p-2 text-sm"
+          >
             <div className="truncate">
               {new Date(h.at).toLocaleString()} {h.note ? `• ${h.note}` : ''}
             </div>
@@ -22,7 +25,7 @@ export default function CLHistory() {
               variant="outline"
               onClick={() => updateContent(doc.meta.id, h.content, 'restore')}
             >
-              <RotateCcw className="h-4 w-4 mr-1" />
+              <RotateCcw className="mr-1 h-4 w-4" />
               Restore
             </Button>
           </div>

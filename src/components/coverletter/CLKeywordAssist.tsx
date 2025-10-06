@@ -24,7 +24,7 @@ export default function CLKeywordAssist() {
   }
 
   return (
-    <div className="border rounded-md p-3 space-y-2">
+    <div className="space-y-2 rounded-md border p-3">
       <div className="font-medium">Keyword Assist</div>
       <div className="text-xs text-muted-foreground">
         Click to insert missing ATS keywords at cursor position.
@@ -38,7 +38,7 @@ export default function CLKeywordAssist() {
             className="text-xs"
             onClick={() => insertAtCursor(k)}
           >
-            <Plus className="h-3 w-3 mr-1" />
+            <Plus className="mr-1 h-3 w-3" />
             {k}
           </Button>
         ))}
