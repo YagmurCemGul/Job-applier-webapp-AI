@@ -3,8 +3,10 @@ import type { JobPosting } from './jobPosting.types'
 export interface FetchJobUrlResult {
   ok: boolean
   text?: string
+  html?: string
   status?: number
   error?: string
+  meta?: { url?: string; site?: string }
 }
 
 export interface SaveJobResult {

@@ -8,9 +8,17 @@ export async function fetchJobUrl(url: string): Promise<FetchJobUrlResult> {
   try {
     const res = await fetch(url, { mode: 'cors' })
     if (!res.ok) return { ok: false, status: res.status, error: res.statusText }
+
     const html = await res.text()
+    const site = new URL(url).hostname.replace(/^www\./, '')
     const text = extractTextFromHtml(html)
-    return { ok: true, text }
+
+    return {
+      ok: true,
+      text,
+      html,
+      meta: { url, site },
+    }
   } catch (e: any) {
     return { ok: false, error: e?.message || 'Fetch error' }
   }

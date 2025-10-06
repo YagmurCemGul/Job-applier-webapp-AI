@@ -40,6 +40,11 @@ export interface ATSAnalysisResult {
   createdAt: Date
 }
 
+export interface FieldConfidence<T> {
+  value?: T
+  confidence: number
+}
+
 export interface ParsedJob {
   title?: string
   company?: string
@@ -61,5 +66,48 @@ export interface ParsedJob {
   }
   keywords: string[]
   lang: 'en' | 'tr' | 'unknown'
-  source?: { type: 'paste' | 'url' | 'file'; url?: string; filename?: string }
+  source?: { type: 'paste' | 'url' | 'file'; url?: string; filename?: string; site?: string }
+
+  // Extended optional fields (Step 27)
+  employmentType?:
+    | 'full_time'
+    | 'part_time'
+    | 'contract'
+    | 'intern'
+    | 'temporary'
+    | 'freelance'
+    | 'other'
+  seniority?:
+    | 'intern'
+    | 'junior'
+    | 'mid'
+    | 'senior'
+    | 'lead'
+    | 'manager'
+    | 'director'
+    | 'vp'
+    | 'c_level'
+    | 'na'
+  postedAt?: Date
+  deadlineAt?: Date
+  recruiter?: { name?: string; email?: string }
+
+  // Confidence scores (per-field & overall)
+  _conf?: {
+    title?: FieldConfidence<string>
+    company?: FieldConfidence<string>
+    location?: FieldConfidence<string>
+    employmentType?: FieldConfidence<string>
+    seniority?: FieldConfidence<string>
+    salary?: FieldConfidence<{
+      min?: number
+      max?: number
+      currency?: string
+      period?: 'y' | 'm' | 'd' | 'h'
+    }>
+    postedAt?: FieldConfidence<Date>
+    deadlineAt?: FieldConfidence<Date>
+    recruiter?: FieldConfidence<{ name?: string; email?: string }>
+    overall: number
+  }
 }

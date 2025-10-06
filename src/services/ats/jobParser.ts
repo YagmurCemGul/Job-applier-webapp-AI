@@ -105,3 +105,9 @@ function extractKeywordsFromSections(sections: ReturnType<typeof splitSections>)
 function dedupe<T>(arr: T[]): T[] {
   return Array.from(new Set(arr))
 }
+
+// Export main function with new implementation
+export async function parseJobText(raw: string): Promise<ParsedJob> {
+  const { parseJobText: newParse } = await import('@/services/jobs/parsing/parse-text')
+  return newParse(raw)
+}
