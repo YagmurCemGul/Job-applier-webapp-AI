@@ -7,6 +7,7 @@ export * from './job.types'
 export * from './coverLetter.types'
 export * from './customPrompt.types'
 export * from './template.types'
+export * from './cvData.types'
 
 // Common types
 export type ID = string
