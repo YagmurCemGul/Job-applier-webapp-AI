@@ -1,0 +1,61 @@
+{
+  "title": "Job Listings",
+  "search": "Search jobs",
+  "filters": {
+    "title": "Filters",
+    "keyword": "Keyword",
+    "location": "Location",
+    "remote": "Remote",
+    "jobType": "Job Type",
+    "experienceLevel": "Experience Level",
+    "salary": "Salary Range",
+    "datePosted": "Date Posted",
+    "company": "Company"
+  },
+  "jobTypes": {
+    "fullTime": "Full-time",
+    "partTime": "Part-time",
+    "contract": "Contract",
+    "freelance": "Freelance",
+    "internship": "Internship"
+  },
+  "experienceLevels": {
+    "entry": "Entry Level",
+    "junior": "Junior",
+    "mid": "Mid-Level",
+    "senior": "Senior",
+    "lead": "Lead",
+    "manager": "Manager",
+    "director": "Director"
+  },
+  "datePosted": {
+    "any": "Any time",
+    "today": "Today",
+    "week": "Past week",
+    "month": "Past month"
+  },
+  "actions": {
+    "apply": "Apply",
+    "save": "Save Job",
+    "unsave": "Unsave",
+    "viewDetails": "View Details",
+    "share": "Share",
+    "reportJob": "Report"
+  },
+  "status": {
+    "saved": "Saved",
+    "applied": "Applied",
+    "viewing": "Viewing",
+    "closed": "Closed"
+  },
+  "details": {
+    "description": "Job Description",
+    "requirements": "Requirements",
+    "responsibilities": "Responsibilities",
+    "benefits": "Benefits",
+    "about": "About the Company",
+    "postedOn": "Posted on",
+    "applicants": "{{count}} applicant",
+    "applicants_other": "{{count}} applicants"
+  }
+}

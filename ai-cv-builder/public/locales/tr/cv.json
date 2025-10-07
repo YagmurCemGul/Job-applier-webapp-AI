@@ -1,0 +1,98 @@
+{
+  "title": "CV Oluşturucu",
+  "subtitle": "Profesyonel CV'nizi oluşturun",
+  "sections": {
+    "personalInfo": "Kişisel Bilgiler",
+    "summary": "Profesyonel Özet",
+    "experience": "İş Deneyimi",
+    "education": "Eğitim",
+    "skills": "Yetenekler",
+    "certifications": "Lisanslar ve Sertifikalar",
+    "projects": "Projeler",
+    "languages": "Diller",
+    "references": "Referanslar"
+  },
+  "fields": {
+    "firstName": "Ad",
+    "middleName": "İkinci Ad",
+    "lastName": "Soyad",
+    "email": "E-posta Adresi",
+    "phone": "Telefon Numarası",
+    "phoneCountryCode": "Ülke Kodu",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "portfolio": "Portföy Websitesi",
+    "whatsapp": "WhatsApp",
+    "location": "Konum",
+    "summary": "Özet",
+    "jobTitle": "İş Unvanı",
+    "company": "Şirket",
+    "employmentType": "İstihdam Türü",
+    "startDate": "Başlangıç Tarihi",
+    "endDate": "Bitiş Tarihi",
+    "currentlyWorking": "Halen burada çalışıyorum",
+    "description": "Açıklama",
+    "school": "Okul",
+    "degree": "Derece",
+    "fieldOfStudy": "Çalışma Alanı",
+    "grade": "Not/Ortalama",
+    "activities": "Aktiviteler ve Topluluklar",
+    "skillName": "Yetenek Adı",
+    "skillLevel": "Yetenek Seviyesi",
+    "certificationName": "Sertifika Adı",
+    "issuingOrganization": "Veren Kuruluş",
+    "issueDate": "Veriliş Tarihi",
+    "expirationDate": "Son Kullanma Tarihi",
+    "credentialId": "Kimlik Numarası",
+    "credentialUrl": "Kimlik URL'si",
+    "projectName": "Proje Adı",
+    "projectDescription": "Proje Açıklaması",
+    "projectUrl": "Proje URL'si",
+    "associatedWith": "İlişkili"
+  },
+  "employmentTypes": {
+    "fullTime": "Tam Zamanlı",
+    "partTime": "Yarı Zamanlı",
+    "contract": "Sözleşmeli",
+    "freelance": "Serbest",
+    "internship": "Staj"
+  },
+  "locationTypes": {
+    "onSite": "Yerinde",
+    "hybrid": "Hibrit",
+    "remote": "Uzaktan"
+  },
+  "skillLevels": {
+    "beginner": "Başlangıç",
+    "intermediate": "Orta",
+    "advanced": "İleri",
+    "expert": "Uzman"
+  },
+  "actions": {
+    "addExperience": "Deneyim Ekle",
+    "addEducation": "Eğitim Ekle",
+    "addSkill": "Yetenek Ekle",
+    "addCertification": "Sertifika Ekle",
+    "addProject": "Proje Ekle",
+    "uploadCV": "CV Yükle",
+    "downloadCV": "CV İndir",
+    "previewCV": "CV Önizleme",
+    "optimizeCV": "ATS için Optimize Et",
+    "selectTemplate": "Şablon Seç"
+  },
+  "templates": {
+    "title": "CV Şablonları",
+    "classic": "Klasik",
+    "modern": "Modern",
+    "creative": "Yaratıcı",
+    "professional": "Profesyonel",
+    "minimal": "Minimal"
+  },
+  "ats": {
+    "title": "ATS Optimizasyonu",
+    "score": "ATS Skoru",
+    "suggestions": "Öneriler",
+    "missingKeywords": "Eksik Anahtar Kelimeler",
+    "improvements": "İyileştirmeler"
+  }
+}

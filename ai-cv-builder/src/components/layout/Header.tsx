@@ -14,10 +14,11 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Sidebar } from './Sidebar'
 import { APP_NAME, ROUTES } from '@/lib/constants'
 import { LanguageSwitcher } from './LanguageSwitcher'
-import { useAuth } from '@/hooks'
+import { useAuth, useCommonTranslation } from '@/hooks'
 
 export function Header() {
   const { user, logout } = useAuth()
+  const { t } = useCommonTranslation()
 
   // Default values when no user
   const displayName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
@@ -58,25 +59,25 @@ export function Header() {
             to={ROUTES.DASHBOARD}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Dashboard
+            {t('navigation.dashboard')}
           </Link>
           <Link
             to={ROUTES.CV_BUILDER}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            CV Builder
+            {t('navigation.cvBuilder')}
           </Link>
           <Link
             to={ROUTES.COVER_LETTER}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Cover Letter
+            {t('navigation.coverLetter')}
           </Link>
           <Link
             to={ROUTES.JOBS}
             className="text-sm font-medium transition-colors hover:text-primary"
           >
-            Jobs
+            {t('navigation.jobs')}
           </Link>
         </nav>
 
@@ -106,19 +107,19 @@ export function Header() {
               <DropdownMenuItem asChild>
                 <Link to={ROUTES.PROFILE} className="cursor-pointer">
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <span>{t('user.profile')}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to={ROUTES.SETTINGS} className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <span>{t('user.settings')}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={logout} className="cursor-pointer text-destructive">
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>{t('user.logout')}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
