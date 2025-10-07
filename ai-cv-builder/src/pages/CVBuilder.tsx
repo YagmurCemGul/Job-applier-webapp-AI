@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CVUpload } from '@/components/cv/CVUpload'
 import { CVTextPreview } from '@/components/cv/CVTextPreview'
 import { CVPreviewFull } from '@/components/cv/CVPreviewFull'
@@ -9,6 +9,8 @@ import { OptimizationChanges } from '@/components/optimization/OptimizationChang
 import { ExportOptions } from '@/components/export/ExportOptions'
 import { CoverLetterGenerator } from '@/components/cover-letter/CoverLetterGenerator'
 import { CoverLetterPreview } from '@/components/cover-letter/CoverLetterPreview'
+import { TemplateSelector } from '@/components/templates/TemplateSelector'
+import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -16,15 +18,16 @@ import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Sparkles, AlertCircle, FileText } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { useOptimizationStore } from '@/store/optimizationStore'
 import { useCoverLetterStore } from '@/store/coverLetterStore'
+import { useTemplateStore } from '@/stores/template.store'
 
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
-  const [currentStep, setCurrentStep] = useState<'upload' | 'job' | 'optimize' | 'cover-letter'>('upload')
+  const [currentStep, setCurrentStep] = useState<'upload' | 'job' | 'optimize' | 'cover-letter' | 'template'>('upload')
 
   const {
     result,
@@ -38,6 +41,12 @@ export default function CVBuilderPage() {
   } = useOptimizationStore()
 
   const { currentLetter } = useCoverLetterStore()
+  const { initializeTemplates } = useTemplateStore()
+
+  // Initialize templates on mount
+  useEffect(() => {
+    initializeTemplates()
+  }, [])
 
   const handleCVUpload = (data: ParsedCVData) => {
     setParsedCV(data)
@@ -108,7 +117,7 @@ export default function CVBuilderPage() {
 
       {/* Main Content */}
       <Tabs value={currentStep} onValueChange={(v) => setCurrentStep(v as any)}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="upload">1. Upload CV</TabsTrigger>
           <TabsTrigger value="job" disabled={!parsedCV}>
             2. Job Posting
@@ -119,6 +128,10 @@ export default function CVBuilderPage() {
           <TabsTrigger value="cover-letter" disabled={!canOptimize}>
             <FileText className="h-4 w-4 mr-2" />
             Cover Letter
+          </TabsTrigger>
+          <TabsTrigger value="template">
+            <LayoutTemplate className="h-4 w-4 mr-2" />
+            Template
           </TabsTrigger>
         </TabsList>
 
@@ -241,6 +254,14 @@ export default function CVBuilderPage() {
               <p className="text-gray-600">Optimizing your CV with AI...</p>
             </div>
           )}
+        </TabsContent>
+
+        {/* Template Tab */}
+        <TabsContent value="template" className="mt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TemplateSelector />
+            <TemplateCustomization />
+          </div>
         </TabsContent>
 
         {/* Cover Letter Tab */}
