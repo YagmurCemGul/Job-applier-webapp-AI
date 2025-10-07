@@ -1,0 +1,76 @@
+ADIM 15 - OLUŞTURULAN VE GÜNCELLENMİŞ DOSYALAR
+==============================================
+
+YENİ OLUŞTURULAN DOSYALAR (9):
+------------------------------
+
+1. ai-cv-builder/src/types/customPrompt.types.ts
+   - CustomPrompt interface
+   - PromptFolder interface
+   - PromptTemplate interface
+   - PROMPT_TEMPLATES sabitleri (5 template)
+   - FOLDER_COLORS sabitleri
+
+2. ai-cv-builder/src/store/customPrompts.store.ts
+   - Zustand store with persist
+   - Prompt CRUD operations
+   - Folder CRUD operations
+   - Usage tracking
+   - Default prompt management
+
+3. ai-cv-builder/src/components/customPrompts/SavePromptDialog.tsx
+   - Save prompt dialog component
+   - Form validation
+   - Tag management
+   - Folder selection
+
+4. ai-cv-builder/src/components/customPrompts/FolderManagementDialog.tsx
+   - Folder CRUD interface
+   - Color picker
+   - Edit/Delete functionality
+   - Prompt count display
+
+5. ai-cv-builder/src/components/customPrompts/PromptsLibrary.tsx
+   - Templates display
+   - Saved prompts list
+   - Search functionality
+   - Filter by folder
+   - Delete confirmation
+
+6. ai-cv-builder/src/components/ui/select.tsx
+   - Radix UI Select component
+   - Custom styling
+
+7. ai-cv-builder/src/components/ui/alert-dialog.tsx
+   - Radix UI Alert Dialog component
+   - Custom styling
+
+8. ai-cv-builder/src/components/ui/collapsible.tsx
+   - Radix UI Collapsible component
+   - Simple wrapper
+
+9. ADIM-15-TAMAMLANDI.md
+   - Completion report
+
+
+GÜNCELLENMİŞ DOSYALAR (3):
+--------------------------
+
+1. ai-cv-builder/src/components/cover-letter/CoverLetterGenerator.tsx
+   - Import yeni componentler
+   - Save ve Manage Folders butonları eklendi
+   - Collapsible library UI eklendi
+   - handleSelectPrompt fonksiyonu eklendi
+
+2. ai-cv-builder/src/types/index.ts
+   - customPrompt.types export eklendi
+
+3. ai-cv-builder/src/store/index.ts
+   - useCustomPromptsStore export eklendi
+
+
+TOPLAM:
+-------
+- Yeni Dosyalar: 9
+- Güncellenen Dosyalar: 3
+- Toplam Değişiklik: 12 dosya
