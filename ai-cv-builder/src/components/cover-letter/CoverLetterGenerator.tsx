@@ -10,11 +10,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Loader2, Sparkles, AlertCircle } from 'lucide-react'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
+import { Loader2, Sparkles, AlertCircle, BookMarked, Save } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { coverLetterService } from '@/services/coverLetter.service'
 import { useCoverLetterStore } from '@/store/coverLetterStore'
 import { COVER_LETTER_TONES, COVER_LETTER_LENGTHS } from '@/types/coverLetter.types'
+import { SavePromptDialog } from '@/components/customPrompts/SavePromptDialog'
+import { FolderManagementDialog } from '@/components/customPrompts/FolderManagementDialog'
+import { PromptsLibrary } from '@/components/customPrompts/PromptsLibrary'
 
 interface CoverLetterGeneratorProps {
   cvText: string
@@ -32,9 +40,15 @@ export function CoverLetterGenerator({
   const [customPrompt, setCustomPrompt] = useState('')
   const [tone, setTone] = useState<string>('professional')
   const [length, setLength] = useState<string>('medium')
+  const [showLibrary, setShowLibrary] = useState(false)
 
   const { isGenerating, error, setCurrentLetter, setGenerating, setError } =
     useCoverLetterStore()
+
+  const handleSelectPrompt = (content: string) => {
+    setCustomPrompt(content)
+    setShowLibrary(false)
+  }
 
   const handleGenerate = async () => {
     setGenerating(true)
@@ -101,22 +115,45 @@ export function CoverLetterGenerator({
           </Select>
         </div>
 
-        {/* Custom Prompt */}
+        {/* Custom Prompt with Library */}
         <div>
-          <Label htmlFor="customPrompt">
-            Additional Instructions (Optional)
-          </Label>
+          <div className="flex items-center justify-between mb-2">
+            <Label htmlFor="customPrompt">Additional Instructions (Optional)</Label>
+            <div className="flex gap-2">
+              <FolderManagementDialog />
+              <SavePromptDialog
+                content={customPrompt}
+                trigger={
+                  <Button variant="outline" size="sm" disabled={!customPrompt.trim()}>
+                    <Save className="h-4 w-4 mr-2" />
+                    Save
+                  </Button>
+                }
+              />
+            </div>
+          </div>
+
           <Textarea
             id="customPrompt"
             value={customPrompt}
             onChange={(e) => setCustomPrompt(e.target.value)}
-            placeholder="E.g., 'Emphasize my leadership experience' or 'Mention my passion for sustainable technology'"
+            placeholder="E.g., 'Emphasize my leadership experience'"
             className="min-h-[100px]"
             disabled={isGenerating}
           />
-          <p className="text-xs text-gray-500 mt-1">
-            Add specific points you want to highlight or any special requirements
-          </p>
+
+          {/* Prompts Library Toggle */}
+          <Collapsible open={showLibrary} onOpenChange={setShowLibrary}>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="w-full mt-2">
+                <BookMarked className="h-4 w-4 mr-2" />
+                {showLibrary ? 'Hide' : 'Show'} Saved Prompts & Templates
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-3">
+              <PromptsLibrary onSelect={handleSelectPrompt} />
+            </CollapsibleContent>
+          </Collapsible>
         </div>
 
         {/* Generate Button */}
