@@ -1,10 +1,12 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { CVData, PersonalInfo, Experience, Education, Skill, Project } from '@/types/cvData.types'
+import { SavedCV, CVStatistics } from '@/types/savedCV.types'
 
 interface CVDataState {
   currentCV: CVData | null
-  savedCVs: CVData[]
+  savedCVs: SavedCV[]
+  currentSavedCVId: string | null
   autoSaveEnabled: boolean
   
   // CV operations
@@ -32,7 +34,17 @@ interface CVDataState {
   updateProject: (id: string, updates: Partial<Project>) => void
   deleteProject: (id: string) => void
   
-  // General
+  // Save Management
+  saveCurrentCV: (name: string, description?: string, tags?: string[]) => string
+  updateSavedCV: (id: string, updates: Partial<SavedCV>) => void
+  deleteSavedCV: (id: string) => void
+  loadSavedCV: (id: string) => void
+  duplicateSavedCV: (id: string) => void
+  setPrimaryCv: (id: string) => void
+  getSavedCVById: (id: string) => SavedCV | undefined
+  getStatistics: () => CVStatistics
+  
+  // Legacy (kept for compatibility)
   saveCV: (name?: string) => void
   loadCV: (id: string) => void
   deleteCV: (id: string) => void
@@ -61,6 +73,7 @@ export const useCVDataStore = create<CVDataState>()(
     (set, get) => ({
       currentCV: null,
       savedCVs: [],
+      currentSavedCVId: null,
       autoSaveEnabled: true,
 
       initializeCV: () => {
@@ -279,20 +292,170 @@ export const useCVDataStore = create<CVDataState>()(
         })
       },
 
-      // General
+      // Save Management
+      saveCurrentCV: (name, description, tags = []) => {
+        const { currentCV, savedCVs, currentSavedCVId } = get()
+        if (!currentCV) throw new Error('No CV to save')
+
+        const existingCV = savedCVs.find((cv) => cv.id === currentSavedCVId)
+
+        if (existingCV) {
+          // Update existing
+          set((state) => ({
+            savedCVs: state.savedCVs.map((cv) =>
+              cv.id === existingCV.id
+                ? {
+                    ...cv,
+                    name,
+                    description,
+                    cvData: currentCV,
+                    tags: tags.length > 0 ? tags : cv.tags,
+                    lastModified: new Date(),
+                    version: cv.version + 1,
+                  }
+                : cv
+            ),
+          }))
+          return existingCV.id
+        } else {
+          // Create new
+          const newSavedCV: SavedCV = {
+            id: crypto.randomUUID(),
+            name,
+            description,
+            cvData: currentCV,
+            templateId: 'template-modern',
+            lastModified: new Date(),
+            createdAt: new Date(),
+            tags,
+            isPrimary: savedCVs.length === 0,
+            version: 1,
+          }
+
+          set((state) => ({
+            savedCVs: [...state.savedCVs, newSavedCV],
+            currentSavedCVId: newSavedCV.id,
+          }))
+          return newSavedCV.id
+        }
+      },
+
+      updateSavedCV: (id, updates) => {
+        set((state) => ({
+          savedCVs: state.savedCVs.map((cv) =>
+            cv.id === id
+              ? { ...cv, ...updates, lastModified: new Date() }
+              : cv
+          ),
+        }))
+      },
+
+      deleteSavedCV: (id) => {
+        set((state) => ({
+          savedCVs: state.savedCVs.filter((cv) => cv.id !== id),
+          currentSavedCVId: state.currentSavedCVId === id ? null : state.currentSavedCVId,
+        }))
+      },
+
+      loadSavedCV: (id) => {
+        const savedCV = get().savedCVs.find((cv) => cv.id === id)
+        if (savedCV) {
+          set({
+            currentCV: savedCV.cvData,
+            currentSavedCVId: id,
+          })
+        }
+      },
+
+      duplicateSavedCV: (id) => {
+        const original = get().savedCVs.find((cv) => cv.id === id)
+        if (!original) return
+
+        const duplicate: SavedCV = {
+          ...original,
+          id: crypto.randomUUID(),
+          name: `${original.name} (Copy)`,
+          createdAt: new Date(),
+          lastModified: new Date(),
+          isPrimary: false,
+          version: 1,
+        }
+
+        set((state) => ({
+          savedCVs: [...state.savedCVs, duplicate],
+        }))
+      },
+
+      setPrimaryCv: (id) => {
+        set((state) => ({
+          savedCVs: state.savedCVs.map((cv) => ({
+            ...cv,
+            isPrimary: cv.id === id,
+          })),
+        }))
+      },
+
+      getSavedCVById: (id) => {
+        return get().savedCVs.find((cv) => cv.id === id)
+      },
+
+      getStatistics: () => {
+        const { savedCVs } = get()
+        
+        const totalCVs = savedCVs.length
+        const avgAtsScore = totalCVs > 0
+          ? savedCVs.reduce((acc, cv) => acc + (cv.atsScore || 0), 0) / totalCVs
+          : 0
+        
+        const lastModified = totalCVs > 0
+          ? new Date(Math.max(...savedCVs.map(cv => new Date(cv.lastModified).getTime())))
+          : new Date()
+
+        // Find most used template
+        const templateCounts: Record<string, number> = {}
+        savedCVs.forEach(cv => {
+          templateCounts[cv.templateId] = (templateCounts[cv.templateId] || 0) + 1
+        })
+        const mostUsedTemplate = Object.entries(templateCounts).sort((a, b) => b[1] - a[1])[0]?.[0] || ''
+
+        return {
+          totalCVs,
+          avgAtsScore,
+          lastModified,
+          mostUsedTemplate,
+          totalApplications: 0, // Will be implemented later
+        }
+      },
+
+      // Legacy (kept for compatibility)
       saveCV: (name) => {
         const currentCV = get().currentCV
         if (!currentCV) return
 
+        const newSavedCV: SavedCV = {
+          id: currentCV.id,
+          name: name || 'Untitled CV',
+          cvData: currentCV,
+          templateId: 'template-modern',
+          lastModified: new Date(),
+          createdAt: new Date(),
+          tags: [],
+          isPrimary: get().savedCVs.length === 0,
+          version: 1,
+        }
+
         set((state) => ({
-          savedCVs: [...state.savedCVs, { ...currentCV, updatedAt: new Date() }],
+          savedCVs: [...state.savedCVs, newSavedCV],
         }))
       },
 
       loadCV: (id) => {
-        const cv = get().savedCVs.find((cv) => cv.id === id)
-        if (cv) {
-          set({ currentCV: cv })
+        const savedCV = get().savedCVs.find((cv) => cv.id === id)
+        if (savedCV) {
+          set({ 
+            currentCV: savedCV.cvData,
+            currentSavedCVId: id,
+          })
         }
       },
 
