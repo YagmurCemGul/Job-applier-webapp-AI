@@ -14,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Sidebar } from './Sidebar'
 import { APP_NAME, ROUTES } from '@/lib/constants'
 import { LanguageSwitcher } from './LanguageSwitcher'
+import { SyncStatus } from '@/components/sync/SyncStatus'
 import { useAuthStore } from '@/stores/auth.store'
 import { useCommonTranslation } from '@/hooks'
 
@@ -96,8 +97,11 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* Right: Language + User Menu */}
+        {/* Right: Sync Status + Language + User Menu */}
         <div className="flex items-center gap-2">
+          {/* Sync Status */}
+          <SyncStatus />
+
           {/* Language Switcher */}
           <LanguageSwitcher />
 
