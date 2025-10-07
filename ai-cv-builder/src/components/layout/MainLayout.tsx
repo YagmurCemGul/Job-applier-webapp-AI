@@ -4,6 +4,7 @@ import { Sidebar } from './Sidebar'
 import { Footer } from './Footer'
 import { Breadcrumbs } from './Breadcrumbs'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { InitialSyncDialog } from '@/components/sync/InitialSyncDialog'
 
 export function MainLayout() {
   return (
@@ -34,6 +35,9 @@ export function MainLayout() {
           </ScrollArea>
         </main>
       </div>
+
+      {/* Initial Sync Dialog */}
+      <InitialSyncDialog />
     </div>
   )
 }
