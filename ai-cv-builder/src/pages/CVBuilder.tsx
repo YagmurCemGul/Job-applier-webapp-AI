@@ -3,15 +3,34 @@ import { CVUpload } from '@/components/cv/CVUpload'
 import { CVTextPreview } from '@/components/cv/CVTextPreview'
 import { JobPostingInput } from '@/components/job/JobPostingInput'
 import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
+import { ATSScore } from '@/components/optimization/ATSScore'
+import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Loader2, Sparkles, AlertCircle } from 'lucide-react'
+import { aiService } from '@/services/ai.service'
+import { useOptimizationStore } from '@/store/optimizationStore'
 
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
   const [currentStep, setCurrentStep] = useState<'upload' | 'job' | 'optimize'>('upload')
+
+  const {
+    result,
+    isOptimizing,
+    error,
+    currentCV,
+    setResult,
+    setOptimizing,
+    setError,
+    reset: resetOptimization,
+  } = useOptimizationStore()
 
   const handleCVUpload = (data: ParsedCVData) => {
     setParsedCV(data)
@@ -20,10 +39,32 @@ export default function CVBuilderPage() {
 
   const handleJobParsed = (job: JobPosting) => {
     setJobPosting(job)
-    setTimeout(() => setCurrentStep('optimize'), 500)
   }
 
-  const canProceed = parsedCV !== null && jobPosting !== null
+  const handleOptimize = async () => {
+    if (!parsedCV || !jobPosting) return
+
+    setOptimizing(true)
+    setError(null)
+
+    try {
+      const optimizationResult = await aiService.optimizeCV({
+        cvText: parsedCV.text,
+        jobPosting: jobPosting.rawText,
+        jobTitle: jobPosting.parsed.title,
+        jobSkills: jobPosting.parsed.skills,
+      })
+
+      setResult(optimizationResult)
+      setCurrentStep('optimize')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Optimization failed')
+    } finally {
+      setOptimizing(false)
+    }
+  }
+
+  const canOptimize = parsedCV !== null && jobPosting !== null
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
@@ -54,7 +95,7 @@ export default function CVBuilderPage() {
           step={3}
           label="Optimize"
           active={currentStep === 'optimize'}
-          completed={canProceed}
+          completed={result !== null}
         />
       </div>
 
@@ -65,7 +106,7 @@ export default function CVBuilderPage() {
           <TabsTrigger value="job" disabled={!parsedCV}>
             2. Job Posting
           </TabsTrigger>
-          <TabsTrigger value="optimize" disabled={!canProceed}>
+          <TabsTrigger value="optimize" disabled={!canOptimize}>
             3. Optimize
           </TabsTrigger>
         </TabsList>
@@ -91,40 +132,103 @@ export default function CVBuilderPage() {
             {jobPosting && <JobAnalysisDisplay job={jobPosting} />}
           </div>
 
-          {jobPosting && (
-            <div className="mt-6 flex justify-between">
-              <Button variant="outline" onClick={() => setCurrentStep('upload')}>
-                ← Back to CV
-              </Button>
-              <Button onClick={() => setCurrentStep('optimize')}>
-                Continue to Optimize →
-              </Button>
-            </div>
+          {error && (
+            <Alert variant="destructive" className="mt-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
           )}
+
+          <div className="mt-6 flex justify-between">
+            <Button variant="outline" onClick={() => setCurrentStep('upload')}>
+              ← Back to CV
+            </Button>
+            <Button
+              onClick={handleOptimize}
+              disabled={!canOptimize || isOptimizing}
+            >
+              {isOptimizing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Optimizing with AI...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Optimize with AI
+                </>
+              )}
+            </Button>
+          </div>
         </TabsContent>
 
         <TabsContent value="optimize" className="mt-6">
-          <div className="text-center py-12">
-            <h2 className="text-2xl font-bold mb-4">Ready to Optimize!</h2>
-            <p className="text-gray-600 mb-4">
-              We have your CV and the job posting. Next step: AI optimization!
-            </p>
-            <div className="mt-6 space-y-2 text-left max-w-2xl mx-auto">
-              <div className="p-4 bg-green-50 rounded-lg">
-                <div className="font-semibold text-green-900">✓ CV Uploaded</div>
-                <div className="text-sm text-green-700">
-                  {parsedCV?.metadata.fileName} ({parsedCV?.metadata.fileSize} bytes)
-                </div>
+          {result ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-6">
+                <ATSScore
+                  score={result.atsScore}
+                  matchingSkills={result.matchingSkills}
+                  missingSkills={result.missingSkills}
+                />
+                <OptimizationChanges changes={result.changes} />
               </div>
-              <div className="p-4 bg-blue-50 rounded-lg">
-                <div className="font-semibold text-blue-900">✓ Job Posting Analyzed</div>
-                <div className="text-sm text-blue-700">
-                  {jobPosting?.parsed.title && `Position: ${jobPosting.parsed.title}`}
-                  {jobPosting?.parsed.company && ` at ${jobPosting.parsed.company}`}
-                </div>
+              
+              <div>
+                <Card className="p-6">
+                  <h3 className="text-lg font-semibold mb-4">Optimized CV Preview</h3>
+                  <ScrollArea className="h-[600px] w-full rounded-md border p-4">
+                    <pre className="text-sm whitespace-pre-wrap">
+                      {currentCV || result.optimizedCV}
+                    </pre>
+                  </ScrollArea>
+                  
+                  <div className="mt-4 flex gap-2">
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setCurrentStep('job')}
+                      className="flex-1"
+                    >
+                      ← Back
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        const blob = new Blob([currentCV || result.optimizedCV], { type: 'text/plain' })
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = 'optimized-cv.txt'
+                        a.click()
+                        URL.revokeObjectURL(url)
+                      }}
+                      className="flex-1"
+                    >
+                      Download CV
+                    </Button>
+                  </div>
+                </Card>
+
+                {result.suggestions.length > 0 && (
+                  <Card className="p-6 mt-6">
+                    <h3 className="text-lg font-semibold mb-4">AI Suggestions</h3>
+                    <ul className="space-y-2">
+                      {result.suggestions.map((suggestion, index) => (
+                        <li key={index} className="flex gap-2 text-sm">
+                          <span className="text-blue-600 font-bold">•</span>
+                          <span>{suggestion}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                )}
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-12">
+              <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
+              <p className="text-gray-600">Optimizing your CV with AI...</p>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </div>
