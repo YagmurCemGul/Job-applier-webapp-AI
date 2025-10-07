@@ -153,3 +153,44 @@
     background: white !important;
   }
 }
+
+/* CV Renderer Print Styles */
+@media print {
+  .cv-renderer {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Hide everything except CV */
+  body * {
+    visibility: hidden;
+  }
+
+  .cv-renderer,
+  .cv-renderer * {
+    visibility: visible;
+  }
+
+  .cv-renderer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+  }
+
+  /* Page breaks */
+  .cv-page-break {
+    page-break-after: always;
+  }
+
+  /* A4 size */
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+/* Smooth scroll */
+.cv-preview-scroll {
+  scroll-behavior: smooth;
+}
