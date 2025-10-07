@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { CVData, PersonalInfo, Experience, Education, Skill } from '@/types/cvData.types'
+import { CVData, PersonalInfo, Experience, Education, Skill, Project } from '@/types/cvData.types'
 
 interface CVDataState {
   currentCV: CVData | null
@@ -26,6 +26,11 @@ interface CVDataState {
   addSkill: (skill: Omit<Skill, 'id'>) => void
   updateSkill: (id: string, updates: Partial<Skill>) => void
   deleteSkill: (id: string) => void
+  
+  // Projects
+  addProject: (project: Omit<Project, 'id'>) => void
+  updateProject: (id: string, updates: Partial<Project>) => void
+  deleteProject: (id: string) => void
   
   // General
   saveCV: (name?: string) => void
@@ -222,6 +227,52 @@ export const useCVDataStore = create<CVDataState>()(
             currentCV: {
               ...state.currentCV,
               skills: state.currentCV.skills.filter((skill) => skill.id !== id),
+              updatedAt: new Date(),
+            },
+          }
+        })
+      },
+
+      // Projects
+      addProject: (project) => {
+        set((state) => {
+          if (!state.currentCV) return state
+          const newProject: Project = {
+            ...project,
+            id: crypto.randomUUID(),
+          }
+          return {
+            currentCV: {
+              ...state.currentCV,
+              projects: [...(state.currentCV.projects || []), newProject],
+              updatedAt: new Date(),
+            },
+          }
+        })
+      },
+
+      updateProject: (id, updates) => {
+        set((state) => {
+          if (!state.currentCV) return state
+          return {
+            currentCV: {
+              ...state.currentCV,
+              projects: (state.currentCV.projects || []).map((proj) =>
+                proj.id === id ? { ...proj, ...updates } : proj
+              ),
+              updatedAt: new Date(),
+            },
+          }
+        })
+      },
+
+      deleteProject: (id) => {
+        set((state) => {
+          if (!state.currentCV) return state
+          return {
+            currentCV: {
+              ...state.currentCV,
+              projects: (state.currentCV.projects || []).filter((proj) => proj.id !== id),
               updatedAt: new Date(),
             },
           }

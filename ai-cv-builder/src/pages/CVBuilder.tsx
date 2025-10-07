@@ -13,6 +13,10 @@ import { TemplateSelector } from '@/components/templates/TemplateSelector'
 import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
 import { PersonalInfoForm } from '@/components/forms/PersonalInfoForm'
 import { ExperienceForm } from '@/components/forms/ExperienceForm'
+import { SummaryForm } from '@/components/forms/SummaryForm'
+import { EducationForm } from '@/components/forms/EducationForm'
+import { SkillsForm } from '@/components/forms/SkillsForm'
+import { ProjectsForm } from '@/components/forms/ProjectsForm'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -164,8 +168,11 @@ export default function CVBuilderPage() {
           <ScrollArea className="h-[calc(100vh-250px)]">
             <div className="space-y-6 pr-4">
               <PersonalInfoForm />
+              <SummaryForm />
               <ExperienceForm />
-              {/* Add more form components here in future steps */}
+              <EducationForm />
+              <SkillsForm />
+              <ProjectsForm />
             </div>
           </ScrollArea>
 
