@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Menu, FileText, User, Settings, LogOut } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -14,19 +14,34 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Sidebar } from './Sidebar'
 import { APP_NAME, ROUTES } from '@/lib/constants'
 import { LanguageSwitcher } from './LanguageSwitcher'
-import { useAuth, useCommonTranslation } from '@/hooks'
+import { useAuthStore } from '@/stores/auth.store'
+import { useCommonTranslation } from '@/hooks'
 
 export function Header() {
-  const { user, logout } = useAuth()
+  const { user, signOut } = useAuthStore()
+  const navigate = useNavigate()
   const { t } = useCommonTranslation()
 
+  const handleSignOut = async () => {
+    await signOut()
+    navigate('/login')
+  }
+
+  const getInitials = (name: string | null) => {
+    if (!name) return 'U'
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
+
   // Default values when no user
-  const displayName = user ? `${user.firstName} ${user.lastName}` : 'Guest'
+  const displayName = user?.displayName || 'Guest'
   const displayEmail = user?.email || 'guest@example.com'
-  const displayAvatar = user?.profilePhoto || ''
-  const displayInitials = user
-    ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`
-    : 'G'
+  const displayAvatar = user?.photoURL || ''
+  const displayInitials = getInitials(user?.displayName || null)
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -117,7 +132,7 @@ export function Header() {
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logout} className="cursor-pointer text-destructive">
+              <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>{t('user.logout')}</span>
               </DropdownMenuItem>

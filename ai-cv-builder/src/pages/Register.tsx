@@ -1,228 +1,210 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Mail, Lock, Chrome } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { useNavigate, Link } from 'react-router-dom'
+import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Separator } from '@/components/ui/separator'
-import { Checkbox } from '@/components/ui/checkbox'
-import { useAuth, useAuthTranslation, useCommonTranslation } from '@/hooks'
-import { ROUTES } from '@/lib/constants'
+import { User, Mail, Lock, Loader2, AlertCircle } from 'lucide-react'
+import { useAuthStore } from '@/stores/auth.store'
+import { FcGoogle } from 'react-icons/fc'
+import { FaGithub } from 'react-icons/fa'
+
+const signupSchema = z.object({
+  displayName: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+})
+
+type SignupFormData = z.infer<typeof signupSchema>
 
 export default function RegisterPage() {
   const navigate = useNavigate()
-  const { register, loginWithGoogle, isLoading } = useAuth()
-  const { t } = useAuthTranslation()
-  const { t: tCommon } = useCommonTranslation()
+  const { signUp, signInWithGoogle, signInWithGithub, loading, error } = useAuthStore()
 
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    agreeToTerms: false,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
   })
 
-  const [errors, setErrors] = useState<Record<string, string>>({})
-
-  const validate = () => {
-    const newErrors: Record<string, string> = {}
-
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = tCommon('validation.required')
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = tCommon('validation.required')
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = tCommon('validation.required')
-    }
-    if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters'
-    }
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = tCommon('validation.passwordMatch')
-    }
-    if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = 'You must agree to the terms'
-    }
-
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-
-    if (!validate()) return
-
-    const result = await register(
-      formData.email,
-      formData.password,
-      formData.firstName,
-      formData.lastName
-    )
-
-    if (result.success) {
-      navigate(ROUTES.DASHBOARD)
+  const onSubmit = async (data: SignupFormData) => {
+    try {
+      await signUp({
+        email: data.email,
+        password: data.password,
+        displayName: data.displayName,
+      })
+      navigate('/dashboard')
+    } catch (error) {
+      // Error is already set in the store
     }
   }
 
-  const handleGoogleLogin = async () => {
-    const result = await loginWithGoogle()
-    if (result.success) {
-      navigate(ROUTES.DASHBOARD)
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle()
+      navigate('/dashboard')
+    } catch (error) {
+      // Error is already set in the store
+    }
+  }
+
+  const handleGithubSignIn = async () => {
+    try {
+      await signInWithGithub()
+      navigate('/dashboard')
+    } catch (error) {
+      // Error is already set in the store
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30 px-4 py-12">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">{t('register.title')}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">{t('register.subtitle')}</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+      <Card className="w-full max-w-md p-8">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
+          <p className="text-gray-600">Sign up to start building your CV</p>
         </div>
 
-        <div className="rounded-lg border bg-card p-8 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">{t('register.firstName')}</Label>
-                <Input
-                  id="firstName"
-                  placeholder="John"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  required
-                />
-                {errors.firstName && (
-                  <p className="text-sm text-destructive">{errors.firstName}</p>
-                )}
-              </div>
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-              <div className="space-y-2">
-                <Label htmlFor="lastName">{t('register.lastName')}</Label>
-                <Input
-                  id="lastName"
-                  placeholder="Doe"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  required
-                />
-                {errors.lastName && (
-                  <p className="text-sm text-destructive">{errors.lastName}</p>
-                )}
-              </div>
-            </div>
+        {/* Social Signup */}
+        <div className="space-y-3 mb-6">
+          <Button
+            variant="outline"
+            className="w-full flex items-center justify-center gap-2"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
+            <FcGoogle size={20} />
+            Continue with Google
+          </Button>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">{t('register.email')}</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  className="pl-10"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                />
-              </div>
-              {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
-            </div>
+          <Button
+            variant="outline"
+            className="w-full flex items-center justify-center gap-2"
+            onClick={handleGithubSignIn}
+            disabled={loading}
+          >
+            <FaGithub size={20} />
+            Continue with GitHub
+          </Button>
+        </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">{t('register.password')}</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  className="pl-10"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  required
-                />
-              </div>
-              {errors.password && <p className="text-sm text-destructive">{errors.password}</p>}
-            </div>
+        <div className="relative mb-6">
+          <Separator />
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-sm text-gray-500">
+            Or sign up with email
+          </span>
+        </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">{t('register.confirmPassword')}</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  className="pl-10"
-                  value={formData.confirmPassword}
-                  onChange={(e) =>
-                    setFormData({ ...formData, confirmPassword: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-sm text-destructive">{errors.confirmPassword}</p>
-              )}
-            </div>
-
-            <div className="flex items-start space-x-2">
-              <Checkbox
-                id="terms"
-                checked={formData.agreeToTerms}
-                onCheckedChange={(checked) =>
-                  setFormData({ ...formData, agreeToTerms: checked as boolean })
-                }
-              />
-              <label htmlFor="terms" className="text-sm text-muted-foreground">
-                {t('register.agreeToTerms')}
-              </label>
-            </div>
-            {errors.agreeToTerms && (
-              <p className="text-sm text-destructive">{errors.agreeToTerms}</p>
-            )}
-
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Creating account...' : t('register.submit')}
-            </Button>
-          </form>
-
-          <div className="mt-6">
+        {/* Signup Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Label htmlFor="displayName">Full Name</Label>
             <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">
-                  {t('login.orContinueWith')}
-                </span>
-              </div>
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="displayName"
+                {...register('displayName')}
+                placeholder="John Doe"
+                className="pl-9"
+                disabled={loading}
+              />
             </div>
-
-            <Button
-              variant="outline"
-              className="mt-4 w-full"
-              onClick={handleGoogleLogin}
-              disabled={isLoading}
-            >
-              <Chrome className="mr-2 h-4 w-4" />
-              Google
-            </Button>
+            {errors.displayName && (
+              <p className="text-sm text-red-600 mt-1">{errors.displayName.message}</p>
+            )}
           </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            {t('register.haveAccount')}{' '}
-            <Link to="/login" className="font-medium text-primary hover:underline">
-              {t('register.logIn')}
-            </Link>
-          </p>
-        </div>
-      </div>
+          <div>
+            <Label htmlFor="email">Email</Label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="email"
+                type="email"
+                {...register('email')}
+                placeholder="you@example.com"
+                className="pl-9"
+                disabled={loading}
+              />
+            </div>
+            {errors.email && (
+              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="password"
+                type="password"
+                {...register('password')}
+                placeholder="••••••••"
+                className="pl-9"
+                disabled={loading}
+              />
+            </div>
+            {errors.password && (
+              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+            )}
+          </div>
+
+          <div>
+            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="confirmPassword"
+                type="password"
+                {...register('confirmPassword')}
+                placeholder="••••••••"
+                className="pl-9"
+                disabled={loading}
+              />
+            </div>
+            {errors.confirmPassword && (
+              <p className="text-sm text-red-600 mt-1">{errors.confirmPassword.message}</p>
+            )}
+          </div>
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating account...
+              </>
+            ) : (
+              'Create Account'
+            )}
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-gray-600 mt-6">
+          Already have an account?{' '}
+          <Link to="/login" className="text-primary hover:underline font-medium">
+            Sign in
+          </Link>
+        </p>
+      </Card>
     </div>
   )
 }
