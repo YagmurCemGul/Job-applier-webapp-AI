@@ -122,3 +122,34 @@
   background-color: hsl(var(--primary));
   border: 1px solid hsl(var(--background));
 }
+
+/* Print styles */
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Hide non-essential elements when printing */
+  nav,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure content fits on page */
+  .print-content {
+    page-break-inside: avoid;
+  }
+
+  /* Reset backgrounds for print */
+  .bg-gray-50,
+  .bg-blue-50,
+  .bg-green-50 {
+    background: white !important;
+  }
+}

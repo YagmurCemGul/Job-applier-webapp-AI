@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { CVUpload } from '@/components/cv/CVUpload'
 import { CVTextPreview } from '@/components/cv/CVTextPreview'
+import { CVPreviewFull } from '@/components/cv/CVPreviewFull'
 import { JobPostingInput } from '@/components/job/JobPostingInput'
 import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
 import { ATSScore } from '@/components/optimization/ATSScore'
 import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
+import { ExportOptions } from '@/components/export/ExportOptions'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -164,63 +166,64 @@ export default function CVBuilderPage() {
 
         <TabsContent value="optimize" className="mt-6">
           {result ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="space-y-6">
+            <div className="space-y-6">
+              {/* Top Section: Score + Suggestions */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <ATSScore
                   score={result.atsScore}
                   matchingSkills={result.matchingSkills}
                   missingSkills={result.missingSkills}
                 />
-                <OptimizationChanges changes={result.changes} />
-              </div>
-              
-              <div>
                 <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Optimized CV Preview</h3>
-                  <ScrollArea className="h-[600px] w-full rounded-md border p-4">
-                    <pre className="text-sm whitespace-pre-wrap">
-                      {currentCV || result.optimizedCV}
-                    </pre>
-                  </ScrollArea>
-                  
-                  <div className="mt-4 flex gap-2">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setCurrentStep('job')}
-                      className="flex-1"
-                    >
-                      ← Back
-                    </Button>
-                    <Button 
-                      onClick={() => {
-                        const blob = new Blob([currentCV || result.optimizedCV], { type: 'text/plain' })
-                        const url = URL.createObjectURL(blob)
-                        const a = document.createElement('a')
-                        a.href = url
-                        a.download = 'optimized-cv.txt'
-                        a.click()
-                        URL.revokeObjectURL(url)
-                      }}
-                      className="flex-1"
-                    >
-                      Download CV
-                    </Button>
-                  </div>
-                </Card>
-
-                {result.suggestions.length > 0 && (
-                  <Card className="p-6 mt-6">
-                    <h3 className="text-lg font-semibold mb-4">AI Suggestions</h3>
+                  <h3 className="text-lg font-semibold mb-4">Suggestions</h3>
+                  <ScrollArea className="h-[200px]">
                     <ul className="space-y-2">
                       {result.suggestions.map((suggestion, index) => (
-                        <li key={index} className="flex gap-2 text-sm">
-                          <span className="text-blue-600 font-bold">•</span>
+                        <li key={index} className="flex items-start gap-2 text-sm">
+                          <span className="text-primary mt-1">•</span>
                           <span>{suggestion}</span>
                         </li>
                       ))}
                     </ul>
-                  </Card>
-                )}
+                  </ScrollArea>
+                </Card>
+              </div>
+
+              {/* Changes Section */}
+              <OptimizationChanges changes={result.changes} />
+
+              {/* Preview & Export Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2">
+                  <CVPreviewFull 
+                    content={currentCV || result.optimizedCV}
+                    atsScore={result.atsScore}
+                  />
+                </div>
+                <div>
+                  <ExportOptions
+                    content={currentCV || result.optimizedCV}
+                    fileName={`CV_Optimized_${new Date().toISOString().split('T')[0]}`}
+                  />
+                </div>
+              </div>
+
+              {/* Navigation */}
+              <div className="flex justify-between pt-6 border-t">
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setCurrentStep('job')
+                    resetOptimization()
+                  }}
+                >
+                  ← Start Over
+                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" onClick={() => window.print()}>
+                    Print CV
+                  </Button>
+                </div>
               </div>
             </div>
           ) : (
