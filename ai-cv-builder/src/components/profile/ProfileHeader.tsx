@@ -15,7 +15,7 @@ export function ProfileHeader({ user, onEditClick }: ProfileHeaderProps) {
   return (
     <div className="flex flex-col gap-6 md:flex-row md:items-start">
       {/* Avatar */}
-      <Avatar className="h-24 w-24">
+      <Avatar className="h-24 w-24 ring-2 ring-border">
         <AvatarImage src={user.profilePhoto} alt={`${user.firstName} ${user.lastName}`} />
         <AvatarFallback className="text-2xl">{initials}</AvatarFallback>
       </Avatar>
