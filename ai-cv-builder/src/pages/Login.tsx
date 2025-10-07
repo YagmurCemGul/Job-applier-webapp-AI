@@ -1,135 +1,175 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { Mail, Lock, Chrome } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { useNavigate, Link } from 'react-router-dom'
+import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Separator } from '@/components/ui/separator'
-import { useAuth, useAuthTranslation } from '@/hooks'
-import { ROUTES } from '@/lib/constants'
+import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react'
+import { useAuthStore } from '@/stores/auth.store'
+import { FcGoogle } from 'react-icons/fc'
+import { FaGithub } from 'react-icons/fa'
+
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+})
+
+type LoginFormData = z.infer<typeof loginSchema>
 
 export default function LoginPage() {
   const navigate = useNavigate()
-  const { login, loginWithGoogle, isLoading } = useAuth()
-  const { t } = useAuthTranslation()
+  const { signIn, signInWithGoogle, signInWithGithub, loading, error } = useAuthStore()
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    rememberMe: false,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
   })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const result = await login(formData.email, formData.password)
-    if (result.success) {
-      navigate(ROUTES.DASHBOARD)
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      await signIn(data)
+      navigate('/dashboard')
+    } catch (error) {
+      // Error is already set in the store
     }
   }
 
-  const handleGoogleLogin = async () => {
-    const result = await loginWithGoogle()
-    if (result.success) {
-      navigate(ROUTES.DASHBOARD)
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle()
+      navigate('/dashboard')
+    } catch (error) {
+      // Error is already set in the store
+    }
+  }
+
+  const handleGithubSignIn = async () => {
+    try {
+      await signInWithGithub()
+      navigate('/dashboard')
+    } catch (error) {
+      // Error is already set in the store
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/30 px-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">{t('login.title')}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">{t('login.subtitle')}</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+      <Card className="w-full max-w-md p-8">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
+          <p className="text-gray-600">Sign in to your account to continue</p>
         </div>
 
-        <div className="rounded-lg border bg-card p-8 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email">{t('login.email')}</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  className="pl-10"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  required
-                />
-              </div>
-            </div>
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
 
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">{t('login.password')}</Label>
-                <Link to="/forgot-password" className="text-sm text-primary hover:underline">
-                  {t('login.forgotPassword')}
-                </Link>
-              </div>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  className="pl-10"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  required
-                />
-              </div>
-            </div>
+        {/* Social Login */}
+        <div className="space-y-3 mb-6">
+          <Button
+            variant="outline"
+            className="w-full flex items-center justify-center gap-2"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+          >
+            <FcGoogle size={20} />
+            Continue with Google
+          </Button>
 
-            <div className="flex items-center space-x-2">
-              <input
-                id="remember"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300"
-                checked={formData.rememberMe}
-                onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-              />
-              <label htmlFor="remember" className="text-sm text-muted-foreground">
-                {t('login.rememberMe')}
-              </label>
-            </div>
+          <Button
+            variant="outline"
+            className="w-full flex items-center justify-center gap-2"
+            onClick={handleGithubSignIn}
+            disabled={loading}
+          >
+            <FaGithub size={20} />
+            Continue with GitHub
+          </Button>
+        </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Loading...' : t('login.submit')}
-            </Button>
-          </form>
+        <div className="relative mb-6">
+          <Separator />
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-sm text-gray-500">
+            Or continue with
+          </span>
+        </div>
 
-          <div className="mt-6">
+        {/* Email Login Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Label htmlFor="email">Email</Label>
             <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <Separator />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">
-                  {t('login.orContinueWith')}
-                </span>
-              </div>
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="email"
+                type="email"
+                {...register('email')}
+                placeholder="you@example.com"
+                className="pl-9"
+                disabled={loading}
+              />
             </div>
-
-            <Button
-              variant="outline"
-              className="mt-4 w-full"
-              onClick={handleGoogleLogin}
-              disabled={isLoading}
-            >
-              <Chrome className="mr-2 h-4 w-4" />
-              Google
-            </Button>
+            {errors.email && (
+              <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
+            )}
           </div>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
-            {t('login.noAccount')}{' '}
-            <Link to="/register" className="font-medium text-primary hover:underline">
-              {t('login.signUp')}
+          <div>
+            <Label htmlFor="password">Password</Label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="password"
+                type="password"
+                {...register('password')}
+                placeholder="••••••••"
+                className="pl-9"
+                disabled={loading}
+              />
+            </div>
+            {errors.password && (
+              <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>
+            )}
+          </div>
+
+          <div className="flex items-center justify-end">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-primary hover:underline"
+            >
+              Forgot password?
             </Link>
-          </p>
-        </div>
-      </div>
+          </div>
+
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              'Sign In'
+            )}
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-gray-600 mt-6">
+          Don't have an account?{' '}
+          <Link to="/register" className="text-primary hover:underline font-medium">
+            Sign up
+          </Link>
+        </p>
+      </Card>
     </div>
   )
 }
