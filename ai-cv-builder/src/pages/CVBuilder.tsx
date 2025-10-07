@@ -17,6 +17,7 @@ import { SummaryForm } from '@/components/forms/SummaryForm'
 import { EducationForm } from '@/components/forms/EducationForm'
 import { SkillsForm } from '@/components/forms/SkillsForm'
 import { ProjectsForm } from '@/components/forms/ProjectsForm'
+import { SaveCVDialog } from '@/components/cv/SaveCVDialog'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -95,11 +96,15 @@ export default function CVBuilderPage() {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">AI CV Builder</h1>
-        <p className="text-gray-600">
-          Upload your CV and paste the job posting to get ATS-optimized results
-        </p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">AI CV Builder</h1>
+          <p className="text-gray-600">
+            Upload your CV and paste the job posting to get ATS-optimized results
+          </p>
+        </div>
+
+        <SaveCVDialog />
       </div>
 
       {/* Progress Steps */}
