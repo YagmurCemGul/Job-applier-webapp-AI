@@ -1,0 +1,61 @@
+{
+  "title": "İş İlanları",
+  "search": "İş ara",
+  "filters": {
+    "title": "Filtreler",
+    "keyword": "Anahtar Kelime",
+    "location": "Konum",
+    "remote": "Uzaktan",
+    "jobType": "İş Türü",
+    "experienceLevel": "Deneyim Seviyesi",
+    "salary": "Maaş Aralığı",
+    "datePosted": "Yayın Tarihi",
+    "company": "Şirket"
+  },
+  "jobTypes": {
+    "fullTime": "Tam Zamanlı",
+    "partTime": "Yarı Zamanlı",
+    "contract": "Sözleşmeli",
+    "freelance": "Serbest",
+    "internship": "Staj"
+  },
+  "experienceLevels": {
+    "entry": "Giriş Seviyesi",
+    "junior": "Junior",
+    "mid": "Orta Seviye",
+    "senior": "Kıdemli",
+    "lead": "Lider",
+    "manager": "Yönetici",
+    "director": "Direktör"
+  },
+  "datePosted": {
+    "any": "Tüm Zamanlar",
+    "today": "Bugün",
+    "week": "Son Hafta",
+    "month": "Son Ay"
+  },
+  "actions": {
+    "apply": "Başvur",
+    "save": "İş İlanını Kaydet",
+    "unsave": "Kaydetme",
+    "viewDetails": "Detayları Gör",
+    "share": "Paylaş",
+    "reportJob": "Bildir"
+  },
+  "status": {
+    "saved": "Kaydedildi",
+    "applied": "Başvuruldu",
+    "viewing": "Görüntüleniyor",
+    "closed": "Kapalı"
+  },
+  "details": {
+    "description": "İş Açıklaması",
+    "requirements": "Gereksinimler",
+    "responsibilities": "Sorumluluklar",
+    "benefits": "Faydalar",
+    "about": "Şirket Hakkında",
+    "postedOn": "Yayınlanma tarihi",
+    "applicants": "{{count}} başvuru",
+    "applicants_other": "{{count}} başvuru"
+  }
+}

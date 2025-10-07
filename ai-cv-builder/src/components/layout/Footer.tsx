@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { Separator } from '@/components/ui/separator'
 import { APP_NAME, APP_VERSION } from '@/lib/constants'
+import { useCommonTranslation } from '@/hooks'
 
 export function Footer() {
+  const { t } = useCommonTranslation()
   const currentYear = new Date().getFullYear()
 
   return (
@@ -11,29 +13,29 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Column 1: About */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold">About</h3>
+            <h3 className="mb-3 text-sm font-semibold">{t('footer.about')}</h3>
             <p className="text-sm text-muted-foreground">
-              Create professional, ATS-optimized CVs and cover letters with AI assistance.
+              {t('app.tagline')}
             </p>
           </div>
 
           {/* Column 2: Product */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold">Product</h3>
+            <h3 className="mb-3 text-sm font-semibold">{t('footer.product')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link to="/cv-builder" className="text-muted-foreground hover:text-foreground">
-                  CV Builder
+                  {t('navigation.cvBuilder')}
                 </Link>
               </li>
               <li>
                 <Link to="/cover-letter" className="text-muted-foreground hover:text-foreground">
-                  Cover Letter
+                  {t('navigation.coverLetter')}
                 </Link>
               </li>
               <li>
                 <Link to="/jobs" className="text-muted-foreground hover:text-foreground">
-                  Job Search
+                  {t('navigation.jobs')}
                 </Link>
               </li>
             </ul>
@@ -41,21 +43,21 @@ export function Footer() {
 
           {/* Column 3: Resources */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold">Resources</h3>
+            <h3 className="mb-3 text-sm font-semibold">{t('footer.resources')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="text-muted-foreground hover:text-foreground">
-                  Help Center
+                  {t('footer.helpCenter')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-foreground">
-                  Blog
+                  {t('footer.blog')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-foreground">
-                  Tutorials
+                  {t('footer.tutorials')}
                 </a>
               </li>
             </ul>
@@ -63,21 +65,21 @@ export function Footer() {
 
           {/* Column 4: Legal */}
           <div>
-            <h3 className="mb-3 text-sm font-semibold">Legal</h3>
+            <h3 className="mb-3 text-sm font-semibold">{t('footer.legal')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <a href="#" className="text-muted-foreground hover:text-foreground">
-                  Privacy Policy
+                  {t('footer.privacyPolicy')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-foreground">
-                  Terms of Service
+                  {t('footer.termsOfService')}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-muted-foreground hover:text-foreground">
-                  Cookie Policy
+                  {t('footer.cookiePolicy')}
                 </a>
               </li>
             </ul>
@@ -89,7 +91,7 @@ export function Footer() {
         {/* Bottom */}
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} {APP_NAME}. All rights reserved. v{APP_VERSION}
+            © {currentYear} {APP_NAME}. {t('footer.allRightsReserved')} {t('app.version', { version: APP_VERSION })}
           </p>
           <div className="flex gap-4">
             <a

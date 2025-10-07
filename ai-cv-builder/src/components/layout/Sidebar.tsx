@@ -12,29 +12,31 @@ import { cn } from '@/lib/utils'
 import { ROUTES } from '@/lib/constants'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-
-const navigation = [
-  {
-    title: 'Main',
-    items: [
-      { name: 'Dashboard', href: ROUTES.DASHBOARD, icon: LayoutDashboard },
-      { name: 'CV Builder', href: ROUTES.CV_BUILDER, icon: FileText },
-      { name: 'Cover Letter', href: ROUTES.COVER_LETTER, icon: Mail },
-      { name: 'Job Listings', href: ROUTES.JOBS, icon: Briefcase },
-    ],
-  },
-  {
-    title: 'Account',
-    items: [
-      { name: 'Profile', href: ROUTES.PROFILE, icon: User },
-      { name: 'My Documents', href: '/documents', icon: FolderOpen },
-      { name: 'Settings', href: ROUTES.SETTINGS, icon: Settings },
-    ],
-  },
-]
+import { useCommonTranslation } from '@/hooks'
 
 export function Sidebar() {
   const location = useLocation()
+  const { t } = useCommonTranslation()
+
+  const navigation = [
+    {
+      title: 'Main',
+      items: [
+        { name: t('navigation.dashboard'), href: ROUTES.DASHBOARD, icon: LayoutDashboard },
+        { name: t('navigation.cvBuilder'), href: ROUTES.CV_BUILDER, icon: FileText },
+        { name: t('navigation.coverLetter'), href: ROUTES.COVER_LETTER, icon: Mail },
+        { name: t('navigation.jobs'), href: ROUTES.JOBS, icon: Briefcase },
+      ],
+    },
+    {
+      title: 'Account',
+      items: [
+        { name: t('navigation.profile'), href: ROUTES.PROFILE, icon: User },
+        { name: t('navigation.myDocuments'), href: '/documents', icon: FolderOpen },
+        { name: t('navigation.settings'), href: ROUTES.SETTINGS, icon: Settings },
+      ],
+    },
+  ]
 
   return (
     <ScrollArea className="h-full py-6">
