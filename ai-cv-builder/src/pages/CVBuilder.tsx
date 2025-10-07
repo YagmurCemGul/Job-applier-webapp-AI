@@ -11,6 +11,8 @@ import { CoverLetterGenerator } from '@/components/cover-letter/CoverLetterGener
 import { CoverLetterPreview } from '@/components/cover-letter/CoverLetterPreview'
 import { TemplateSelector } from '@/components/templates/TemplateSelector'
 import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
+import { PersonalInfoForm } from '@/components/forms/PersonalInfoForm'
+import { ExperienceForm } from '@/components/forms/ExperienceForm'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -18,16 +20,17 @@ import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate, FileEdit } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { useOptimizationStore } from '@/store/optimizationStore'
 import { useCoverLetterStore } from '@/store/coverLetterStore'
 import { useTemplateStore } from '@/stores/template.store'
+import { useCVDataStore } from '@/stores/cvData.store'
 
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
-  const [currentStep, setCurrentStep] = useState<'upload' | 'job' | 'optimize' | 'cover-letter' | 'template'>('upload')
+  const [currentStep, setCurrentStep] = useState<'upload' | 'edit' | 'job' | 'optimize' | 'cover-letter' | 'template'>('upload')
 
   const {
     result,
@@ -42,10 +45,12 @@ export default function CVBuilderPage() {
 
   const { currentLetter } = useCoverLetterStore()
   const { initializeTemplates } = useTemplateStore()
+  const { initializeCV } = useCVDataStore()
 
-  // Initialize templates on mount
+  // Initialize templates and CV data on mount
   useEffect(() => {
     initializeTemplates()
+    initializeCV()
   }, [])
 
   const handleCVUpload = (data: ParsedCVData) => {
@@ -117,13 +122,17 @@ export default function CVBuilderPage() {
 
       {/* Main Content */}
       <Tabs value={currentStep} onValueChange={(v) => setCurrentStep(v as any)}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="upload">1. Upload CV</TabsTrigger>
+          <TabsTrigger value="edit">
+            <FileEdit className="h-4 w-4 mr-2" />
+            2. Edit
+          </TabsTrigger>
           <TabsTrigger value="job" disabled={!parsedCV}>
-            2. Job Posting
+            3. Job Posting
           </TabsTrigger>
           <TabsTrigger value="optimize" disabled={!canOptimize}>
-            3. Optimize CV
+            4. Optimize CV
           </TabsTrigger>
           <TabsTrigger value="cover-letter" disabled={!canOptimize}>
             <FileText className="h-4 w-4 mr-2" />
@@ -143,11 +152,31 @@ export default function CVBuilderPage() {
           
           {parsedCV && (
             <div className="mt-6 flex justify-end">
-              <Button onClick={() => setCurrentStep('job')}>
-                Continue to Job Posting →
+              <Button onClick={() => setCurrentStep('edit')}>
+                Continue to Edit →
               </Button>
             </div>
           )}
+        </TabsContent>
+
+        {/* Edit Tab */}
+        <TabsContent value="edit" className="mt-6">
+          <ScrollArea className="h-[calc(100vh-250px)]">
+            <div className="space-y-6 pr-4">
+              <PersonalInfoForm />
+              <ExperienceForm />
+              {/* Add more form components here in future steps */}
+            </div>
+          </ScrollArea>
+
+          <div className="mt-6 flex justify-between">
+            <Button variant="outline" onClick={() => setCurrentStep('upload')}>
+              ← Back to Upload
+            </Button>
+            <Button onClick={() => setCurrentStep('job')}>
+              Continue to Job Posting →
+            </Button>
+          </div>
         </TabsContent>
 
         <TabsContent value="job" className="mt-6">
