@@ -6,6 +6,8 @@ import { ProfileHeader } from '@/components/profile/ProfileHeader'
 import { formatDate, formatCurrency } from '@/lib/formatters'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '@/lib/constants'
+import { SAMPLE_CV } from '@/lib/mock/cv.mock'
+import { calculateTotalExperience, getAllSkillsFromCV } from '@/lib/helpers/cv.helpers'
 
 export default function DashboardPage() {
   const navigate = useNavigate()
@@ -15,6 +17,10 @@ export default function DashboardPage() {
   const cvs = useCVStore((state) => state.cvs)
   const savedJobs = useJobStore((state) => state.savedJobs)
   const profiles = useProfileStore((state) => state.profiles)
+
+  // CV Data Model Test
+  const totalExperience = calculateTotalExperience(SAMPLE_CV.experience)
+  const allSkills = getAllSkillsFromCV(SAMPLE_CV)
 
   const handleTestToast = () => {
     toast.success(t('status.success'), 'This is a success message from Zustand store.')
@@ -85,6 +91,34 @@ export default function DashboardPage() {
           <p>Currency (TRY): {formatCurrency(12345.67, 'TRY')}</p>
           <p>Status: {t('status.loading')}</p>
           <Button onClick={handleTestToast}>{t('actions.save')}</Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Sample CV Data</CardTitle>
+          <CardDescription>Mock CV for testing CV data model (STEP 9)</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p>
+            <strong>Name:</strong> {SAMPLE_CV.firstName} {SAMPLE_CV.middleName}{' '}
+            {SAMPLE_CV.lastName}
+          </p>
+          <p>
+            <strong>Total Experience:</strong> {totalExperience} years
+          </p>
+          <p>
+            <strong>Total Skills:</strong> {allSkills.length}
+          </p>
+          <p>
+            <strong>Experiences:</strong> {SAMPLE_CV.experience.length}
+          </p>
+          <p>
+            <strong>Education:</strong> {SAMPLE_CV.education.length}
+          </p>
+          <p>
+            <strong>ATS Score:</strong> {SAMPLE_CV.atsScore}/100
+          </p>
         </CardContent>
       </Card>
     </div>
