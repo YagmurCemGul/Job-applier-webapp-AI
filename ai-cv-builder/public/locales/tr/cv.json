@@ -113,7 +113,39 @@
     "missing": "eksik",
     "pastePlaceholder": "İş ilanı açıklamasını buraya yapıştırın...",
     "chooseFile": "Dosya Seç",
-    "corsNote": "Not: Bazı siteler CORS'u engelliyor. Gerekirse sonraki adımlarda bir sunucu proxy'si ekleyin."
+    "corsNote": "Not: Bazı siteler CORS'u engelliyor. Gerekirse sonraki adımlarda bir sunucu proxy'si ekleyin.",
+    "subtabs": {
+      "input": "Girdi",
+      "saved": "Kayıtlı İlanlar"
+    },
+    "form": {
+      "title": "Pozisyon",
+      "company": "Şirket",
+      "location": "Konum",
+      "remote": "Çalışma Şekli",
+      "employment": "İstihdam Türü",
+      "seniority": "Kıdem",
+      "salaryMin": "Maaş Min",
+      "salaryMax": "Maaş Max",
+      "currency": "Para Birimi",
+      "period": "Periyot",
+      "sourceUrl": "Kaynak URL",
+      "sourceSite": "Kaynak Site",
+      "tags": "Etiketler (virgülle ayırın)",
+      "notes": "Notlar",
+      "raw": "Ham Metin (parser)",
+      "save": "İlanı Kaydet",
+      "analyze": "Geçerli CV ile Analiz"
+    },
+    "saved": {
+      "search": "Başlık, şirket, etiket ara…",
+      "status": "Durum",
+      "favorites": "Sadece favoriler",
+      "none": "Filtrelere uyan kayıtlı ilan yok.",
+      "analyze": "Analiz",
+      "open": "Aç",
+      "delete": "Sil"
+    }
   },
   "optimize": {
     "tab": "Optimize Et",

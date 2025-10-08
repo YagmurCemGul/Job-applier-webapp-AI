@@ -5,6 +5,7 @@ import { CVPreviewFull } from '@/components/cv/CVPreviewFull'
 import { JobPostingInput } from '@/components/job/JobPostingInput'
 import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
 import JobInput from '@/components/job/JobInput'
+import JobInputTabs from '@/components/job/JobInputTabs'
 import ATSPanel from '@/components/ats/ATSPanel'
 import { ATSScore } from '@/components/optimization/ATSScore'
 import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
@@ -238,10 +239,7 @@ export default function CVBuilderPage() {
         <TabsContent value="job" className="mt-6">
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <Card className="p-6">
-                <h3 className="text-lg font-semibold mb-4">Job Posting Input</h3>
-                <JobInput />
-              </Card>
+              <JobInputTabs />
               
               {parsedJob && cvData && (
                 <Button

@@ -113,7 +113,39 @@
     "missing": "missing",
     "pastePlaceholder": "Paste the job description here...",
     "chooseFile": "Choose File",
-    "corsNote": "Note: Some sites block CORS. Add a server proxy in later steps if required."
+    "corsNote": "Note: Some sites block CORS. Add a server proxy in later steps if required.",
+    "subtabs": {
+      "input": "Input",
+      "saved": "Saved Jobs"
+    },
+    "form": {
+      "title": "Title",
+      "company": "Company",
+      "location": "Location",
+      "remote": "Remote Type",
+      "employment": "Employment Type",
+      "seniority": "Seniority",
+      "salaryMin": "Salary Min",
+      "salaryMax": "Salary Max",
+      "currency": "Currency",
+      "period": "Period",
+      "sourceUrl": "Source URL",
+      "sourceSite": "Source Site",
+      "tags": "Tags (comma separated)",
+      "notes": "Notes",
+      "raw": "Raw Text (from parser)",
+      "save": "Save Job",
+      "analyze": "Analyze with current CV"
+    },
+    "saved": {
+      "search": "Search title, company, tags…",
+      "status": "Status",
+      "favorites": "Favorites only",
+      "none": "No saved jobs match filters.",
+      "analyze": "Analyze",
+      "open": "Open",
+      "delete": "Delete"
+    }
   },
   "optimize": {
     "tab": "Optimize",
