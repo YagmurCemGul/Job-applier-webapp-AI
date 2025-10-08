@@ -1,0 +1,144 @@
+{
+  "review": {
+    "title": "Performans Değerlendirmeleri",
+    "confidential": "GİZLİ — yalnızca değerlendirme/kalibrasyon için.",
+    "startCycle": "Değerlendirme Döngüsü Başlat",
+    "newCycle": "Yeni Döngü",
+    "editCycle": "Değerlendirme Döngüsünü Düzenle",
+    "selectCycle": "Değerlendirme döngüsü seç",
+    "noCycles": "Henüz değerlendirme döngüsü yok. Etki takibi ve geri bildirim toplamaya başlamak için ilk döngünüzü başlatın.",
+    
+    "overview": "Genel Bakış",
+    "impact": "Etkiler",
+    "feedback": "Geri Bildirim",
+    "selfReview": "Kendini Değerlendirme",
+    "calibration": "Kalibrasyon",
+    "promotion": "Terfi Dosyası",
+    "visibility": "Görünürlük",
+    
+    "cycleTitle": "Başlık",
+    "kind": "Tür",
+    "startDate": "Başlangıç Tarihi",
+    "endDate": "Bitiş Tarihi",
+    "retention": "Veri Saklama",
+    "deadlines": "Son Tarihler",
+    "addDeadline": "Son tarih ekle",
+    "createCalendarReminders": "Takvim hatırlatıcıları oluştur",
+    
+    "kinds": {
+      "midYear": "Yıl Ortası",
+      "yearEnd": "Yıl Sonu",
+      "probation": "Deneme Süresi",
+      "promotion": "Terfi"
+    },
+    
+    "kpis": {
+      "impacts": "Etkiler",
+      "impactsDesc": "Kanıt öğeleri",
+      "responses": "Yanıt Oranı",
+      "responsesDesc": "yanıt",
+      "completeness": "Öz Değerlendirme",
+      "completenessDesc": "Tamamlanma",
+      "readiness": "Kalibrasyon",
+      "readinessDesc": "Hazırlık"
+    },
+    
+    "manageImpact": "Etkileri Yönet",
+    "manageImpactDesc": "Katkılarınızı takip edin ve etiketleyin",
+    "collectFeedback": "Geri Bildirim Topla",
+    "collectFeedbackDesc": "360 geri bildirim isteyin ve inceleyin",
+    "writeSelfReview": "Öz Değerlendirme Yaz",
+    "writeSelfReviewDesc": "AI destekli STAR değerlendirmesi",
+    "buildPromotion": "Terfi Dosyası Oluştur",
+    "buildPromotionDesc": "Kanıtlarla dosya birleştirin",
+    
+    "upcomingDeadlines": "Yaklaşan Son Tarihler",
+    
+    "searchImpacts": "Etkileri ara...",
+    "filterByCompetency": "Yetkinliğe göre filtrele",
+    "addImpact": "Etki Ekle",
+    "impactsCount": "{{count}} etki",
+    "impactsList": "Etki listesi",
+    "impactTitle": "Etki başlığı",
+    "impactDetail": "Etki detayları",
+    "noImpacts": "Etki bulunamadı. Manuel ekleyin veya kanıtlardan toplayın.",
+    "competency": "Yetkinlik",
+    
+    "competencies": {
+      "execution": "Uygulama",
+      "craft": "Ustalık",
+      "leadership": "Liderlik",
+      "collaboration": "İşbirliği",
+      "communication": "İletişim",
+      "impact": "Etki"
+    },
+    
+    "selectReviewers": "Değerlendiricileri Seç",
+    "fromStakeholders": "Paydaşlardan",
+    "chooseStakeholder": "Paydaş seç...",
+    "addManually": "Manuel Ekle",
+    "reviewerEmail": "E-posta",
+    "reviewerName": "İsim",
+    "anonymousRequests": "Anonim yanıtları etkinleştir",
+    "customMessage": "Özel Mesaj (İsteğe Bağlı)",
+    "customMessagePlaceholder": "Kişisel not ekle...",
+    "sendRequests": "İstek Gönder",
+    "sending": "Gönderiliyor...",
+    
+    "requestFeedback": "Geri Bildirim İste",
+    "feedbackInbox": "Geri Bildirim Gelen Kutusu",
+    "sendReminders": "Hatırlatıcı Gönder",
+    "remind": "Hatırlatıcı Gönder",
+    "noRemindersNeeded": "Hatırlatılacak bekleyen istek yok.",
+    "sentOn": "Gönderilme tarihi",
+    
+    "responsesCount": "{{count}} yanıt",
+    "noResponses": "Henüz geri bildirim yanıtı yok.",
+    "showRaw": "Ham Göster",
+    "anonymize": "Anonimleştir",
+    "anonymous": "Anonim",
+    "redacted": "Sansürlü",
+    "aiSummary": "AI Özet",
+    
+    "sentiment": {
+      "positive": "Olumlu",
+      "neutral": "Nötr",
+      "negative": "Olumsuz"
+    },
+    
+    "generateAI": "AI Oluştur",
+    "wordCount": "Kelime Sayısı",
+    "clarity": "Açıklık",
+    "noImpactsForAI": "Etki girişi bulunamadı. AI inceleme oluşturmak için etki ekleyin.",
+    "overview": "Genel Bakış",
+    "overviewPlaceholder": "Temel katkılarınızı özetleyin...",
+    "highlights": "Öne Çıkanlar",
+    "growthAreas": "Gelişim Alanları",
+    "nextObjectives": "Sonraki Hedefler",
+    "createSelfReviewFirst": "Terfi dosyası oluşturmak için önce öz değerlendirme oluşturun.",
+    
+    "targetLevel": "Hedef Seviye",
+    "enterTargetLevel": "Kalibrasyon matrisini görmek için hedef seviye girin.",
+    "noRubric": "Bu seviye için rubrik tanımlanmamış. Ayarlarda rubrik beklentileri ekleyin.",
+    "competencyMatrix": "Yetkinlik Değerlendirme Matrisi",
+    "evidence": "Kanıt",
+    "calibrationNotes": "Kalibrasyon Notları",
+    "addNotePlaceholder": "Not ekle...",
+    "exportPDF": "PDF Dışa Aktar",
+    "exportDocs": "Google Doc Olarak",
+    "shareEmail": "E-posta ile Paylaş",
+    
+    "scopeNarrative": "Kapsam Artış Anlatısı",
+    "narrativePlaceholder": "Kapsamınızın nasıl büyüdüğünü açıklayın...",
+    "supportingQuotes": "Destekleyen Alıntılar",
+    "selectQuotes": "Dosyanıza eklemek için geri bildirim parçaları seçin.",
+    "noQuotes": "Seçilecek geri bildirim yanıtı yok.",
+    "previewPacket": "Dosyayı Önizle",
+    
+    "visibility": {
+      "noGaps": "Görünürlük açığı tespit edilmedi. Harika kapsam!",
+      "gapsFound": "{{count}} görünürlük açığı bulundu",
+      "schedule": "Planla"
+    }
+  }
+}
