@@ -1,265 +1,122 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { useJobsStore } from '@/stores/jobs.store'
-import type { JobPosting } from '@/types/jobPosting.types'
-import type { ParsedJob } from '@/types/ats.types'
+/**
+ * Jobs Store Unit Tests
+ * Step 32 - Tests for jobs store
+ */
 
-// Mock the service layer
-vi.mock('@/services/jobs/jobPostings.service', () => ({
-  saveJobPosting: vi.fn(async (doc: JobPosting) => ({ ok: true, id: doc.id })),
-  getJobPosting: vi.fn(async (id: string) => undefined),
-  listJobPostings: vi.fn(async () => ({ ok: true, items: [] })),
-  deleteJobPosting: vi.fn(async () => ({ ok: true })),
-}))
-
-// Mock localStorage
-const mockLocalStorage = (() => {
-  let store: Record<string, string> = {}
-  return {
-    getItem: (key: string) => store[key] || null,
-    setItem: (key: string, value: string) => {
-      store[key] = value
-    },
-    removeItem: (key: string) => {
-      delete store[key]
-    },
-    clear: () => {
-      store = {}
-    },
-  }
-})()
-
-// @ts-ignore
-global.localStorage = mockLocalStorage
-
-// Mock crypto.randomUUID
-// @ts-ignore
-global.crypto = {
-  randomUUID: () => `test-uuid-${Math.random().toString(36).slice(2)}`,
-}
+import { describe, it, expect, beforeEach } from 'vitest';
+import { useJobsStore } from '@/stores/jobs.store';
+import type { JobNormalized, FetchLog } from '@/types/jobs.types';
 
 describe('jobs.store', () => {
   beforeEach(() => {
-    mockLocalStorage.clear()
-    useJobsStore.setState({
-      items: [],
-      filter: { status: 'all' },
-      loading: false,
-      error: undefined,
-      selectedId: undefined,
-    })
-  })
+    useJobsStore.setState({ items: [], logs: [], selectedId: undefined });
+  });
 
-  const createMockParsedJob = (): ParsedJob => ({
-    title: 'Senior Developer',
+  const createJob = (id: string): JobNormalized => ({
+    id,
+    sourceId: id,
+    title: 'Test Job',
     company: 'Test Corp',
-    location: 'Remote',
-    remoteType: 'remote',
-    sections: {
-      raw: 'Senior Developer at Test Corp. Remote position.',
-    },
-    keywords: ['react', 'typescript'],
-    lang: 'en',
-  })
+    location: 'NYC',
+    descriptionText: 'Test',
+    url: 'https://example.com',
+    source: { name: 'test', kind: 'rss', domain: 'example.com' },
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    fingerprint: id,
+  });
 
-  describe('setFilter', () => {
-    it('should update filter state', () => {
-      const store = useJobsStore.getState()
+  describe('upsertMany', () => {
+    it('should add new jobs', () => {
+      const jobs = [createJob('1'), createJob('2')];
+      useJobsStore.getState().upsertMany(jobs);
+      expect(useJobsStore.getState().items).toHaveLength(2);
+    });
 
-      store.setFilter({ q: 'react' })
-      expect(useJobsStore.getState().filter.q).toBe('react')
+    it('should update existing jobs', () => {
+      const job1 = createJob('1');
+      useJobsStore.getState().upsertMany([job1]);
+      
+      const updated = { ...job1, title: 'Updated Title' };
+      useJobsStore.getState().upsertMany([updated]);
+      
+      expect(useJobsStore.getState().items).toHaveLength(1);
+      expect(useJobsStore.getState().items[0].title).toBe('Updated Title');
+    });
 
-      store.setFilter({ favorite: true })
-      expect(useJobsStore.getState().filter.favorite).toBe(true)
-      expect(useJobsStore.getState().filter.q).toBe('react') // Previous filter preserved
-    })
-
-    it('should merge filters without overwriting', () => {
-      const store = useJobsStore.getState()
-
-      store.setFilter({ q: 'developer', status: 'saved' })
-      expect(useJobsStore.getState().filter).toEqual({
-        q: 'developer',
-        status: 'saved',
-      })
-
-      store.setFilter({ favorite: true })
-      expect(useJobsStore.getState().filter).toEqual({
-        q: 'developer',
-        status: 'saved',
-        favorite: true,
-      })
-    })
-  })
+    it('should sort by posted date', () => {
+      const job1 = createJob('1');
+      job1.postedAt = '2024-01-01T00:00:00Z';
+      const job2 = createJob('2');
+      job2.postedAt = '2024-02-01T00:00:00Z';
+      
+      useJobsStore.getState().upsertMany([job1, job2]);
+      
+      expect(useJobsStore.getState().items[0].id).toBe('2');
+    });
+  });
 
   describe('select', () => {
-    it('should set selected job ID', () => {
-      const store = useJobsStore.getState()
+    it('should set selected job', () => {
+      useJobsStore.getState().select('123');
+      expect(useJobsStore.getState().selectedId).toBe('123');
+    });
+  });
 
-      store.select('job-123')
-      expect(useJobsStore.getState().selectedId).toBe('job-123')
+  describe('addLog', () => {
+    it('should add fetch log', () => {
+      const log: FetchLog = {
+        id: 'log1',
+        source: 'test',
+        startedAt: new Date().toISOString(),
+        finishedAt: new Date().toISOString(),
+        ok: true,
+        created: 5,
+        updated: 2,
+        skipped: 1,
+      };
+      useJobsStore.getState().addLog(log);
+      expect(useJobsStore.getState().logs).toHaveLength(1);
+    });
 
-      store.select(undefined)
-      expect(useJobsStore.getState().selectedId).toBeUndefined()
-    })
-  })
+    it('should limit logs to 200', () => {
+      const logs = Array(250).fill(null).map((_, i) => ({
+        id: `log${i}`,
+        source: 'test',
+        startedAt: new Date().toISOString(),
+        ok: true,
+        created: 0,
+        updated: 0,
+        skipped: 0,
+      }));
+      
+      logs.forEach(log => useJobsStore.getState().addLog(log));
+      expect(useJobsStore.getState().logs).toHaveLength(200);
+    });
+  });
 
-  describe('upsertFromForm', () => {
-    it('should create new job posting', async () => {
-      const store = useJobsStore.getState()
-      const parsed = createMockParsedJob()
+  describe('updateScore', () => {
+    it('should update job score', () => {
+      const job = createJob('1');
+      useJobsStore.getState().upsertMany([job]);
+      useJobsStore.getState().updateScore('1', 0.85);
+      
+      expect(useJobsStore.getState().items[0].score).toBe(0.85);
+    });
+  });
 
-      const input = {
-        title: 'Senior Developer',
-        company: 'Test Corp',
-        location: 'Remote',
-        remoteType: 'remote' as const,
-        rawText: 'Job description text',
-        parsed,
-      }
-
-      const id = await store.upsertFromForm(input)
-
-      expect(id).toBeDefined()
-      expect(useJobsStore.getState().items).toHaveLength(1)
-      expect(useJobsStore.getState().items[0].title).toBe('Senior Developer')
-    })
-
-    it('should update existing job posting', async () => {
-      const store = useJobsStore.getState()
-      const parsed = createMockParsedJob()
-
-      const input = {
-        id: 'job-123',
-        title: 'Senior Developer',
-        company: 'Test Corp',
-        location: 'Remote',
-        remoteType: 'remote' as const,
-        rawText: 'Job description',
-        parsed,
-      }
-
-      await store.upsertFromForm(input)
-
-      const updated = { ...input, title: 'Lead Developer' }
-      await store.upsertFromForm(updated)
-
-      expect(useJobsStore.getState().items).toHaveLength(1)
-      expect(useJobsStore.getState().items[0].title).toBe('Lead Developer')
-    })
-
-    it('should dedupe based on hash and URL', async () => {
-      const store = useJobsStore.getState()
-      const parsed = createMockParsedJob()
-
-      const input1 = {
-        title: 'Developer',
-        company: 'Test',
-        remoteType: 'remote' as const,
-        rawText: 'Same job description',
-        parsed,
-        source: { url: 'https://example.com/job1' },
-      }
-
-      const id1 = await store.upsertFromForm(input1)
-
-      // Same text and URL should reuse ID
-      const input2 = {
-        ...input1,
-        title: 'Updated Developer', // Different title
-      }
-
-      const id2 = await store.upsertFromForm(input2)
-
-      expect(id2).toBe(id1) // Should reuse existing ID
-      expect(useJobsStore.getState().items).toHaveLength(1)
-    })
-  })
-
-  describe('remove', () => {
-    it('should delete job posting', async () => {
-      const store = useJobsStore.getState()
-      const parsed = createMockParsedJob()
-
-      const id = await store.upsertFromForm({
-        title: 'Developer',
-        company: 'Test',
-        remoteType: 'remote' as const,
-        rawText: 'Description',
-        parsed,
-      })
-
-      await store.remove(id!)
-
-      expect(useJobsStore.getState().items).toHaveLength(0)
-    })
-
-    it('should clear selectedId if deleted job was selected', async () => {
-      const store = useJobsStore.getState()
-      const parsed = createMockParsedJob()
-
-      const id = await store.upsertFromForm({
-        title: 'Developer',
-        company: 'Test',
-        remoteType: 'remote' as const,
-        rawText: 'Description',
-        parsed,
-      })
-
-      store.select(id)
-      expect(useJobsStore.getState().selectedId).toBe(id)
-
-      await store.remove(id!)
-      expect(useJobsStore.getState().selectedId).toBeUndefined()
-    })
-  })
-
-  describe('toggleFavorite', () => {
-    it('should toggle favorite status', async () => {
-      const store = useJobsStore.getState()
-      const parsed = createMockParsedJob()
-
-      const id = await store.upsertFromForm({
-        title: 'Developer',
-        company: 'Test',
-        remoteType: 'remote' as const,
-        rawText: 'Description',
-        parsed,
-        favorite: false,
-      })
-
-      await store.toggleFavorite(id!)
-      expect(useJobsStore.getState().items[0].favorite).toBe(true)
-
-      await store.toggleFavorite(id!)
-      expect(useJobsStore.getState().items[0].favorite).toBe(false)
-    })
-  })
-
-  describe('duplicate', () => {
-    it('should create a copy of job posting', async () => {
-      const store = useJobsStore.getState()
-
-      // Mock getJobPosting to return a job
-      const { getJobPosting } = await import('@/services/jobs/jobPostings.service')
-      vi.mocked(getJobPosting).mockResolvedValueOnce({
-        id: 'original-id',
-        hash: 'hash123',
-        title: 'Developer',
-        company: 'Test',
-        location: 'Remote',
-        remoteType: 'remote',
-        rawText: 'Description',
-        parsed: createMockParsedJob(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-
-      const newId = await store.duplicate('original-id')
-
-      expect(newId).toBeDefined()
-      expect(newId).not.toBe('original-id')
-      expect(useJobsStore.getState().items).toHaveLength(1)
-      expect(useJobsStore.getState().items[0].title).toContain('(Copy)')
-    })
-  })
-})
+  describe('removeBySource', () => {
+    it('should remove jobs from specific source', () => {
+      const job1 = createJob('1');
+      job1.source.name = 'source1';
+      const job2 = createJob('2');
+      job2.source.name = 'source2';
+      
+      useJobsStore.getState().upsertMany([job1, job2]);
+      useJobsStore.getState().removeBySource('source1');
+      
+      expect(useJobsStore.getState().items).toHaveLength(1);
+      expect(useJobsStore.getState().items[0].id).toBe('2');
+    });
+  });
+});

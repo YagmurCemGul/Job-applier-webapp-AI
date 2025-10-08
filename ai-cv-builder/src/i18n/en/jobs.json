@@ -1,0 +1,48 @@
+{
+  "jobs": {
+    "title": "Job Finder",
+    "sourceSettings": "Source Settings",
+    "fetchNow": "Fetch Now",
+    "filters": {
+      "search": "Search jobs…",
+      "save": "Save Search",
+      "saved": "Saved"
+    },
+    "logs": "Fetch Logs",
+    "noJobs": "No jobs yet. Configure a source and 'Fetch Now'.",
+    "match": "Match",
+    "open": "Open",
+    "save": "Save",
+    "card": {
+      "company": "Company",
+      "location": "Location",
+      "remote": "Remote",
+      "match": "Match"
+    },
+    "settings": {
+      "title": "Source Settings",
+      "enabled": "Enabled",
+      "legalMode": "Legal Mode",
+      "on": "ON",
+      "off": "OFF",
+      "paramPlaceholder": "Param: feedUrl / html / query…",
+      "headersPlaceholder": "Headers (Authorization/Cookie)",
+      "apiNote": "API-first is recommended. HTML adapters require legalMode=true and user-provided content or explicit permission.",
+      "close": "Close"
+    },
+    "saveSearch": {
+      "title": "Save Search",
+      "namePlaceholder": "Search name",
+      "queryPlaceholder": "Query",
+      "alertsEvery": "Alerts every",
+      "minutes": "min",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "log": {
+      "ok": "OK",
+      "err": "ERR",
+      "noRuns": "No runs yet."
+    }
+  }
+}
