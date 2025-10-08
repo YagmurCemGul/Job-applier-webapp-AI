@@ -26,6 +26,7 @@ export const ROUTES = {
   COVER_LETTER: '/cover-letter',
   JOBS: '/jobs',
   APPLICATIONS: '/applications',
+  OUTBOX: '/outbox',
   PROFILE: '/profile',
   SETTINGS: '/settings',
 } as const

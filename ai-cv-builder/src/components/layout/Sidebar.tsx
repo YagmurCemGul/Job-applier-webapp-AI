@@ -7,6 +7,8 @@ import {
   User,
   Settings,
   FolderOpen,
+  Send,
+  ClipboardList,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ROUTES } from '@/lib/constants'
@@ -26,6 +28,8 @@ export function Sidebar() {
         { name: t('navigation.cvBuilder'), href: ROUTES.CV_BUILDER, icon: FileText },
         { name: t('navigation.coverLetter'), href: ROUTES.COVER_LETTER, icon: Mail },
         { name: t('navigation.jobs'), href: ROUTES.JOBS, icon: Briefcase },
+        { name: t('navigation.applications'), href: ROUTES.APPLICATIONS, icon: ClipboardList },
+        { name: t('navigation.outbox'), href: ROUTES.OUTBOX, icon: Send },
       ],
     },
     {
