@@ -244,5 +244,64 @@
       "cancel": "İptal",
       "create": "Oluştur"
     }
+  },
+  "cl": {
+    "tab": "Ön Yazı",
+    "toolbar": {
+      "lang": "Dil",
+      "tone": "Ton",
+      "length": "Uzunluk",
+      "template": "Şablon",
+      "generate": "Oluştur",
+      "promptLib": "Prompt Kütüphanesi",
+      "export": "Dışa Aktar…"
+    },
+    "editor": {
+      "copy": "Metin Olarak Kopyala",
+      "noDoc": "Seçili ön yazı yok. Oluştur'a tıklayın."
+    },
+    "preview": {
+      "title": "Önizleme"
+    },
+    "assist": {
+      "title": "Anahtar Kelime Yardımı",
+      "hint": "İmleç konumuna eklemek için tıklayın.",
+      "noKeywords": "Eksik anahtar kelime yok. Öneriler görmek için ATS analizi çalıştırın."
+    },
+    "saved": {
+      "search": "Ön yazı ara…",
+      "none": "Ön yazı bulunamadı.",
+      "open": "Aç",
+      "duplicate": "Kopyala",
+      "delete": "Sil",
+      "title": "Kayıtlı Ön Yazılar"
+    },
+    "export": {
+      "title": "Ön Yazı Dışa Aktarma",
+      "pdf": "PDF",
+      "docx": "DOCX",
+      "gdoc": "Google Doküman",
+      "close": "Kapat",
+      "export": "Dışa Aktar"
+    },
+    "history": {
+      "title": "Geçmiş",
+      "restore": "Geri Yükle"
+    },
+    "promptLibrary": {
+      "title": "Prompt Kütüphanesi",
+      "addFolder": "Klasör Ekle",
+      "folders": "Klasörler",
+      "prompts": "Promptlar",
+      "newFolder": "Yeni klasör adı",
+      "promptName": "Prompt adı",
+      "promptBody": "Prompt içeriği…",
+      "noFolder": "(Klasör yok)",
+      "noPrompts": "Bu klasörde prompt yok",
+      "copy": "Kopyala",
+      "delete": "Sil",
+      "clear": "Temizle",
+      "save": "Promptu Kaydet"
+    }
   }
 }

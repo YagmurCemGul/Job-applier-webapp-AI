@@ -40,3 +40,43 @@ export const COVER_LETTER_LENGTHS = [
   { value: 'medium', label: 'Medium (300-400 words)' },
   { value: 'long', label: 'Long (400-500 words)' },
 ] as const
+
+// Step 30 - Extended Types
+export type CLTone = 'formal' | 'friendly' | 'enthusiastic'
+export type CLLength = 'short' | 'medium' | 'long'
+export type CLLang = 'en' | 'tr'
+
+/**
+ * Cover Letter Metadata
+ */
+export interface CoverLetterMeta {
+  id: string
+  name: string // e.g., "Acme Backend — v1"
+  linkedJobId?: string // Saved Job id
+  linkedVariantId?: string // Variant id (Step 29)
+  favorite?: boolean
+  createdAt: Date
+  updatedAt: Date
+  notes?: string // commit message
+}
+
+/**
+ * Complete Cover Letter Document
+ */
+export interface CoverLetterDoc {
+  meta: CoverLetterMeta
+  content: string // HTML from editor (sanitized on save)
+  plain?: string // cached plain text
+  tone: CLTone
+  length: CLLength
+  lang: CLLang
+  templateId: string
+  variables: Record<string, string> // company, role, recruiterName, etc.
+  promptsUsed?: string[] // prompt ids applied
+  history: Array<{
+    id: string
+    at: Date
+    note?: string
+    content: string // HTML snapshot
+  }>
+}

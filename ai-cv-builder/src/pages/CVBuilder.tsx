@@ -15,6 +15,7 @@ import { OptimizationChanges } from '@/components/optimization/OptimizationChang
 import { ExportOptions } from '@/components/export/ExportOptions'
 import { CoverLetterGenerator } from '@/components/cover-letter/CoverLetterGenerator'
 import { CoverLetterPreview } from '@/components/cover-letter/CoverLetterPreview'
+import CoverLetterTab from '@/components/coverletter/CoverLetterTab'
 import { TemplateSelector } from '@/components/templates/TemplateSelector'
 import { TemplateCustomization } from '@/components/templates/TemplateCustomization'
 import { PersonalInfoForm } from '@/components/forms/PersonalInfoForm'
@@ -425,45 +426,9 @@ export default function CVBuilderPage() {
           <VariantsTab />
         </TabsContent>
 
-        {/* Cover Letter Tab */}
+        {/* Cover Letter Tab - Step 30 */}
         <TabsContent value="cover-letter" className="mt-6">
-          {parsedCV && jobPosting ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div>
-                <CoverLetterGenerator
-                  cvText={parsedCV.text}
-                  jobPosting={jobPosting.rawText}
-                  jobTitle={jobPosting.parsed.title}
-                  companyName={jobPosting.parsed.company}
-                />
-              </div>
-
-              <div>
-                {currentLetter ? (
-                  <CoverLetterPreview letter={currentLetter} />
-                ) : (
-                  <Card className="p-12 text-center">
-                    <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold mb-2">
-                      No Cover Letter Yet
-                    </h3>
-                    <p className="text-gray-600 text-sm">
-                      Click "Generate Cover Letter" to create a personalized cover letter
-                      based on your CV and the job posting.
-                    </p>
-                  </Card>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <Alert>
-                <AlertDescription>
-                  Please upload your CV and add a job posting first.
-                </AlertDescription>
-              </Alert>
-            </div>
-          )}
+          <CoverLetterTab />
         </TabsContent>
       </Tabs>
     </div>
