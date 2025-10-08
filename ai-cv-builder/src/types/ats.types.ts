@@ -46,6 +46,30 @@ export interface ATSSuggestion {
 }
 
 /**
+ * Metadata for individual keyword with importance scoring (Step 28)
+ */
+export interface ATSKeywordMeta {
+  term: string
+  stem?: string // simple lowercase stem
+  importance: number // 0..1 importance weight
+  inTitle?: boolean // appeared in job title
+  inReq?: boolean // appeared in requirements
+  inQual?: boolean // appeared in qualifications
+  inResp?: boolean // appeared in responsibilities
+}
+
+/**
+ * Configurable scoring weights for ATS analysis (Step 28)
+ */
+export interface ATSScoringWeights {
+  keywords: number // default 0.40
+  sections: number // default 0.20
+  length: number // default 0.10
+  experience: number // default 0.20
+  formatting: number // default 0.10
+}
+
+/**
  * Complete ATS analysis result
  */
 export interface ATSAnalysisResult {
@@ -56,6 +80,9 @@ export interface ATSAnalysisResult {
   matchedKeywords: string[]
   missingKeywords: string[]
   createdAt: Date
+  // Step 28: Optional extensions (backward compatible)
+  keywordMeta?: ATSKeywordMeta[] // metadata for matched+missing keywords
+  weightsUsed?: ATSScoringWeights // snapshot of weights used to compute score
 }
 
 /**
