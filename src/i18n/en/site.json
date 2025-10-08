@@ -1,0 +1,29 @@
+{
+  "site": {
+    "dashboard": "Portfolio Dashboard",
+    "profile": "Profile",
+    "caseStudies": "Case Studies",
+    "blog": "Blog",
+    "media": "Media",
+    "seo": "SEO",
+    "theme": "Theme",
+    "social": "Social",
+    "analytics": "Analytics",
+    "publish": "Publish",
+    "contact": "Contact Form",
+    "public": "Public",
+    "private": "Private",
+    "draft": "Draft",
+    "generateDraft": "Generate Draft",
+    "preview": "Preview",
+    "exportZip": "Export ZIP",
+    "deploy": "Deploy",
+    "schedule": "Schedule",
+    "optInAnalytics": "Opt in to privacy-friendly analytics",
+    "noAiMeta": "Add 'noai' meta tag",
+    "sendTest": "Send Test",
+    "scheduled": "Scheduled",
+    "posted": "Posted",
+    "failed": "Failed"
+  }
+}
