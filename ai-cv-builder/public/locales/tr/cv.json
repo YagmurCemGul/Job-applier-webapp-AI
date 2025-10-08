@@ -207,5 +207,42 @@
   "common": {
     "undo": "Geri Al",
     "redo": "Yinele"
+  },
+  "variants": {
+    "tab": "Varyantlar",
+    "create": "Varyant Oluştur",
+    "export": "Dışa Aktar…",
+    "noVariants": "Henüz varyant yok.",
+    "linkedJob": "Bağlı ilan",
+    "atsAtCreate": "ATS",
+    "rename": "Yeniden adlandır",
+    "snapshot": "Anlık Kayıt",
+    "delete": "Sil",
+    "selectToView": "Farkları görmek için bir varyant seçin.",
+    "history": "Geçmiş",
+    "before": "Önce",
+    "after": "Sonra",
+    "diff": {
+      "summary": "Özet",
+      "skills": "Beceriler",
+      "experience": "Deneyim",
+      "education": "Eğitim",
+      "contact": "İletişim"
+    },
+    "exportPresets": {
+      "title": "Dışa Aktarma Şablonları",
+      "name": "Şablon adı",
+      "template": "Dosya adlandırma şablonu",
+      "saveExport": "Kaydet ve Dışa Aktar",
+      "tokens": "Semboller",
+      "close": "Kapat"
+    },
+    "createDialog": {
+      "title": "Varyant Oluştur",
+      "name": "Varyant adı",
+      "linkJob": "(Opsiyonel) Kayıtlı İş İlanına Bağla…",
+      "cancel": "İptal",
+      "create": "Oluştur"
+    }
   }
 }
