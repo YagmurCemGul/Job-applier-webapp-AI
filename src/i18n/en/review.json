@@ -1,0 +1,144 @@
+{
+  "review": {
+    "title": "Performance Reviews",
+    "confidential": "CONFIDENTIAL — for review/calibration use only.",
+    "startCycle": "Start Review Cycle",
+    "newCycle": "New Cycle",
+    "editCycle": "Edit Review Cycle",
+    "selectCycle": "Select review cycle",
+    "noCycles": "No review cycles yet. Start your first cycle to begin tracking impact and collecting feedback.",
+    
+    "overview": "Overview",
+    "impact": "Impact",
+    "feedback": "Feedback",
+    "selfReview": "Self-Review",
+    "calibration": "Calibration",
+    "promotion": "Promotion Case",
+    "visibility": "Visibility",
+    
+    "cycleTitle": "Title",
+    "kind": "Kind",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "retention": "Data Retention",
+    "deadlines": "Deadlines",
+    "addDeadline": "Add deadline",
+    "createCalendarReminders": "Create calendar reminders",
+    
+    "kinds": {
+      "midYear": "Mid-Year",
+      "yearEnd": "Year-End",
+      "probation": "Probation",
+      "promotion": "Promotion"
+    },
+    
+    "kpis": {
+      "impacts": "Impacts",
+      "impactsDesc": "Evidence items",
+      "responses": "Response Rate",
+      "responsesDesc": "responses",
+      "completeness": "Self-Review",
+      "completenessDesc": "Complete",
+      "readiness": "Calibration",
+      "readinessDesc": "Ready"
+    },
+    
+    "manageImpact": "Manage Impact",
+    "manageImpactDesc": "Track and tag your contributions",
+    "collectFeedback": "Collect Feedback",
+    "collectFeedbackDesc": "Request and review 360 feedback",
+    "writeSelfReview": "Write Self-Review",
+    "writeSelfReviewDesc": "AI-assisted STAR review",
+    "buildPromotion": "Build Promotion Case",
+    "buildPromotionDesc": "Assemble packet with evidence",
+    
+    "upcomingDeadlines": "Upcoming Deadlines",
+    
+    "searchImpacts": "Search impacts...",
+    "filterByCompetency": "Filter by competency",
+    "addImpact": "Add Impact",
+    "impactsCount": "{{count}} impacts",
+    "impactsList": "Impacts list",
+    "impactTitle": "Impact title",
+    "impactDetail": "Impact details",
+    "noImpacts": "No impacts found. Add manually or aggregate from evidence.",
+    "competency": "Competency",
+    
+    "competencies": {
+      "execution": "Execution",
+      "craft": "Craft",
+      "leadership": "Leadership",
+      "collaboration": "Collaboration",
+      "communication": "Communication",
+      "impact": "Impact"
+    },
+    
+    "selectReviewers": "Select Reviewers",
+    "fromStakeholders": "From Stakeholders",
+    "chooseStakeholder": "Choose stakeholder...",
+    "addManually": "Add Manually",
+    "reviewerEmail": "Email",
+    "reviewerName": "Name",
+    "anonymousRequests": "Enable anonymous responses",
+    "customMessage": "Custom Message (Optional)",
+    "customMessagePlaceholder": "Add a personal note...",
+    "sendRequests": "Send Requests",
+    "sending": "Sending...",
+    
+    "requestFeedback": "Request Feedback",
+    "feedbackInbox": "Feedback Inbox",
+    "sendReminders": "Send Reminders",
+    "remind": "Send Reminders",
+    "noRemindersNeeded": "No pending requests to remind.",
+    "sentOn": "Sent on",
+    
+    "responsesCount": "{{count}} responses",
+    "noResponses": "No feedback responses yet.",
+    "showRaw": "Show Raw",
+    "anonymize": "Anonymize",
+    "anonymous": "Anonymous",
+    "redacted": "Redacted",
+    "aiSummary": "AI Summary",
+    
+    "sentiment": {
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    
+    "generateAI": "Generate AI",
+    "wordCount": "Word Count",
+    "clarity": "Clarity",
+    "noImpactsForAI": "No impact entries found. Add impacts to generate AI review.",
+    "overview": "Overview",
+    "overviewPlaceholder": "Summarize your key contributions...",
+    "highlights": "Highlights",
+    "growthAreas": "Growth Areas",
+    "nextObjectives": "Next Objectives",
+    "createSelfReviewFirst": "Create a self-review first to build promotion packet.",
+    
+    "targetLevel": "Target Level",
+    "enterTargetLevel": "Enter a target level to see calibration matrix.",
+    "noRubric": "No rubric defined for this level. Add rubric expectations in settings.",
+    "competencyMatrix": "Competency Assessment Matrix",
+    "evidence": "Evidence",
+    "calibrationNotes": "Calibration Notes",
+    "addNotePlaceholder": "Add a note...",
+    "exportPDF": "Export PDF",
+    "exportDocs": "Export Google Doc",
+    "shareEmail": "Share via Email",
+    
+    "scopeNarrative": "Scope Increase Narrative",
+    "narrativePlaceholder": "Describe how your scope has grown...",
+    "supportingQuotes": "Supporting Quotes",
+    "selectQuotes": "Select feedback snippets to include in your packet.",
+    "noQuotes": "No feedback responses to select from.",
+    "previewPacket": "Preview Packet",
+    
+    "visibility": {
+      "noGaps": "No visibility gaps detected. Great coverage!",
+      "gapsFound": "{{count}} visibility gaps found",
+      "schedule": "Schedule"
+    }
+  }
+}
