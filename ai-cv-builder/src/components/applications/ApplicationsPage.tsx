@@ -13,7 +13,8 @@ import ApplyDialog from './ApplyDialog';
 import { funnel } from '@/services/insights/applications.insights.service';
 import { OfferCreateDialog } from '@/components/offer/OfferCreateDialog';
 import { useNavigate } from 'react-router-dom';
-import { DollarSign, GitCompare } from 'lucide-react';
+import { DollarSign, GitCompare, Briefcase } from 'lucide-react';
+import { ROUTES } from '@/lib/constants';
 
 export default function ApplicationsPage() {
   const navigate = useNavigate();
@@ -40,6 +41,10 @@ export default function ApplicationsPage() {
         <Button variant="outline" onClick={() => navigate('/offers')}>
           <GitCompare className="mr-2 h-4 w-4" />
           Compare Offers
+        </Button>
+        <Button variant="outline" onClick={() => navigate(ROUTES.ONBOARDING)}>
+          <Briefcase className="mr-2 h-4 w-4" />
+          Onboarding Plan
         </Button>
         <div className="ml-auto text-xs text-muted-foreground">
           Funnel: A {f.applied} • V {f.viewed} • I {f.interview} • O {f.offer} •
