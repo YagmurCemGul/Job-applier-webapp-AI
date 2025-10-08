@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "cvBuilder": "CV Builder",
+    "coverLetter": "Cover Letter",
+    "jobs": "Jobs",
+    "applications": "Applications",
+    "outbox": "Outbox",
+    "profile": "Profile",
+    "myDocuments": "My Documents",
+    "settings": "Settings"
+  }
+}

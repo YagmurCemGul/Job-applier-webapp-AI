@@ -1,0 +1,13 @@
+{
+  "navigation": {
+    "dashboard": "Gösterge Paneli",
+    "cvBuilder": "CV Oluşturucu",
+    "coverLetter": "Ön Yazı",
+    "jobs": "İş İlanları",
+    "applications": "Başvurular",
+    "outbox": "Giden Kutusu",
+    "profile": "Profil",
+    "myDocuments": "Belgelerim",
+    "settings": "Ayarlar"
+  }
+}
