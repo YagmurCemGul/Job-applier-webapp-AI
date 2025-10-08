@@ -12,6 +12,7 @@ import DashboardPage from '@/pages/Dashboard'
 import CVBuilderPage from '@/pages/CVBuilder'
 import CoverLetterPage from '@/pages/CoverLetter'
 import JobListingsPage from '@/pages/JobListings'
+import ApplicationsPage from '@/pages/Applications'
 import ProfilePage from '@/pages/Profile'
 import SettingsPage from '@/pages/Settings'
 import NotFoundPage from '@/pages/NotFound'
@@ -70,6 +71,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <JobListingsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: ROUTES.APPLICATIONS,
+        element: (
+          <ProtectedRoute>
+            <ApplicationsPage />
           </ProtectedRoute>
         ),
       },
