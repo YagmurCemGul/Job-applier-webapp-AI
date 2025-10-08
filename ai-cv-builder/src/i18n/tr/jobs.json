@@ -1,0 +1,48 @@
+{
+  "jobs": {
+    "title": "İş Bulucu",
+    "sourceSettings": "Kaynak Ayarları",
+    "fetchNow": "Şimdi Getir",
+    "filters": {
+      "search": "İş ara…",
+      "save": "Aramayı Kaydet",
+      "saved": "Kaydedilenler"
+    },
+    "logs": "Getirme Kayıtları",
+    "noJobs": "Henüz ilan yok. Bir kaynak yapılandırın ve 'Şimdi Getir'e tıklayın.",
+    "match": "Eşleşme",
+    "open": "Aç",
+    "save": "Kaydet",
+    "card": {
+      "company": "Şirket",
+      "location": "Konum",
+      "remote": "Uzaktan",
+      "match": "Eşleşme"
+    },
+    "settings": {
+      "title": "Kaynak Ayarları",
+      "enabled": "Etkin",
+      "legalMode": "Yasal Mod",
+      "on": "AÇIK",
+      "off": "KAPALI",
+      "paramPlaceholder": "Parametre: feedUrl / html / sorgu…",
+      "headersPlaceholder": "Başlıklar (Authorization/Cookie)",
+      "apiNote": "API öncelikli önerilir. HTML adaptörleri legalMode=true ve kullanıcı tarafından sağlanan içerik veya açık izin gerektirir.",
+      "close": "Kapat"
+    },
+    "saveSearch": {
+      "title": "Aramayı Kaydet",
+      "namePlaceholder": "Arama adı",
+      "queryPlaceholder": "Sorgu",
+      "alertsEvery": "Her",
+      "minutes": "dakikada uyarı",
+      "cancel": "İptal",
+      "save": "Kaydet"
+    },
+    "log": {
+      "ok": "TAMAM",
+      "err": "HATA",
+      "noRuns": "Henüz çalıştırma yok."
+    }
+  }
+}
