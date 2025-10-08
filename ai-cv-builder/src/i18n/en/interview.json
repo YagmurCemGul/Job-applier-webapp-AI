@@ -1,0 +1,48 @@
+{
+  "interview": {
+    "create": "Create Interview",
+    "stage": {
+      "planned": "Planned",
+      "scheduled": "Scheduled",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "panel": "Panel",
+    "availability": "Availability",
+    "schedule": "Schedule",
+    "scorecards": "Scorecards",
+    "notes": "Notes & Transcript",
+    "files": "Files",
+    "emails": "Emails",
+    "consent": "I have consent to record and transcribe this interview.",
+    "summarize": "AI Summarize",
+    "startRecording": "Start Recording",
+    "stopRecording": "Stop",
+    "proposeSlots": "Propose Slots",
+    "createEvent": "Create Calendar Event",
+    "sendInvites": "Send Invites",
+    "offerPrep": "Offer Prep",
+    "exportPDF": "Export PDF",
+    "exportDocs": "Export Google Doc",
+    "candidateName": "Candidate Name",
+    "candidateEmail": "Candidate Email",
+    "role": "Role",
+    "company": "Company",
+    "duration": "Duration",
+    "panelMembers": "Panel Members",
+    "recordingConsent": "Recording Consent",
+    "overview": "Overview",
+    "dimensions": "Dimensions",
+    "recommendation": "Recommendation",
+    "submitScore": "Submit Score",
+    "viewScores": "View Scores",
+    "aiNotes": "AI Notes",
+    "transcript": "Transcript",
+    "questionBank": "Question Bank",
+    "bias": {
+      "tips": "Bias Tips",
+      "warning": "Consider the following to reduce unconscious bias"
+    }
+  }
+}

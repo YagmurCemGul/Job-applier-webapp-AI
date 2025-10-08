@@ -1,0 +1,48 @@
+{
+  "interview": {
+    "create": "Mülakat Oluştur",
+    "stage": {
+      "planned": "Planlandı",
+      "scheduled": "Zamanlandı",
+      "in_progress": "Devam Ediyor",
+      "completed": "Tamamlandı",
+      "canceled": "İptal Edildi"
+    },
+    "panel": "Panel",
+    "availability": "Müsaitlik",
+    "schedule": "Zamanla",
+    "scorecards": "Puan Kartları",
+    "notes": "Notlar & Transkript",
+    "files": "Dosyalar",
+    "emails": "E-postalar",
+    "consent": "Bu mülakatı kaydetmek ve yazıya dökmek için onay aldım.",
+    "summarize": "AI Özetle",
+    "startRecording": "Kaydı Başlat",
+    "stopRecording": "Durdur",
+    "proposeSlots": "Saat Öner",
+    "createEvent": "Takvim Etkinliği Oluştur",
+    "sendInvites": "Davet Gönder",
+    "offerPrep": "Teklif Hazırlığı",
+    "exportPDF": "PDF Dışa Aktar",
+    "exportDocs": "Google Doc Olarak Dışa Aktar",
+    "candidateName": "Aday Adı",
+    "candidateEmail": "Aday E-postası",
+    "role": "Rol",
+    "company": "Şirket",
+    "duration": "Süre",
+    "panelMembers": "Panel Üyeleri",
+    "recordingConsent": "Kayıt Onayı",
+    "overview": "Genel Bakış",
+    "dimensions": "Boyutlar",
+    "recommendation": "Öneri",
+    "submitScore": "Puan Gönder",
+    "viewScores": "Puanları Görüntüle",
+    "aiNotes": "AI Notları",
+    "transcript": "Transkript",
+    "questionBank": "Soru Bankası",
+    "bias": {
+      "tips": "Önyargı İpuçları",
+      "warning": "Bilinçsiz önyargıyı azaltmak için aşağıdakileri göz önünde bulundurun"
+    }
+  }
+}
