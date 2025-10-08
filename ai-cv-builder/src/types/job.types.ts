@@ -48,3 +48,21 @@ export const EXPERIENCE_LEVELS = [
   'Principal',
   'Executive',
 ] as const
+
+// Step 26: Job Posting service result types
+export interface SaveJobResult {
+  ok: boolean
+  id?: string
+  error?: string
+}
+
+export interface DeleteJobResult {
+  ok: boolean
+  error?: string
+}
+
+export interface ListJobsResult {
+  ok: boolean
+  items?: import('./jobPosting.types').JobPosting[]
+  error?: string
+}
