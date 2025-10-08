@@ -7,3 +7,4 @@ export interface BaseEntity {
 export * from './customPrompt.types'
 export * from './savedCV.types'
 export * from './cvData.types'
+export * from './settings.types'
