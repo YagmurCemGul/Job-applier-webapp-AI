@@ -1,0 +1,34 @@
+Kıdemli Yazılım Mühendisi
+
+Şirket: TechCorp Türkiye
+Konum: İstanbul (Hibrit)
+Yayınlanma: 3 gün önce
+Son başvuru: 15.03.2024
+
+Özet:
+Büyüyen ekibimize katılacak yetenekli bir Kıdemli Yazılım Mühendisi arıyoruz. Tam zamanlı pozisyon.
+
+Görevler:
+- Ölçeklenebilir web uygulamaları geliştirmek
+- Teknik mimari kararları almak
+- Junior geliştiricilere mentorluk yapmak
+- Ürün ekibi ile işbirliği
+
+Gereksinimler:
+- 5+ yıl yazılım mühendisliği deneyimi
+- React ve TypeScript bilgisi
+- Node.js ve AWS deneyimi
+- İyi iletişim becerileri
+
+Nitelikler:
+- Docker ve Kubernetes deneyimi
+- Mikroservis mimarisi bilgisi
+- Açık kaynak katkıları
+
+Yan Haklar:
+- Maaş: ₺60.000 - ₺80.000 aylık
+- Sağlık sigortası
+- Uzaktan çalışma esnekliği
+- Eğitim desteği
+
+İletişim: ik@techcorp.com.tr

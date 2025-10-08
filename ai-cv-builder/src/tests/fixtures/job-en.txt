@@ -1,0 +1,35 @@
+Senior Software Engineer
+
+Company: TechCorp Inc.
+Location: San Francisco, CA (Remote available)
+Posted: 5 days ago
+Deadline: 31/12/2024
+
+Summary:
+We are looking for a talented Senior Software Engineer to join our growing team. This is a full-time remote position with competitive compensation.
+
+Responsibilities:
+- Design and develop scalable web applications
+- Lead technical architecture decisions
+- Mentor junior developers
+- Collaborate with product team
+
+Requirements:
+- 5+ years of software engineering experience
+- Strong proficiency in React and TypeScript
+- Experience with Node.js and AWS
+- Excellent communication skills
+
+Qualifications:
+- Experience with Docker and Kubernetes
+- Background in microservices architecture
+- Open source contributions
+
+Benefits:
+- Competitive salary: $120,000 - $180,000 per year
+- Health insurance
+- 401(k) matching
+- Unlimited PTO
+- Remote work flexibility
+
+Contact: hr@techcorp.com

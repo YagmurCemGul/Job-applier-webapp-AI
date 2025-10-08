@@ -1,12 +1,27 @@
+/**
+ * Step 25/27: Job parser with backward compatibility
+ * Step 27 adds advanced multi-source ingestion; Step 25 text parser preserved
+ */
+
 import type { ParsedJob } from '@/types/ats.types'
-import { detectLang, normalizeText, tokenize } from './textUtils'
-import { COMMON_EN_KEYWORDS, COMMON_TR_KEYWORDS } from './keywordSets'
 
 /**
- * Heuristic parser for raw job posting text
- * Extracts structured data from unstructured job descriptions
+ * Step 25: Legacy text parser (backward compatible)
+ * For new code, use ingestAndParseJob() from Step 27
  */
 export function parseJobText(raw: string): ParsedJob {
+  // For backward compatibility with Step 25, use the legacy synchronous implementation
+  // New code should use the async ingestAndParseJob() function instead
+  return parseJobTextLegacy(raw)
+}
+
+/**
+ * Step 25: Original synchronous implementation (fallback)
+ */
+function parseJobTextLegacy(raw: string): ParsedJob {
+  const { detectLang, normalizeText, tokenize } = require('./textUtils')
+  const { COMMON_EN_KEYWORDS, COMMON_TR_KEYWORDS } = require('./keywordSets')
+
   const lang = detectLang(raw)
   const text = raw.trim()
   const norm = normalizeText(text)
@@ -135,3 +150,14 @@ function extractKeywordsFromSections(sections: ReturnType<typeof splitSections>)
 function dedupe<T>(arr: T[]): T[] {
   return Array.from(new Set(arr))
 }
+
+// ============================================================================
+// Step 27: Re-export advanced parsing functions (for new code)
+// ============================================================================
+
+export { ingestAndParseJob } from '../jobs/parsing/ingest'
+export type { IngestInput } from '../jobs/parsing/ingest'
+export { parseJobText as parseJobTextV27 } from '../jobs/parsing/parse-text'
+export { parseJobHtml } from '../jobs/parsing/parse-html'
+export { parseJobPdf } from '../jobs/parsing/parse-pdf'
+export { parseJobDocx } from '../jobs/parsing/parse-docx'

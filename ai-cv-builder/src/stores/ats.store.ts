@@ -49,8 +49,13 @@ export const useATSStore = create<ATSState>()(
         const text = get().currentJobText ?? ''
         set({ isParsing: true, error: undefined })
         try {
-          const { parseJobText } = await import('@/services/ats/jobParser')
-          const parsedJob = parseJobText(text)
+          // Step 27: Use advanced ingestion API
+          const { ingestAndParseJob } = await import('@/services/jobs/parsing/ingest')
+          const parsedJob = await ingestAndParseJob({ 
+            kind: 'text', 
+            data: text, 
+            meta: {} 
+          })
           set({ parsedJob, isParsing: false })
         } catch (e: any) {
           set({ error: e?.message ?? 'Parse error', isParsing: false })
