@@ -1,0 +1,10 @@
+node_modules/
+dist-extension/
+*.log
+.DS_Store
+.env
+.vscode/
+coverage/
+playwright-report/
+test-results/
+*.zip

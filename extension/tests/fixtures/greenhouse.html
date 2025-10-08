@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software Engineer - TechCorp | Greenhouse</title>
+</head>
+<body>
+  <div class="app-title">Senior Software Engineer</div>
+  <div class="company-name">TechCorp Inc.</div>
+  <div class="location">San Francisco, CA (Remote)</div>
+  
+  <div id="content">
+    <h3>About the Role</h3>
+    <p>
+      We are seeking an experienced Senior Software Engineer to join our platform team.
+      This is a remote-friendly position with competitive compensation ranging from $150,000 - $200,000.
+    </p>
+    
+    <h3>Requirements</h3>
+    <ul>
+      <li>5+ years of software development experience</li>
+      <li>Strong proficiency in React, TypeScript, and Node.js</li>
+      <li>Experience with cloud platforms (AWS/GCP)</li>
+    </ul>
+  </div>
+
+  <form id="application-form" action="/submit" method="POST">
+    <div class="field">
+      <label for="first_name">First Name *</label>
+      <input type="text" id="first_name" name="first_name" required />
+    </div>
+
+    <div class="field">
+      <label for="last_name">Last Name *</label>
+      <input type="text" id="last_name" name="last_name" required />
+    </div>
+
+    <div class="field">
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" />
+    </div>
+
+    <div class="field">
+      <label for="linkedin">LinkedIn Profile</label>
+      <input type="url" id="linkedin" name="urls[LinkedIn]" placeholder="https://linkedin.com/in/yourprofile" />
+    </div>
+
+    <div class="field">
+      <label for="github">GitHub Profile</label>
+      <input type="url" id="github" name="urls[GitHub]" placeholder="https://github.com/yourusername" />
+    </div>
+
+    <div class="field">
+      <label for="resume">Resume/CV *</label>
+      <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required />
+    </div>
+
+    <div class="field">
+      <label for="cover_letter">Cover Letter</label>
+      <textarea id="cover_letter" name="cover_letter" rows="5"></textarea>
+    </div>
+
+    <div class="field">
+      <label>How did you hear about us?</label>
+      <select name="source">
+        <option value="">Select one...</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="referral">Referral</option>
+        <option value="company_website">Company Website</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn-primary">Submit Application</button>
+  </form>
+</body>
+</html>
