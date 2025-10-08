@@ -3,6 +3,7 @@ import { Badge } from '@/components/ui/badge'
 import { CVList } from '@/components/dashboard/CVList'
 import { useCVDataStore } from '@/stores/cvData.store'
 import { FileText, TrendingUp, Calendar, Award } from 'lucide-react'
+import { BatchExport } from '@/components/export/BatchExport'
 
 export default function DashboardPage() {
   const { getStatistics } = useCVDataStore()
@@ -10,11 +11,15 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-7xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
-        <p className="text-gray-600">
-          Manage your CVs and track your applications
-        </p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
+          <p className="text-gray-600">
+            Manage your CVs and track your applications
+          </p>
+        </div>
+        
+        <BatchExport />
       </div>
 
       {/* Statistics Cards */}

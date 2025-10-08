@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+    
+    // CVs collection
+    match /cvs/{cvId} {
+      allow read, write: if isAuthenticated() && 
+                            request.auth.uid == resource.data.userId;
+      allow create: if isAuthenticated();
+    }
+    
+    // Shared CVs collection
+    match /shared_cvs/{shareId} {
+      // Anyone can read if link is active
+      allow read: if resource.data.isActive == true;
+      
+      // Only owner can create/update/delete
+      allow create, update, delete: if isAuthenticated() && 
+                                      request.auth.uid == resource.data.userId;
+    }
+    
+    // Job applications collection
+    match /job_applications/{applicationId} {
+      allow read, write: if isAuthenticated() && 
+                            request.auth.uid == resource.data.userId;
+      allow create: if isAuthenticated();
+    }
+    
+    // Analytics collection
+    match /analytics/{analyticsId} {
+      allow read, write: if isAuthenticated() && 
+                            request.auth.uid == resource.data.userId;
+      allow create: if isAuthenticated();
+    }
+  }
+}

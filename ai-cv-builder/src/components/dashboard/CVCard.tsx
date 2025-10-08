@@ -29,9 +29,11 @@ import {
   Star,
   Calendar,
   TrendingUp,
+  Share2,
 } from 'lucide-react'
 import { SavedCV } from '@/types/savedCV.types'
 import { format } from 'date-fns'
+import { ShareDialog } from '@/components/share/ShareDialog'
 
 interface CVCardProps {
   cv: SavedCV
@@ -190,6 +192,14 @@ export function CVCard({
             <Edit2 className="h-4 w-4 mr-2" />
             Edit
           </Button>
+          
+          <ShareDialog cvId={cv.id} cvName={cv.name} trigger={
+            <Button variant="outline" size="sm" className="flex-1">
+              <Share2 className="h-4 w-4 mr-2" />
+              Share
+            </Button>
+          } />
+          
           <Button
             variant="default"
             size="sm"
