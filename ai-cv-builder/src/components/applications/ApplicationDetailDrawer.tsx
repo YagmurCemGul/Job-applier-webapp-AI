@@ -3,6 +3,7 @@
  * Full details view with contacts, events, logs
  */
 
+import { useState } from 'react';
 import { useApplicationsStore } from '@/stores/applications.store';
 import ContactEditor from './ContactEditor';
 import EventEditor from './EventEditor';
@@ -12,16 +13,34 @@ import {
   DialogHeader,
   DialogTitle
 } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Calendar } from 'lucide-react';
 
 export default function ApplicationDetailDrawer() {
   const { items, activeId, select } = useApplicationsStore();
   const app = items.find(x => x.id === activeId);
+  const [creatingInterview, setCreatingInterview] = useState(false);
+
+  const handleCreateInterview = () => {
+    if (app) {
+      // Navigate to interviews page with application context
+      window.location.href = `/interviews?createFrom=${app.id}`;
+    }
+  };
 
   return (
     <Dialog open={!!app} onOpenChange={() => select(undefined)}>
       <DialogContent className="max-w-4xl space-y-3">
         <DialogHeader>
-          <DialogTitle>Application Details</DialogTitle>
+          <DialogTitle className="flex items-center justify-between">
+            <span>Application Details</span>
+            {app && (
+              <Button onClick={handleCreateInterview} size="sm" className="gap-2">
+                <Calendar className="w-4 h-4" />
+                Create Interview
+              </Button>
+            )}
+          </DialogTitle>
         </DialogHeader>
         {app && (
           <div className="grid md:grid-cols-2 gap-4">

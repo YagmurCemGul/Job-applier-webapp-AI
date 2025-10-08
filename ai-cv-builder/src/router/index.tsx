@@ -13,10 +13,12 @@ import CVBuilderPage from '@/pages/CVBuilder'
 import CoverLetterPage from '@/pages/CoverLetter'
 import JobListingsPage from '@/pages/JobListings'
 import ApplicationsPage from '@/pages/Applications'
+import InterviewsPage from '@/pages/Interviews'
 import OutboxPage from '@/pages/Outbox'
 import ProfilePage from '@/pages/Profile'
 import SettingsPage from '@/pages/Settings'
 import NotFoundPage from '@/pages/NotFound'
+import InterviewDetail from '@/components/interview/InterviewDetail'
 
 export const router = createBrowserRouter([
   // Public routes
@@ -80,6 +82,22 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <ApplicationsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/interviews',
+        element: (
+          <ProtectedRoute>
+            <InterviewsPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/interviews/:id',
+        element: (
+          <ProtectedRoute>
+            <InterviewDetail />
           </ProtectedRoute>
         ),
       },
