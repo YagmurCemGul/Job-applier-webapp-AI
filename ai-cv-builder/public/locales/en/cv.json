@@ -94,5 +94,39 @@
     "suggestions": "Suggestions",
     "missingKeywords": "Missing Keywords",
     "improvements": "Improvements"
+  },
+  "job": {
+    "tab": "Job",
+    "paste": "Paste Text",
+    "url": "From URL",
+    "file": "Upload File",
+    "parse": "Parse",
+    "parsing": "Parsing...",
+    "fetch": "Fetch",
+    "fetching": "Fetching...",
+    "words": "{{count}} words",
+    "analyze": "Analyze against current CV",
+    "reanalyze": "Re-run Analysis",
+    "reanalyzing": "Re-analyzing...",
+    "score": "ATS Score",
+    "matched": "matched",
+    "missing": "missing",
+    "pastePlaceholder": "Paste the job description here...",
+    "chooseFile": "Choose File",
+    "corsNote": "Note: Some sites block CORS. Add a server proxy in later steps if required."
+  },
+  "optimize": {
+    "tab": "Optimize",
+    "filters": {
+      "category": "Category",
+      "severity": "Severity",
+      "search": "Search..."
+    },
+    "noSuggestions": "No suggestions match the filters.",
+    "noAnalysis": "Parse a job posting and run analysis to see suggestions."
+  },
+  "common": {
+    "undo": "Undo",
+    "redo": "Redo"
   }
 }

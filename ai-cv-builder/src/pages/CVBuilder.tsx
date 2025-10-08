@@ -4,6 +4,8 @@ import { CVTextPreview } from '@/components/cv/CVTextPreview'
 import { CVPreviewFull } from '@/components/cv/CVPreviewFull'
 import { JobPostingInput } from '@/components/job/JobPostingInput'
 import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
+import JobInput from '@/components/job/JobInput'
+import ATSPanel from '@/components/ats/ATSPanel'
 import { ATSScore } from '@/components/optimization/ATSScore'
 import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
 import { ExportOptions } from '@/components/export/ExportOptions'
@@ -25,18 +27,19 @@ import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate, FileEdit, PanelLeftClose, PanelRightClose } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate, FileEdit, PanelLeftClose, PanelRightClose, Target } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { LivePreview } from '@/components/preview/LivePreview'
 import { useOptimizationStore } from '@/store/optimizationStore'
 import { useCoverLetterStore } from '@/store/coverLetterStore'
 import { useTemplateStore } from '@/stores/template.store'
 import { useCVDataStore } from '@/stores/cvData.store'
+import { useATSStore } from '@/stores/ats.store'
 
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
-  const [currentStep, setCurrentStep] = useState<'upload' | 'edit' | 'job' | 'optimize' | 'cover-letter' | 'template'>('upload')
+  const [currentStep, setCurrentStep] = useState<'upload' | 'edit' | 'job' | 'optimize' | 'ats-optimize' | 'cover-letter' | 'template'>('upload')
   const [showPreview, setShowPreview] = useState(true)
 
   const {
@@ -52,7 +55,8 @@ export default function CVBuilderPage() {
 
   const { currentLetter } = useCoverLetterStore()
   const { initializeTemplates } = useTemplateStore()
-  const { initializeCV } = useCVDataStore()
+  const { initializeCV, currentCV: cvData } = useCVDataStore()
+  const { parsedJob, analyze, isAnalyzing } = useATSStore()
 
   // Initialize templates and CV data on mount
   useEffect(() => {
@@ -133,17 +137,21 @@ export default function CVBuilderPage() {
 
       {/* Main Content */}
       <Tabs value={currentStep} onValueChange={(v) => setCurrentStep(v as any)}>
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="upload">1. Upload CV</TabsTrigger>
           <TabsTrigger value="edit">
             <FileEdit className="h-4 w-4 mr-2" />
             2. Edit
           </TabsTrigger>
           <TabsTrigger value="job" disabled={!parsedCV}>
-            3. Job Posting
+            3. Job
+          </TabsTrigger>
+          <TabsTrigger value="ats-optimize" disabled={!parsedJob}>
+            <Target className="h-4 w-4 mr-2" />
+            ATS Optimize
           </TabsTrigger>
           <TabsTrigger value="optimize" disabled={!canOptimize}>
-            4. Optimize CV
+            4. AI Optimize
           </TabsTrigger>
           <TabsTrigger value="cover-letter" disabled={!canOptimize}>
             <FileText className="h-4 w-4 mr-2" />
@@ -228,37 +236,82 @@ export default function CVBuilderPage() {
         </TabsContent>
 
         <TabsContent value="job" className="mt-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <JobPostingInput onJobParsed={handleJobParsed} />
-            {jobPosting && <JobAnalysisDisplay job={jobPosting} />}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Job Posting Input</h3>
+                <JobInput />
+              </Card>
+              
+              {parsedJob && cvData && (
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    analyze(cvData)
+                    setCurrentStep('ats-optimize')
+                  }}
+                  disabled={isAnalyzing}
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <Target className="mr-2 h-4 w-4" />
+                      Analyze Against CV
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+
+            <div>
+              {showPreview && (
+                <div className="sticky top-0">
+                  <LivePreview />
+                </div>
+              )}
+            </div>
           </div>
 
-          {error && (
-            <Alert variant="destructive" className="mt-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+          <div className="mt-6 flex justify-between">
+            <Button variant="outline" onClick={() => setCurrentStep('edit')}>
+              ← Back to Edit
+            </Button>
+            {parsedJob && (
+              <Button onClick={() => setCurrentStep('ats-optimize')}>
+                Continue to ATS Optimize →
+              </Button>
+            )}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="ats-optimize" className="mt-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">ATS Optimization</h3>
+                <ATSPanel />
+              </Card>
+            </div>
+
+            <div>
+              {showPreview && (
+                <div className="sticky top-0">
+                  <LivePreview />
+                </div>
+              )}
+            </div>
+          </div>
 
           <div className="mt-6 flex justify-between">
-            <Button variant="outline" onClick={() => setCurrentStep('upload')}>
-              ← Back to CV
+            <Button variant="outline" onClick={() => setCurrentStep('job')}>
+              ← Back to Job
             </Button>
-            <Button
-              onClick={handleOptimize}
-              disabled={!canOptimize || isOptimizing}
-            >
-              {isOptimizing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Optimizing with AI...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Optimize with AI
-                </>
-              )}
+            <Button onClick={() => setCurrentStep('optimize')}>
+              Continue to AI Optimize →
             </Button>
           </div>
         </TabsContent>

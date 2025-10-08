@@ -94,5 +94,39 @@
     "suggestions": "Öneriler",
     "missingKeywords": "Eksik Anahtar Kelimeler",
     "improvements": "İyileştirmeler"
+  },
+  "job": {
+    "tab": "İş İlanı",
+    "paste": "Metin Yapıştır",
+    "url": "URL'den",
+    "file": "Dosya Yükle",
+    "parse": "Ayrıştır",
+    "parsing": "Ayrıştırılıyor...",
+    "fetch": "Getir",
+    "fetching": "Getiriliyor...",
+    "words": "{{count}} kelime",
+    "analyze": "Mevcut CV'ye göre analiz et",
+    "reanalyze": "Analizi Yeniden Çalıştır",
+    "reanalyzing": "Yeniden analiz ediliyor...",
+    "score": "ATS Skoru",
+    "matched": "eşleşen",
+    "missing": "eksik",
+    "pastePlaceholder": "İş ilanı açıklamasını buraya yapıştırın...",
+    "chooseFile": "Dosya Seç",
+    "corsNote": "Not: Bazı siteler CORS'u engelliyor. Gerekirse sonraki adımlarda bir sunucu proxy'si ekleyin."
+  },
+  "optimize": {
+    "tab": "Optimize Et",
+    "filters": {
+      "category": "Kategori",
+      "severity": "Önem Derecesi",
+      "search": "Ara..."
+    },
+    "noSuggestions": "Filtrelere uygun öneri bulunamadı.",
+    "noAnalysis": "Önerileri görmek için bir iş ilanı ayrıştırın ve analiz çalıştırın."
+  },
+  "common": {
+    "undo": "Geri Al",
+    "redo": "Yinele"
   }
 }
