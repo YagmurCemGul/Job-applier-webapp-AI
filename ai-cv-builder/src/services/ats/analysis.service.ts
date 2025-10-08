@@ -1,12 +1,29 @@
-import type { ATSAnalysisResult, ATSSuggestion, ParsedJob } from '@/types/ats.types'
+import type {
+  ATSAnalysisResult,
+  ATSSuggestion,
+  ParsedJob,
+  ATSScoringWeights,
+} from '@/types/ats.types'
 import type { CVData } from '@/types/cvData.types'
 import { normalizeText } from './textUtils'
+import { buildKeywordMeta } from './keywordImportance.service'
+
+/**
+ * Options for ATS analysis (Step 28)
+ */
+interface AnalyzeOptions {
+  weights?: ATSScoringWeights
+}
 
 /**
  * Analyze CV against a parsed job posting
  * Returns ATS score and actionable suggestions
  */
-export function analyzeCVAgainstJob(cv: CVData, job: ParsedJob): ATSAnalysisResult {
+export function analyzeCVAgainstJob(
+  cv: CVData,
+  job: ParsedJob,
+  opts?: AnalyzeOptions
+): ATSAnalysisResult {
   const id = cryptoId()
   const jobHash = hash(normalizeText(job.sections.raw ?? JSON.stringify(job)))
   const { matchedKeywords, missingKeywords } = matchKeywords(cv, job)
@@ -17,7 +34,22 @@ export function analyzeCVAgainstJob(cv: CVData, job: ParsedJob): ATSAnalysisResu
     ...lengthSuggestions(cv),
     ...experienceEducationSuggestions(cv, job),
   ]
-  const score = scoreFrom(matchedKeywords.length, missingKeywords.length, cv, suggestions)
+
+  // Step 28: Use custom weights if provided, otherwise use defaults
+  const weightsUsed = opts?.weights
+    ? normalizeWeights(opts.weights)
+    : undefined
+
+  const score = computeScore(
+    matchedKeywords.length,
+    missingKeywords.length,
+    cv,
+    suggestions,
+    weightsUsed
+  )
+
+  // Step 28: Build keyword metadata
+  const keywordMeta = buildKeywordMeta(job, matchedKeywords, missingKeywords)
 
   return {
     id,
@@ -27,6 +59,8 @@ export function analyzeCVAgainstJob(cv: CVData, job: ParsedJob): ATSAnalysisResu
     matchedKeywords,
     missingKeywords,
     createdAt: new Date(),
+    keywordMeta,
+    weightsUsed,
   }
 }
 
@@ -189,17 +223,82 @@ function stringifyCV(cv: CVData): string {
 }
 
 /**
- * Calculate ATS score from analysis data
+ * Calculate ATS score from analysis data with optional custom weights (Step 28)
  */
-function scoreFrom(
+export function computeScore(
   matched: number,
   missing: number,
   cv: CVData,
-  suggestions: ATSSuggestion[]
+  suggestions: ATSSuggestion[],
+  weights?: ATSScoringWeights
 ): number {
-  const base = 50 + Math.min(40, matched * 1.5) - Math.min(30, missing)
-  const penalty = suggestions.filter((s) => s.severity === 'critical').length * 2
-  return Math.max(0, Math.min(100, Math.round(base - penalty)))
+  // Default weights if not provided
+  const w = weights || {
+    keywords: 0.4,
+    sections: 0.2,
+    length: 0.1,
+    experience: 0.2,
+    formatting: 0.1,
+  }
+
+  // Keyword score (0-100)
+  const keywordScore = Math.max(
+    0,
+    Math.min(100, 50 + matched * 2 - missing * 1.5)
+  )
+
+  // Section score (0-100)
+  const sectionSugs = suggestions.filter((s) => s.category === 'Sections')
+  const sectionScore = Math.max(0, 100 - sectionSugs.length * 20)
+
+  // Length score (0-100)
+  const lengthSugs = suggestions.filter((s) => s.category === 'Length')
+  const lengthScore = lengthSugs.length > 0 ? 60 : 100
+
+  // Experience score (0-100)
+  const expSugs = suggestions.filter(
+    (s) => s.category === 'Experience' || s.category === 'Education'
+  )
+  const experienceScore = Math.max(0, 100 - expSugs.length * 25)
+
+  // Formatting score (0-100)
+  const formatSugs = suggestions.filter(
+    (s) => s.category === 'Formatting' || s.category === 'Contact'
+  )
+  const formattingScore = Math.max(0, 100 - formatSugs.length * 15)
+
+  // Weighted sum
+  const totalScore =
+    keywordScore * w.keywords +
+    sectionScore * w.sections +
+    lengthScore * w.length +
+    experienceScore * w.experience +
+    formattingScore * w.formatting
+
+  return Math.max(0, Math.min(100, Math.round(totalScore)))
+}
+
+/**
+ * Normalize weights so they sum to 1
+ */
+function normalizeWeights(weights: ATSScoringWeights): ATSScoringWeights {
+  const sum = Object.values(weights).reduce((acc, val) => acc + val, 0)
+  if (sum === 0) {
+    return {
+      keywords: 0.4,
+      sections: 0.2,
+      length: 0.1,
+      experience: 0.2,
+      formatting: 0.1,
+    }
+  }
+  return {
+    keywords: weights.keywords / sum,
+    sections: weights.sections / sum,
+    length: weights.length / sum,
+    experience: weights.experience / sum,
+    formatting: weights.formatting / sum,
+  }
 }
 
 /**

@@ -93,7 +93,54 @@
     "score": "ATS Skoru",
     "suggestions": "Öneriler",
     "missingKeywords": "Eksik Anahtar Kelimeler",
-    "improvements": "İyileştirmeler"
+    "improvements": "İyileştirmeler",
+    "details": {
+      "title": "ATS Detayları",
+      "overview": "Genel Bakış",
+      "keywords": "Anahtar Kelimeler",
+      "weights": "Ağırlıklar",
+      "exportJson": "JSON Dışa Aktar",
+      "exportCsv": "Anahtar Kelime CSV",
+      "score": "ATS Skoru",
+      "matched": "eşleşen",
+      "missing": "eksik",
+      "noResult": "Detayları görmek için ATS analizi çalıştırın",
+      "noJobText": "İlan metni mevcut değil",
+      "highlights": {
+        "title": "Anahtar Kelime Vurgulaması",
+        "off": "Kapalı",
+        "job": "İlan",
+        "cv": "CV",
+        "both": "Her ikisi",
+        "legendMatched": "Eşleşen anahtar kelime",
+        "legendMissing": "Eksik anahtar kelime"
+      },
+      "table": {
+        "term": "Terim",
+        "importance": "Önem",
+        "status": "Durum",
+        "matchedLabel": "Eşleşti",
+        "missingLabel": "Eksik",
+        "inTitle": "İlan Başlığında",
+        "inReq": "Gereksinimlerde",
+        "inQual": "Niteliklerde",
+        "inResp": "Sorumluluklarda",
+        "addSummary": "Özete Ekle",
+        "addSkills": "Becerilere Ekle",
+        "addExperience": "Deneyime Ekle…",
+        "search": "Anahtar kelime ara…",
+        "filter": "Filtre"
+      },
+      "weightsPanel": {
+        "keywords": "Anahtar Kelimeler",
+        "sections": "Bölümler",
+        "length": "Uzunluk",
+        "experience": "Deneyim",
+        "formatting": "Biçim",
+        "reset": "Varsayılanlara dön",
+        "recalc": "Yeniden Hesapla"
+      }
+    }
   },
   "job": {
     "tab": "İş İlanı",

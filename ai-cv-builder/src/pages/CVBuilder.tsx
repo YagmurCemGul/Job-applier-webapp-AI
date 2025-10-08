@@ -7,6 +7,9 @@ import { JobAnalysisDisplay } from '@/components/job/JobAnalysisDisplay'
 import JobInput from '@/components/job/JobInput'
 import JobInputTabs from '@/components/job/JobInputTabs'
 import ATSPanel from '@/components/ats/ATSPanel'
+import ATSDetails from '@/components/ats/ATSDetails'
+import ATSCVPreviewWithHighlights from '@/components/ats/ATSCVPreviewWithHighlights'
+import { useATSUIStore } from '@/stores/ats.ui.store'
 import { ATSScore } from '@/components/optimization/ATSScore'
 import { OptimizationChanges } from '@/components/optimization/OptimizationChanges'
 import { ExportOptions } from '@/components/export/ExportOptions'
@@ -57,7 +60,8 @@ export default function CVBuilderPage() {
   const { currentLetter } = useCoverLetterStore()
   const { initializeTemplates } = useTemplateStore()
   const { initializeCV, currentCV: cvData } = useCVDataStore()
-  const { parsedJob, analyze, isAnalyzing } = useATSStore()
+  const { parsedJob, analyze, isAnalyzing, result: atsResult } = useATSStore()
+  const { highlights } = useATSUIStore()
 
   // Initialize templates and CV data on mount
   useEffect(() => {
@@ -287,22 +291,41 @@ export default function CVBuilderPage() {
         </TabsContent>
 
         <TabsContent value="ats-optimize" className="mt-6">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <Card className="p-6">
-                <h3 className="text-lg font-semibold mb-4">ATS Optimization</h3>
-                <ATSPanel />
-              </Card>
-            </div>
+          <Tabs defaultValue="suggestions" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 max-w-md">
+              <TabsTrigger value="suggestions">Suggestions</TabsTrigger>
+              <TabsTrigger value="details">Details</TabsTrigger>
+            </TabsList>
 
-            <div>
-              {showPreview && (
-                <div className="sticky top-0">
-                  <LivePreview />
+            <TabsContent value="suggestions" className="mt-6">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <Card className="p-6">
+                    <h3 className="text-lg font-semibold mb-4">ATS Optimization</h3>
+                    <ATSPanel />
+                  </Card>
                 </div>
-              )}
-            </div>
-          </div>
+
+                <div>
+                  {showPreview && (
+                    <div className="sticky top-0">
+                      <ATSCVPreviewWithHighlights
+                        cv={cvData!}
+                        enabled={highlights === 'cv' || highlights === 'both'}
+                        terms={atsResult?.matchedKeywords || []}
+                      >
+                        <LivePreview />
+                      </ATSCVPreviewWithHighlights>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="details" className="mt-6">
+              <ATSDetails />
+            </TabsContent>
+          </Tabs>
 
           <div className="mt-6 flex justify-between">
             <Button variant="outline" onClick={() => setCurrentStep('job')}>

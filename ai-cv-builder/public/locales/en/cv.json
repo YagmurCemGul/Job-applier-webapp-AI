@@ -93,7 +93,54 @@
     "score": "ATS Score",
     "suggestions": "Suggestions",
     "missingKeywords": "Missing Keywords",
-    "improvements": "Improvements"
+    "improvements": "Improvements",
+    "details": {
+      "title": "ATS Details",
+      "overview": "Overview",
+      "keywords": "Keywords",
+      "weights": "Weights",
+      "exportJson": "Export JSON",
+      "exportCsv": "Export Keywords CSV",
+      "score": "ATS Score",
+      "matched": "matched",
+      "missing": "missing",
+      "noResult": "Run ATS analysis to see details",
+      "noJobText": "No job text available",
+      "highlights": {
+        "title": "Keyword Highlights",
+        "off": "Off",
+        "job": "Job",
+        "cv": "CV",
+        "both": "Both",
+        "legendMatched": "Matched keyword",
+        "legendMissing": "Missing keyword"
+      },
+      "table": {
+        "term": "Term",
+        "importance": "Importance",
+        "status": "Status",
+        "matchedLabel": "Matched",
+        "missingLabel": "Missing",
+        "inTitle": "In Title",
+        "inReq": "In Requirements",
+        "inQual": "In Qualifications",
+        "inResp": "In Responsibilities",
+        "addSummary": "Add to Summary",
+        "addSkills": "Add to Skills",
+        "addExperience": "Add to Experience…",
+        "search": "Search keyword…",
+        "filter": "Filter"
+      },
+      "weightsPanel": {
+        "keywords": "Keywords",
+        "sections": "Sections",
+        "length": "Length",
+        "experience": "Experience",
+        "formatting": "Formatting",
+        "reset": "Reset defaults",
+        "recalc": "Recalculate"
+      }
+    }
   },
   "job": {
     "tab": "Job",
