@@ -24,6 +24,7 @@ import { EducationForm } from '@/components/forms/EducationForm'
 import { SkillsForm } from '@/components/forms/SkillsForm'
 import { ProjectsForm } from '@/components/forms/ProjectsForm'
 import { SaveCVDialog } from '@/components/cv/SaveCVDialog'
+import VariantsTab from '@/components/variants/VariantsTab'
 import { ParsedCVData } from '@/services/file.service'
 import { JobPosting } from '@/types/job.types'
 import { Button } from '@/components/ui/button'
@@ -31,7 +32,7 @@ import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate, FileEdit, PanelLeftClose, PanelRightClose, Target } from 'lucide-react'
+import { Loader2, Sparkles, AlertCircle, FileText, LayoutTemplate, FileEdit, PanelLeftClose, PanelRightClose, Target, GitBranch } from 'lucide-react'
 import { aiService } from '@/services/ai.service'
 import { LivePreview } from '@/components/preview/LivePreview'
 import { useOptimizationStore } from '@/store/optimizationStore'
@@ -43,7 +44,7 @@ import { useATSStore } from '@/stores/ats.store'
 export default function CVBuilderPage() {
   const [parsedCV, setParsedCV] = useState<ParsedCVData | null>(null)
   const [jobPosting, setJobPosting] = useState<JobPosting | null>(null)
-  const [currentStep, setCurrentStep] = useState<'upload' | 'edit' | 'job' | 'optimize' | 'ats-optimize' | 'cover-letter' | 'template'>('upload')
+  const [currentStep, setCurrentStep] = useState<'upload' | 'edit' | 'job' | 'optimize' | 'ats-optimize' | 'cover-letter' | 'template' | 'variants'>('upload')
   const [showPreview, setShowPreview] = useState(true)
 
   const {
@@ -142,7 +143,7 @@ export default function CVBuilderPage() {
 
       {/* Main Content */}
       <Tabs value={currentStep} onValueChange={(v) => setCurrentStep(v as any)}>
-        <TabsList className="grid w-full grid-cols-7">
+        <TabsList className="grid w-full grid-cols-8">
           <TabsTrigger value="upload">1. Upload CV</TabsTrigger>
           <TabsTrigger value="edit">
             <FileEdit className="h-4 w-4 mr-2" />
@@ -157,6 +158,10 @@ export default function CVBuilderPage() {
           </TabsTrigger>
           <TabsTrigger value="optimize" disabled={!canOptimize}>
             4. AI Optimize
+          </TabsTrigger>
+          <TabsTrigger value="variants">
+            <GitBranch className="h-4 w-4 mr-2" />
+            Variants
           </TabsTrigger>
           <TabsTrigger value="cover-letter" disabled={!canOptimize}>
             <FileText className="h-4 w-4 mr-2" />
@@ -413,6 +418,11 @@ export default function CVBuilderPage() {
             <TemplateSelector />
             <TemplateCustomization />
           </div>
+        </TabsContent>
+
+        {/* Variants Tab */}
+        <TabsContent value="variants" className="mt-6">
+          <VariantsTab />
         </TabsContent>
 
         {/* Cover Letter Tab */}

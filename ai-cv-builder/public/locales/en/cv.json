@@ -207,5 +207,42 @@
   "common": {
     "undo": "Undo",
     "redo": "Redo"
+  },
+  "variants": {
+    "tab": "Variants",
+    "create": "Create Variant",
+    "export": "Export…",
+    "noVariants": "No variants yet.",
+    "linkedJob": "Linked job",
+    "atsAtCreate": "ATS",
+    "rename": "Rename variant",
+    "snapshot": "Snapshot",
+    "delete": "Delete",
+    "selectToView": "Select a variant to view differences.",
+    "history": "History",
+    "before": "Before",
+    "after": "After",
+    "diff": {
+      "summary": "Summary",
+      "skills": "Skills",
+      "experience": "Experience",
+      "education": "Education",
+      "contact": "Contact"
+    },
+    "exportPresets": {
+      "title": "Export Presets",
+      "name": "Preset name",
+      "template": "Naming template",
+      "saveExport": "Save & Export",
+      "tokens": "Tokens",
+      "close": "Close"
+    },
+    "createDialog": {
+      "title": "Create Variant",
+      "name": "Variant name",
+      "linkJob": "(Optional) Link Saved Job…",
+      "cancel": "Cancel",
+      "create": "Create"
+    }
   }
 }
