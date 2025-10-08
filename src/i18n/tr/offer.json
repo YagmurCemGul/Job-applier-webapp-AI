@@ -1,0 +1,170 @@
+{
+  "offer": {
+    "title": "Teklifler",
+    "addOffer": "Teklif Ekle",
+    "compare": "Teklifleri Kıyasla",
+    "compareSelected": "Seçilenleri Kıyasla",
+    "estimates": "Sadece tahmindir — finansal veya vergi danışmanlığı değildir.",
+    "noOffers": "Henüz teklif yok",
+    "noOffersDesc": "Ücret paketlerini karşılaştırmaya başlamak için ilk iş teklifinizi ekleyin.",
+    
+    "stages": {
+      "draft": "Taslak",
+      "received": "Alındı",
+      "negotiating": "Müzakere Ediliyor",
+      "accepted": "Kabul Edildi",
+      "declined": "Reddedildi",
+      "expired": "Süresi Doldu"
+    },
+    
+    "tabs": {
+      "overview": "Genel Bakış",
+      "compensation": "Ücret",
+      "benefits": "Yan Haklar",
+      "equity": "Hisse",
+      "deadlines": "Son Tarihler",
+      "negotiation": "Müzakere",
+      "docs": "Belgeler"
+    },
+    
+    "fields": {
+      "company": "Şirket",
+      "role": "Rol",
+      "level": "Seviye",
+      "location": "Konum",
+      "remote": "Uzaktan Çalışma",
+      "currency": "Para Birimi",
+      "baseAnnual": "Temel Maaş (Yıllık)",
+      "bonusTargetPct": "Hedef Bonus (%)",
+      "stage": "Aşama"
+    },
+    
+    "remote": {
+      "on_site": "Ofiste",
+      "hybrid": "Hibrit",
+      "remote": "Uzaktan"
+    },
+    
+    "compensation": {
+      "calculator": "Toplam Ücret Hesaplayıcı",
+      "horizon": "Zaman Ufku",
+      "taxRate": "Efektif Vergi Oranı (%)",
+      "colAdjust": "Yaşam Maliyeti Ayarı (%)",
+      "fxBase": "Para Birimine Normalize Et",
+      "breakdown": "Dökümü",
+      "base": "Temel",
+      "bonus": "Bonus",
+      "equity": "Hisse (yıllık)",
+      "benefits": "Yan Haklar",
+      "gross": "Brüt Toplam",
+      "postTax": "Vergi Sonrası",
+      "normalized": "Normalize Edilmiş",
+      "years1": "1 Yıl",
+      "years2": "2 Yıl",
+      "years4": "4 Yıl"
+    },
+    
+    "equity": {
+      "grants": "Hisse Tahsisleri",
+      "addGrant": "Tahsis Ekle",
+      "type": "Tür",
+      "units": "Birim",
+      "strikePrice": "Kullanım Fiyatı",
+      "vestSchedule": "Kazanım Takvimi",
+      "targetValue": "Hedef Değer",
+      "ticker": "Hisse Kodu",
+      "assumedPrice": "Varsayılan Hisse Fiyatı",
+      "types": {
+        "RSU": "RSU",
+        "Options": "Opsiyonlar",
+        "PSU": "PSU",
+        "ESPP": "ESPP"
+      },
+      "schedules": {
+        "4y_1y_cliff": "4 yıl, 1 yıl uçurum",
+        "4y_no_cliff": "4 yıl, uçurum yok",
+        "custom": "Özel"
+      }
+    },
+    
+    "benefits": {
+      "package": "Yan Haklar Paketi",
+      "ptoDays": "İzin Günleri",
+      "healthMonthly": "Sağlık (Aylık İşveren)",
+      "retirementMatch": "Emeklilik Eşleşmesi (%)",
+      "stipendAnnual": "Yıllık Ödenek",
+      "signingBonus": "İmza Bonusu",
+      "relocation": "Taşınma Paketi",
+      "visaSupport": "Vize Desteği"
+    },
+    
+    "deadlines": {
+      "title": "Son Tarihler",
+      "addDeadline": "Son Tarih Ekle",
+      "label": "Etiket",
+      "date": "Tarih",
+      "kind": "Tür",
+      "createEvent": "Takvim Olayı Oluştur",
+      "approaching": "Yaklaşıyor",
+      "past": "Geçmiş",
+      "kinds": {
+        "accept": "Kabul Son Tarihi",
+        "expire": "Teklifin Süresi Doluyor",
+        "background": "Arkaplan Kontrolü",
+        "other": "Diğer"
+      }
+    },
+    
+    "negotiation": {
+      "coach": "Müzakere Koçu",
+      "generatePlan": "Plan Oluştur",
+      "strategy": "Strateji",
+      "talkingPoints": "Konuşma Noktaları",
+      "targetAdjustments": "Hedef Ayarlamalar",
+      "riskNotes": "Risk Notları",
+      "batna": "BATNA (En İyi Alternatif)",
+      "market": "Piyasa Bağlamı",
+      "priorities": "Öncelikleriniz",
+      "emails": "Taslak E-postalar",
+      "sendEmail": "Gmail ile Gönder",
+      "field": "Alan",
+      "ask": "İstek",
+      "rationale": "Gerekçe"
+    },
+    
+    "docs": {
+      "export": "Dışa Aktar",
+      "exportPDF": "PDF Olarak Dışa Aktar",
+      "exportDocs": "Google Docs Olarak",
+      "esign": "E-İmza",
+      "startEsign": "E-İmza Başlat",
+      "viewSigned": "İmzalı Belgeyi Görüntüle"
+    },
+    
+    "comparison": {
+      "title": "Teklif Karşılaştırması",
+      "whatIf": "Ya Öyleyse Analizi",
+      "rank": "Sıralama",
+      "selectOffers": "Karşılaştırmak için teklifler seçin",
+      "saveComparison": "Karşılaştırmayı Kaydet",
+      "comparisonName": "Karşılaştırma Adı"
+    },
+    
+    "import": {
+      "title": "Metinden İçe Aktar",
+      "placeholder": "Teklif e-postasını veya mektubunu buraya yapıştırın...",
+      "parse": "Ayrıştır",
+      "parsed": "Başarıyla ayrıştırıldı"
+    },
+    
+    "actions": {
+      "save": "Kaydet",
+      "cancel": "İptal",
+      "delete": "Sil",
+      "edit": "Düzenle",
+      "markAccepted": "Kabul Edildi Olarak İşaretle",
+      "markDeclined": "Reddedildi Olarak İşaretle",
+      "emailRecruiter": "İşe Alım Uzmanına E-posta"
+    }
+  }
+}

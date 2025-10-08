@@ -14,6 +14,7 @@ import CoverLetterPage from '@/pages/CoverLetter'
 import JobListingsPage from '@/pages/JobListings'
 import ApplicationsPage from '@/pages/Applications'
 import InterviewsPage from '@/pages/Interviews'
+import OffersPage from '@/pages/Offers'
 import OutboxPage from '@/pages/Outbox'
 import ProfilePage from '@/pages/Profile'
 import SettingsPage from '@/pages/Settings'
@@ -98,6 +99,14 @@ export const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <InterviewDetail />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/offers',
+        element: (
+          <ProtectedRoute>
+            <OffersPage />
           </ProtectedRoute>
         ),
       },

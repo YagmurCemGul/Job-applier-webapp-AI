@@ -1,0 +1,170 @@
+{
+  "offer": {
+    "title": "Offers",
+    "addOffer": "Add Offer",
+    "compare": "Compare Offers",
+    "compareSelected": "Compare Selected",
+    "estimates": "Estimates only — not financial or tax advice.",
+    "noOffers": "No offers yet",
+    "noOffersDesc": "Add your first job offer to start comparing compensation packages.",
+    
+    "stages": {
+      "draft": "Draft",
+      "received": "Received",
+      "negotiating": "Negotiating",
+      "accepted": "Accepted",
+      "declined": "Declined",
+      "expired": "Expired"
+    },
+    
+    "tabs": {
+      "overview": "Overview",
+      "compensation": "Compensation",
+      "benefits": "Benefits",
+      "equity": "Equity",
+      "deadlines": "Deadlines",
+      "negotiation": "Negotiation",
+      "docs": "Documents"
+    },
+    
+    "fields": {
+      "company": "Company",
+      "role": "Role",
+      "level": "Level",
+      "location": "Location",
+      "remote": "Remote Policy",
+      "currency": "Currency",
+      "baseAnnual": "Base Salary (Annual)",
+      "bonusTargetPct": "Target Bonus (%)",
+      "stage": "Stage"
+    },
+    
+    "remote": {
+      "on_site": "On-Site",
+      "hybrid": "Hybrid",
+      "remote": "Remote"
+    },
+    
+    "compensation": {
+      "calculator": "Total Comp Calculator",
+      "horizon": "Time Horizon",
+      "taxRate": "Effective Tax Rate (%)",
+      "colAdjust": "Cost of Living Adjustment (%)",
+      "fxBase": "Normalize to Currency",
+      "breakdown": "Breakdown",
+      "base": "Base",
+      "bonus": "Bonus",
+      "equity": "Equity (annualized)",
+      "benefits": "Benefits",
+      "gross": "Gross Total",
+      "postTax": "After Tax",
+      "normalized": "Normalized",
+      "years1": "1 Year",
+      "years2": "2 Years",
+      "years4": "4 Years"
+    },
+    
+    "equity": {
+      "grants": "Equity Grants",
+      "addGrant": "Add Grant",
+      "type": "Type",
+      "units": "Units",
+      "strikePrice": "Strike Price",
+      "vestSchedule": "Vesting Schedule",
+      "targetValue": "Target Value",
+      "ticker": "Stock Ticker",
+      "assumedPrice": "Assumed Share Price",
+      "types": {
+        "RSU": "RSU",
+        "Options": "Options",
+        "PSU": "PSU",
+        "ESPP": "ESPP"
+      },
+      "schedules": {
+        "4y_1y_cliff": "4 years, 1 year cliff",
+        "4y_no_cliff": "4 years, no cliff",
+        "custom": "Custom"
+      }
+    },
+    
+    "benefits": {
+      "package": "Benefits Package",
+      "ptoDays": "PTO Days",
+      "healthMonthly": "Health (Monthly Employer)",
+      "retirementMatch": "Retirement Match (%)",
+      "stipendAnnual": "Annual Stipend",
+      "signingBonus": "Signing Bonus",
+      "relocation": "Relocation Package",
+      "visaSupport": "Visa Support"
+    },
+    
+    "deadlines": {
+      "title": "Deadlines",
+      "addDeadline": "Add Deadline",
+      "label": "Label",
+      "date": "Date",
+      "kind": "Type",
+      "createEvent": "Create Calendar Event",
+      "approaching": "Approaching",
+      "past": "Past",
+      "kinds": {
+        "accept": "Accept Deadline",
+        "expire": "Offer Expires",
+        "background": "Background Check",
+        "other": "Other"
+      }
+    },
+    
+    "negotiation": {
+      "coach": "Negotiation Coach",
+      "generatePlan": "Generate Plan",
+      "strategy": "Strategy",
+      "talkingPoints": "Talking Points",
+      "targetAdjustments": "Target Adjustments",
+      "riskNotes": "Risk Notes",
+      "batna": "BATNA (Best Alternative)",
+      "market": "Market Context",
+      "priorities": "Your Priorities",
+      "emails": "Draft Emails",
+      "sendEmail": "Send via Gmail",
+      "field": "Field",
+      "ask": "Ask",
+      "rationale": "Rationale"
+    },
+    
+    "docs": {
+      "export": "Export",
+      "exportPDF": "Export to PDF",
+      "exportDocs": "Export to Google Docs",
+      "esign": "E-Signature",
+      "startEsign": "Start E-Signature",
+      "viewSigned": "View Signed Document"
+    },
+    
+    "comparison": {
+      "title": "Offer Comparison",
+      "whatIf": "What-If Analysis",
+      "rank": "Rank",
+      "selectOffers": "Select offers to compare",
+      "saveComparison": "Save Comparison",
+      "comparisonName": "Comparison Name"
+    },
+    
+    "import": {
+      "title": "Import from Text",
+      "placeholder": "Paste offer email or letter here...",
+      "parse": "Parse",
+      "parsed": "Parsed successfully"
+    },
+    
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "markAccepted": "Mark Accepted",
+      "markDeclined": "Mark Declined",
+      "emailRecruiter": "Email Recruiter"
+    }
+  }
+}

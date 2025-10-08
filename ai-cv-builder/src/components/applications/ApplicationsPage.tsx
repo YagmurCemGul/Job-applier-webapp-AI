@@ -11,11 +11,16 @@ import SequenceBuilderDialog from './SequenceBuilderDialog';
 import EmailTemplateDialog from './EmailTemplateDialog';
 import ApplyDialog from './ApplyDialog';
 import { funnel } from '@/services/insights/applications.insights.service';
+import { OfferCreateDialog } from '@/components/offer/OfferCreateDialog';
+import { useNavigate } from 'react-router-dom';
+import { DollarSign, GitCompare } from 'lucide-react';
 
 export default function ApplicationsPage() {
+  const navigate = useNavigate();
   const [openApply, setOpenApply] = useState(false);
   const [openSeq, setOpenSeq] = useState(false);
   const [openTpl, setOpenTpl] = useState(false);
+  const [openOffer, setOpenOffer] = useState(false);
   const f = funnel();
 
   return (
@@ -28,6 +33,14 @@ export default function ApplicationsPage() {
         <Button variant="outline" onClick={() => setOpenTpl(true)}>
           Email Templates
         </Button>
+        <Button variant="outline" onClick={() => setOpenOffer(true)}>
+          <DollarSign className="mr-2 h-4 w-4" />
+          Add Offer
+        </Button>
+        <Button variant="outline" onClick={() => navigate('/offers')}>
+          <GitCompare className="mr-2 h-4 w-4" />
+          Compare Offers
+        </Button>
         <div className="ml-auto text-xs text-muted-foreground">
           Funnel: A {f.applied} • V {f.viewed} • I {f.interview} • O {f.offer} •
           R {f.rejected}
@@ -38,6 +51,7 @@ export default function ApplicationsPage() {
       <ApplyDialog open={openApply} onOpenChange={setOpenApply} />
       <SequenceBuilderDialog open={openSeq} onOpenChange={setOpenSeq} />
       <EmailTemplateDialog open={openTpl} onOpenChange={setOpenTpl} />
+      <OfferCreateDialog open={openOffer} onOpenChange={setOpenOffer} />
     </div>
   );
 }
