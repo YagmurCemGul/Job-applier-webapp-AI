@@ -1,0 +1,71 @@
+feat(extension): MV3 browser extension for secure auto-apply transport, page parsers, guided file attach, options/popup UIs, and app bridge with HMAC + rate limiting
+
+BREAKING CHANGE: This is a new extension package that integrates with the web app (Steps 17-33).
+
+Features:
+- Manifest V3 extension with background service worker
+- Secure HMAC-SHA256 message signing and origin validation
+- Auto-apply transport with dry-run and submit modes
+- Page parsers for 5+ platforms (Greenhouse, Lever, Workday, Indeed, LinkedIn) + generic fallback
+- Guided file attachment with accessible overlays
+- Options UI for platform configuration and HMAC key management
+- Popup UI showing recent application history
+- Rate limiting (token bucket per domain)
+- Legal Mode compliance controls
+- i18n support (EN/TR)
+- Comprehensive test suite (unit, integration, E2E)
+
+Platform Support:
+- Greenhouse: Standard fields, resume upload, custom questions
+- Lever: Multi-step forms, URL fields
+- Workday: Dynamic components, ARIA-based matching
+- Indeed: Quick apply support
+- LinkedIn: Easy Apply integration
+- Generic: Heuristic-based fallback for any site
+
+Components:
+- Background service worker with routing, security, rate limiting
+- Content scripts with shared utilities (DOM, autofill, overlay, parse)
+- React-based popup and options UIs
+- Storage management with chrome.storage.local
+- Message protocol for web app communication
+- Integration bridge for Step 33 Auto-Apply
+
+Testing:
+- 30+ unit tests (autofill, parsing, security)
+- Integration tests with JSDOM
+- E2E tests with Playwright
+- Test fixtures for all platforms
+
+Documentation:
+- README.md: Comprehensive user/dev guide
+- INSTALL.md: Installation instructions
+- QUICKSTART.md: 5-minute setup guide
+- CONTRIBUTING.md: Contribution guidelines
+- PRIVACY.md: Privacy policy
+- CHANGELOG.md: Version history
+- integration/README.md: Web app integration guide
+
+Build System:
+- Vite bundler with TypeScript
+- React 18 for UI components
+- ESLint + TypeScript strict mode
+- Automated packaging as ZIP
+- Source maps for development
+
+Security:
+- HMAC signature verification
+- Constant-time comparison
+- Origin allow-list
+- Minimal permissions
+- No external requests
+- Local-only storage
+
+Accessibility:
+- WCAG AA compliant
+- ARIA labels and roles
+- Focus trap in overlays
+- Keyboard navigation
+- Live regions for announcements
+
+Co-authored-by: AI Assistant <ai@jobpilot.com>
