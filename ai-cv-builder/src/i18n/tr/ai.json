@@ -1,0 +1,33 @@
+{
+  "ai": {
+    "settings": "Yapay Zeka Ayarları",
+    "perTask": "Görev Bazlı Modeller",
+    "defaults": "Varsayılanlar",
+    "toggles": "Anahtarlar",
+    "providerReady": "Hazır",
+    "providerMissing": "Yapılandırılmadı",
+    "testConsole": "AI Test Konsolu",
+    "run": "Çalıştır",
+    "running": "Çalışıyor...",
+    "safety": "Güvenlik",
+    "cache": "Önbellek",
+    "meters": "Sayaçları Göster",
+    "cacheTtl": "Önbellek TTL (ms)",
+    "parsing": "Ayrıştırma",
+    "generation": "Genel Üretim",
+    "matching": "İş Eşleştirme",
+    "coverLetter": "Ön Yazı",
+    "suggest": "Anahtar Kelime Öner",
+    "embed": "Gömme Vektör",
+    "moderate": "İçerik Denetimi",
+    "resetDefaults": "Varsayılanlara Dön",
+    "provider": "Sağlayıcı",
+    "model": "Model",
+    "temperature": "Sıcaklık",
+    "timeout": "Zaman Aşımı (ms)",
+    "retries": "Yeniden Deneme",
+    "suggestSimilar": "Benzer Öner",
+    "suggestingSimilar": "Öneriliyor...",
+    "noSuggestions": "Öneri bulunamadı"
+  }
+}

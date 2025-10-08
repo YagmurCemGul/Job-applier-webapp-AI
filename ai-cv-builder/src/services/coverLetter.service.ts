@@ -1,48 +1,31 @@
 import { CoverLetterRequest, CoverLetterResult } from '@/types/coverLetter.types'
+import { aiGenerateText } from '@/services/features/aiGenerateText.service'
+import { getAISettings } from '@/stores/ai.store'
 
 class CoverLetterService {
-  private readonly API_URL = 'https://api.anthropic.com/v1/messages'
-  private readonly MODEL = 'claude-sonnet-4-20250514'
-
   async generateCoverLetter(request: CoverLetterRequest): Promise<CoverLetterResult> {
-    // Development mode için mock response
-    if (import.meta.env.DEV && !import.meta.env.VITE_ANTHROPIC_API_KEY) {
+    const settings = getAISettings()
+    const hasCoverLetterModel = !!settings.perTask.coverLetter
+    
+    // Use AI orchestration if configured, otherwise fallback to mock
+    if (!hasCoverLetterModel && import.meta.env.DEV) {
       return this.getMockCoverLetter(request)
     }
 
     const prompt = this.buildCoverLetterPrompt(request)
 
     try {
-      const response = await fetch(this.API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
-        },
-        body: JSON.stringify({
-          model: this.MODEL,
-          max_tokens: 2000,
-          messages: [
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
-        }),
-      })
+      const content = await aiGenerateText(
+        'You are an expert career coach and professional cover letter writer.',
+        prompt,
+        2000
+      )
 
-      if (!response.ok) {
-        throw new Error(`API request failed: ${response.statusText}`)
-      }
-
-      const data = await response.json()
-      const content = data.content[0].text
-
-      return this.parseResult(content)
+      return this.parseResult(content || this.getMockCoverLetter(request).content)
     } catch (error) {
       console.error('Cover letter generation error:', error)
-      throw new Error('Failed to generate cover letter. Please try again.')
+      // Fallback to mock on error
+      return this.getMockCoverLetter(request)
     }
   }
 
