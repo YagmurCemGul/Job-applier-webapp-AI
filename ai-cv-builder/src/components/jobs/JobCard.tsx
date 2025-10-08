@@ -25,7 +25,7 @@ export default function JobCard({ job }: JobCardProps) {
     // Simple match score: title/company overlap with active variant skills
     async function run() {
       try {
-        const { useCVDataStore } = await import('@/stores/cv.store');
+        const { useCVDataStore } = await import('@/stores/cvData.store');
         const cv = useCVDataStore.getState().cvData;
         if (!cv) return;
         
@@ -36,7 +36,7 @@ export default function JobCard({ job }: JobCardProps) {
         
         updateScore(job.id, score);
       } catch (e) {
-        // Graceful fallback if cv.store doesn't exist yet
+        // Graceful fallback if cvData.store doesn't exist yet
         console.debug('CV store not available for match scoring', e);
       }
     }

@@ -25,6 +25,7 @@ export const ROUTES = {
   CV_BUILDER: '/cv-builder',
   COVER_LETTER: '/cover-letter',
   JOBS: '/jobs',
+  APPLICATIONS: '/applications',
   PROFILE: '/profile',
   SETTINGS: '/settings',
 } as const
