@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useATSUIStore } from '@/stores/ats.ui.store'
 import { useCVDataStore } from '@/stores/cvData.store'
+import { useATSStore } from '@/stores/ats.store'
 import type { ATSAnalysisResult, ATSKeywordMeta } from '@/types/ats.types'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -19,8 +20,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Check, X, Plus, ChevronDown } from 'lucide-react'
+import { Check, X, Plus, ChevronDown, Sparkles, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { aiSuggestKeywords } from '@/services/features/aiSuggestKeywords.service'
 
 interface ATSKeywordTableProps {
   result: ATSAnalysisResult
@@ -33,7 +35,10 @@ export default function ATSKeywordTable({ result }: ATSKeywordTableProps) {
   const { t } = useTranslation('cv')
   const { kwSearch, setKwSearch, setSelectedKw } = useATSUIStore()
   const { currentCV, updateSummary, addSkill, updateExperience } = useCVDataStore()
+  const { parsedJob } = useATSStore()
   const [statusFilter, setStatusFilter] = useState<'all' | 'matched' | 'missing'>('all')
+  const [suggestedKeywords, setSuggestedKeywords] = useState<string[]>([])
+  const [isSuggesting, setIsSuggesting] = useState(false)
 
   const meta = result.keywordMeta || []
   const matchedSet = new Set(result.matchedKeywords)
@@ -80,10 +85,33 @@ export default function ATSKeywordTable({ result }: ATSKeywordTableProps) {
     updateExperience(expIndex, updated)
   }
 
+  const handleSuggestSimilar = async () => {
+    if (!parsedJob) return
+    
+    setIsSuggesting(true)
+    try {
+      const jobText = [
+        parsedJob.title,
+        parsedJob.requirements?.join(' '),
+        parsedJob.qualifications?.join(' '),
+        parsedJob.responsibilities?.join(' ')
+      ].filter(Boolean).join(' ')
+      
+      const currentKeywords = [...result.matchedKeywords, ...result.missingKeywords]
+      const suggestions = await aiSuggestKeywords(jobText, currentKeywords, 10)
+      setSuggestedKeywords(suggestions)
+    } catch (error) {
+      console.error('Failed to suggest keywords:', error)
+      setSuggestedKeywords([])
+    } finally {
+      setIsSuggesting(false)
+    }
+  }
+
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 items-center">
         <Input
           placeholder={t('ats.details.table.search', 'Search keyword…')}
           value={kwSearch}
@@ -100,7 +128,64 @@ export default function ATSKeywordTable({ result }: ATSKeywordTableProps) {
             <SelectItem value="missing">Missing</SelectItem>
           </SelectContent>
         </Select>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleSuggestSimilar}
+          disabled={isSuggesting || !parsedJob}
+          className="gap-2 ml-auto"
+        >
+          {isSuggesting ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              {t('ai.suggestingSimilar', 'Suggesting...')}
+            </>
+          ) : (
+            <>
+              <Sparkles className="h-4 w-4" />
+              {t('ai.suggestSimilar', 'Suggest Similar')}
+            </>
+          )}
+        </Button>
       </div>
+
+      {/* AI Suggested Keywords */}
+      {suggestedKeywords.length > 0 && (
+        <div className="border rounded-md p-3 bg-blue-50 dark:bg-blue-950/20">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles className="h-4 w-4 text-blue-600" />
+            <span className="text-sm font-medium text-blue-900 dark:text-blue-100">
+              AI Suggested Keywords
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {suggestedKeywords.map((kw, idx) => (
+              <Badge
+                key={idx}
+                variant="secondary"
+                className="cursor-pointer hover:bg-blue-200 dark:hover:bg-blue-900"
+              >
+                {kw}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="ml-2 hover:text-primary">
+                      <Plus className="h-3 w-3" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleAddToSummary(kw)}>
+                      {t('ats.details.table.addSummary', 'Add to Summary')}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleAddToSkills(kw)}>
+                      {t('ats.details.table.addSkills', 'Add to Skills')}
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Table */}
       <div className="border rounded-md overflow-hidden">
