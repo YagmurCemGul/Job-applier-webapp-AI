@@ -1,0 +1,29 @@
+{
+  "site": {
+    "dashboard": "Portfolyo Paneli",
+    "profile": "Profil",
+    "caseStudies": "Vaka Çalışmaları",
+    "blog": "Blog",
+    "media": "Medya",
+    "seo": "SEO",
+    "theme": "Tema",
+    "social": "Sosyal",
+    "analytics": "Analitik",
+    "publish": "Yayınla",
+    "contact": "İletişim Formu",
+    "public": "Herkese Açık",
+    "private": "Özel",
+    "draft": "Taslak",
+    "generateDraft": "Taslak Oluştur",
+    "preview": "Önizleme",
+    "exportZip": "ZIP Dışa Aktar",
+    "deploy": "Yayınla",
+    "schedule": "Zamanla",
+    "optInAnalytics": "Gizlilik dostu analitiği etkinleştir",
+    "noAiMeta": "'noai' meta etiketini ekle",
+    "sendTest": "Test Gönder",
+    "scheduled": "Zamanlandı",
+    "posted": "Paylaşıldı",
+    "failed": "Başarısız"
+  }
+}
