@@ -9,13 +9,15 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building, Users, UserPlus, Zap, Calendar, PlayCircle } from 'lucide-react';
+import { Building, Users, UserPlus, Zap, Calendar, PlayCircle, DollarSign, MessageSquare } from 'lucide-react';
 import { usePipeline } from '@/stores/pipeline.store';
 import { useContacts } from '@/stores/contacts.store';
 import { useInterview } from '@/stores/interview.store';
+import { useOffers } from '@/stores/offers.store.step44';
 import { ReferralAskWizard } from '@/components/network/ReferralAskWizard';
 import type { PipelineItem } from '@/stores/pipeline.store';
 import type { InterviewPlan } from '@/types/interview.types';
+import type { Offer } from '@/types/offer.types.step44';
 
 // Placeholder Application type
 interface Application {
@@ -36,6 +38,7 @@ export function Applications() {
   const { upsert: upsertPipeline } = usePipeline();
   const { items: contacts, findByEmail } = useContacts();
   const { upsertPlan } = useInterview();
+  const { upsert: upsertOffer } = useOffers();
   const [referralWizardOpen, setReferralWizardOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
 
@@ -93,6 +96,24 @@ export function Applications() {
 
   const handleStartMock = (app: Application) => {
     navigate('/interview', { state: { tab: 'questions', company: app.company, role: app.position } });
+  };
+
+  const handleLogOffer = (app: Application) => {
+    const offer: Offer = {
+      id: crypto.randomUUID(),
+      company: app.company,
+      role: app.position,
+      currency: 'USD',
+      baseAnnual: 0,
+      source: 'manual',
+      extractedAt: new Date().toISOString()
+    };
+    upsertOffer(offer);
+    navigate('/offers', { state: { offerId: offer.id } });
+  };
+
+  const handleStartNegotiation = (app: Application) => {
+    navigate('/offers', { state: { tab: 'negotiate', company: app.company } });
   };
 
   return (
@@ -155,6 +176,22 @@ export function Applications() {
                 >
                   <PlayCircle className="mr-2 h-4 w-4" />
                   Mock
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleLogOffer(app)}
+                >
+                  <DollarSign className="mr-2 h-4 w-4" />
+                  Log Offer
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleStartNegotiation(app)}
+                >
+                  <MessageSquare className="mr-2 h-4 w-4" />
+                  Negotiate
                 </Button>
                 <Button
                   size="sm"

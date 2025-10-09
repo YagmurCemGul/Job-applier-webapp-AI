@@ -1,0 +1,30 @@
+{
+  "offer": {
+    "title": "Teklifler",
+    "addOffer": "Teklif Ekle",
+    "compare": "Karşılaştır",
+    "equity": "Hisse",
+    "scenarios": "Senaryolar",
+    "benchmarks": "Kıyas",
+    "negotiate": "Müzakere",
+    "calls": "Görüşmeler",
+    "docs": "Belgeler",
+    "analytics": "Analitik",
+    "disclaimer": "Eğitsel tahmin — finansal veya hukuki tavsiye değildir.",
+    "base": "Temel Maaş",
+    "bonusTarget": "Prim Hedefi",
+    "signOn": "İmza Bonusu",
+    "equityGrant": "Hisse Tahsisi",
+    "vesting": "Vesting",
+    "currency": "Para Birimi",
+    "npv": "NPV",
+    "y1": "1. Yıl",
+    "y2": "2. Yıl",
+    "y4": "4. Yıl",
+    "sendCounter": "Karşı Teklif Gönder",
+    "scheduleCall": "Görüşme Planla",
+    "exportPacket": "Paketi Dışa Aktar",
+    "updatePipeline": "Boru Hattını Güncelle",
+    "estimates": "Teklifleri karşılaştır ve hisse senaryolarını modelleyın"
+  }
+}
