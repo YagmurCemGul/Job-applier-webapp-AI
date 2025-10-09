@@ -1,0 +1,17 @@
+{
+  "outreach": {
+    "dashboard": "Outreach Paneli",
+    "prospects": "Adaylar",
+    "templates": "Şablonlar",
+    "sequences": "Sekanslar",
+    "campaigns": "Kampanyalar",
+    "abtests": "A/B Testleri",
+    "referrals": "Sıcak Tanıştırmalar",
+    "scheduler": "Zamanlayıcı",
+    "compliance": "Uyumluluk",
+    "consent": "Onay odaklı iletişim — tek tıkla abonelikten çıkma mevcuttur.",
+    "importCsv": "CSV İçe Aktar",
+    "runTick": "Tick Çalıştır",
+    "exportReport": "Rapor Dışa Aktar"
+  }
+}
