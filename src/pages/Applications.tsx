@@ -5,10 +5,11 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building, Users, UserPlus } from 'lucide-react';
+import { Building, Users, UserPlus, Zap } from 'lucide-react';
 import { usePipeline } from '@/stores/pipeline.store';
 import { useContacts } from '@/stores/contacts.store';
 import { ReferralAskWizard } from '@/components/network/ReferralAskWizard';
@@ -29,6 +30,7 @@ interface Application {
  */
 export function Applications() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { upsert: upsertPipeline } = usePipeline();
   const { items: contacts, findByEmail } = useContacts();
   const [referralWizardOpen, setReferralWizardOpen] = useState(false);
@@ -62,6 +64,11 @@ export function Applications() {
     setReferralWizardOpen(true);
   };
 
+  const handleAutoApply = (app: Application) => {
+    // Navigate to Apply page with pre-selected posting
+    navigate('/apply', { state: { company: app.company, position: app.position } });
+  };;
+
   return (
     <div className="container mx-auto py-6 space-y-6">
       <div>
@@ -90,21 +97,28 @@ export function Applications() {
                   {app.status}
                 </Badge>
               </div>
-              <div className="flex gap-2 pt-2 border-t">
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleAutoApply(app)}
+                >
+                  <Zap className="mr-2 h-4 w-4" />
+                  Auto-Apply
+                </Button>
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => handleAddToPipeline(app)}
-                  className="flex-1"
                 >
                   <Building className="mr-2 h-4 w-4" />
-                  Add to Pipeline
+                  Pipeline
                 </Button>
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => handleRequestReferral(app)}
-                  className="flex-1"
+                  className="col-span-2"
                 >
                   <UserPlus className="mr-2 h-4 w-4" />
                   Request Referral
