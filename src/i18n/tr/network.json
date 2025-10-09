@@ -1,0 +1,39 @@
+{
+  "network": {
+    "title": "İletişim Ağı ve Referanslar",
+    "subtitle": "Bağlantılar kurun, tanıtım isteyin, ulaşımı yönetin",
+    "contacts": "Kişiler",
+    "graph": "Sıcak Tanışma Grafiği",
+    "outreach": "Ulaşım",
+    "templates": "Şablonlar",
+    "pipeline": "Aday Boru Hattı",
+    "events": "Etkinlikler",
+    "analytics": "Analitik",
+    "import": "İçe Aktar",
+    "newContact": "Yeni Kişi",
+    "merge": "Birleştir",
+    "startSequence": "Sekansı Başlat",
+    "askReferral": "Referans İste",
+    "bestPath": "En İyi Yol",
+    "quietHours": "Sessiz saatler",
+    "unsubscribe": "Abonelikten çık notu ekle",
+    "schedule": "Zamanla",
+    "send": "Gönder",
+    "searchContacts": "Kişilerde ara...",
+    "kanban": {
+      "prospect": "Aday",
+      "intro_requested": "Intro İstendi",
+      "referred": "Referans",
+      "screening": "Ön Görüşme",
+      "in_process": "Süreçte",
+      "offer": "Teklif",
+      "closed": "Kapandı"
+    },
+    "rsvp": {
+      "yes": "Evet",
+      "no": "Hayır",
+      "maybe": "Belki"
+    },
+    "compliance": "Saygılı ve mevzuata uygun olun. Yalnızca meşru ilgisi olan kişilere ulaşın."
+  }
+}

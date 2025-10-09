@@ -1,0 +1,39 @@
+{
+  "network": {
+    "title": "Networking & Referrals",
+    "subtitle": "Build connections, request introductions, manage outreach",
+    "contacts": "Contacts",
+    "graph": "Warm-Intro Graph",
+    "outreach": "Outreach",
+    "templates": "Templates",
+    "pipeline": "Pipeline",
+    "events": "Events",
+    "analytics": "Analytics",
+    "import": "Import",
+    "newContact": "New Contact",
+    "merge": "Merge",
+    "startSequence": "Start Sequence",
+    "askReferral": "Ask for Referral",
+    "bestPath": "Best Path",
+    "quietHours": "Quiet hours",
+    "unsubscribe": "Add unsubscribe footer",
+    "schedule": "Schedule",
+    "send": "Send",
+    "searchContacts": "Search contacts...",
+    "kanban": {
+      "prospect": "Prospect",
+      "intro_requested": "Intro Requested",
+      "referred": "Referred",
+      "screening": "Screening",
+      "in_process": "In Process",
+      "offer": "Offer",
+      "closed": "Closed"
+    },
+    "rsvp": {
+      "yes": "Yes",
+      "no": "No",
+      "maybe": "Maybe"
+    },
+    "compliance": "Be respectful and compliant. Only contact those who have a legitimate interest."
+  }
+}
