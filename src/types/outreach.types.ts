@@ -1,40 +1,128 @@
-export type StepChannel = 'email'|'task'|'calendar';
-export type QuietHours = { startHH: number; endHH: number; tz?: string };
+/**
+ * @fileoverview Outreach CRM & Sequencer types
+ * Step 48: Networking CRM & Outreach Sequencer
+ */
 
-export interface TemplateVar { key: string; label: string; sample?: string }
+export type ProspectStatus = 'new'|'qualified'|'contacted'|'replied'|'intro_requested'|'intro_made'|'scheduled'|'unsubscribed'|'bounced'|'do_not_contact';
+export type StepKind = 'email'|'task_manual'|'wait';
+export type VariantKey = 'A'|'B';
+export type MetricKey = 'sent'|'delivered'|'opens'|'clicks'|'replies'|'bounces'|'unsubs';
+export type Channel = 'gmail'|'manual';
+export type AbGoal = 'open_rate'|'reply_rate'|'click_rate';
+
+export interface Prospect {
+  id: string;
+  email?: string;
+  name?: string;
+  role?: string;
+  company?: string;
+  linkedin?: string;
+  cityCountry?: string;
+  tags: string[];
+  status: ProspectStatus;
+  notes?: string;
+  lastContactISO?: string;
+  listIds?: string[];
+}
+
+export interface ProspectList {
+  id: string;
+  name: string;
+  description?: string;
+  count?: number;
+}
 
 export interface Template {
   id: string;
   name: string;
   subject: string;
-  bodyHtml: string;
-  variables: TemplateVar[];
-  category?: 'referral_ask'|'intro_request'|'recruiter_ping'|'thank_you'|'follow_up';
+  html: string;
+  footer?: string; // compliance footer with address/unsubscribe links
+  variables: string[]; // e.g. ["firstName","role","company"]
+  snippets?: Record<string,string>;
 }
 
-export interface SequenceStep {
+export interface SeqStep {
   id: string;
-  dayOffset: number;        // days after step 0
-  channel: StepChannel;
-  templateId?: string;      // for 'email'
-  title?: string;           // for task/calendar
-  minutesAfter?: number;    // for finer control
+  kind: StepKind;
+  waitDays?: number;            // for 'wait'
+  subject?: string;             // for 'email'
+  html?: string;                // for 'email'
+  channel?: Channel;            // 'gmail' or 'manual'
+  stopOnReply?: boolean;
+  stopOnUnsub?: boolean;
 }
 
 export interface Sequence {
   id: string;
   name: string;
-  steps: SequenceStep[];
-  maxPerDay: number;
-  quiet?: QuietHours;
-  unsubscribeFooter?: boolean;
+  description?: string;
+  steps: SeqStep[];
+  ab?: { enabled: boolean; goal: AbGoal; variants: Record<VariantKey, Partial<SeqStep>> };
+  rules?: { throttlePerHour: number; dailyCap: number; quietHours: boolean };
 }
 
-export interface SequenceRun {
+export interface Campaign {
   id: string;
+  name: string;
   sequenceId: string;
-  contactId: string;
-  startedAt: string;
-  status: 'scheduled'|'running'|'paused'|'finished'|'failed';
-  history: Array<{ at: string; stepId: string; status: 'queued'|'sent'|'skipped'|'error'; messageId?: string; note?: string }>;
+  listId: string;
+  startedAt?: string;
+  finishedAt?: string;
+  status: 'draft'|'running'|'paused'|'finished';
+  metrics: Record<MetricKey, number>;
+}
+
+export interface SendLog {
+  id: string;
+  campaignId: string;
+  prospectId: string;
+  stepId: string;
+  variant?: VariantKey;
+  gmailMsgId?: string;
+  sentAt: string;
+  status: 'queued'|'sent'|'bounced'|'failed';
+  opens?: number;
+  clicks?: number;
+  replied?: boolean;
+}
+
+export interface TrackingEvent {
+  id: string;
+  logId: string;
+  type: 'open'|'click'|'reply'|'bounce'|'unsub';
+  at: string;
+  meta?: Record<string,string>;
+}
+
+export interface Referral {
+  id: string;
+  prospectId: string;
+  introducerEmail: string;
+  introState: 'requested'|'sent'|'intro_made'|'declined';
+  threadId?: string;
+  notes?: string;
+}
+
+export interface SchedulerLink {
+  id: string;
+  title: string;
+  tz: string;
+  durationMin: number;
+  availabilityHint?: string; // e.g., Mon–Thu 10:00–16:00
+  url: string;
+}
+
+export interface Suppression {
+  id: string;
+  email: string;
+  reason: 'unsub'|'bounce'|'manual';
+  addedAt: string;
+}
+
+export interface CampaignReportExport {
+  id: string;
+  url?: string;
+  kind: 'pdf'|'gdoc';
+  createdAt: string;
 }

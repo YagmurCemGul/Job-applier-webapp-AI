@@ -1,0 +1,17 @@
+{
+  "outreach": {
+    "dashboard": "Outreach Dashboard",
+    "prospects": "Prospects",
+    "templates": "Templates",
+    "sequences": "Sequences",
+    "campaigns": "Campaigns",
+    "abtests": "A/B Tests",
+    "referrals": "Warm Intros",
+    "scheduler": "Scheduler",
+    "compliance": "Compliance",
+    "consent": "Consent-first outreach — one-click unsubscribe available.",
+    "importCsv": "Import CSV",
+    "runTick": "Run Tick",
+    "exportReport": "Export Report"
+  }
+}
