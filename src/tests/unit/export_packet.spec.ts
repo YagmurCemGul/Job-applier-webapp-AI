@@ -1,48 +1,175 @@
 /**
- * @fileoverview Export packet unit tests for Step 44
+ * @fileoverview Unit tests for onboarding packet export (Step 45)
  */
 
-import { describe, it, expect } from 'vitest';
-import type { Offer, ComparisonRow } from '@/types/offer.types.step44';
+import { describe, it, expect, vi } from 'vitest';
+import { exportOnboardingPacket } from '@/services/onboarding/exportPacket.service';
+import type { Plan, Stakeholder, WeeklyReport, RiskItem, LearningItem } from '@/types/onboarding.types';
 
-describe('Export Packet', () => {
-  it('should include disclaimer in HTML', () => {
-    const disclaimer = 'Not financial advice';
-    const html = `<p style="color:#ef4444">${disclaimer}</p>`;
+// Mock export services
+vi.mock('@/services/export/pdf.service', () => ({
+  exportHTMLToPDF: vi.fn().mockResolvedValue('https://example.com/packet.pdf')
+}));
 
-    expect(html).toContain(disclaimer);
-    expect(html).toContain('color:#ef4444');
-  });
+vi.mock('@/services/export/googleDocs.service', () => ({
+  exportHTMLToGoogleDoc: vi.fn().mockResolvedValue({
+    id: 'doc-123',
+    url: 'https://docs.google.com/document/d/doc-123',
+    title: 'Onboarding 30-60-90'
+  })
+}));
 
-  it('should format offers section', () => {
-    const offer: Offer = {
+describe('Export Packet Service', () => {
+  const plan: Plan = {
+    id: '1',
+    company: 'TechCorp',
+    role: 'Senior Engineer',
+    summary: 'Focus on learning and delivery',
+    goals: [
+      {
+        id: 'g1',
+        title: 'Learn codebase',
+        description: 'Understand architecture',
+        milestone: 'd30',
+        priority: 'P1',
+        status: 'in_progress',
+        tags: []
+      }
+    ],
+    dependencies: ['VPN', 'IDE'],
+    createdAt: '2025-01-01T00:00:00Z',
+    updatedAt: '2025-01-01T00:00:00Z'
+  };
+  
+  const stakeholders: Stakeholder[] = [
+    { id: '1', name: 'Jane Doe', role: 'Manager', power: 5, interest: 5 }
+  ];
+  
+  const reports: WeeklyReport[] = [
+    {
       id: '1',
-      company: 'TestCo',
-      role: 'Engineer',
-      currency: 'USD',
-      baseAnnual: 150000,
-      source: 'manual',
-      extractedAt: new Date().toISOString()
-    };
-
-    const html = `<h3>${offer.company} — ${offer.role}</h3>`;
-    expect(html).toContain('TestCo');
-    expect(html).toContain('Engineer');
+      weekStartISO: '2025-01-01T00:00:00Z',
+      accomplishments: ['Completed training'],
+      risks: [],
+      asks: [],
+      nextWeek: [],
+      html: '<p>Report content</p>'
+    }
+  ];
+  
+  const risks: RiskItem[] = [
+    {
+      id: '1',
+      title: 'VPN access delay',
+      probability: 3,
+      impact: 3,
+      level: 'medium',
+      mitigation: 'Follow up with IT',
+      status: 'open'
+    }
+  ];
+  
+  const learning: LearningItem[] = [
+    { id: '1', kind: 'doc', title: 'System design', status: 'planned' }
+  ];
+  
+  it('exports as PDF', async () => {
+    const result = await exportOnboardingPacket({
+      plan,
+      stakeholders,
+      reports,
+      risks,
+      learning,
+      kind: 'pdf'
+    });
+    
+    expect(result).toBe('https://example.com/packet.pdf');
   });
-
-  it('should format comparison table', () => {
-    const row: ComparisonRow = {
-      offerId: '1',
-      company: 'TestCo',
-      currency: 'USD',
-      y1Total: 150000,
-      y2Total: 150000,
-      y4Total: 600000,
-      npv: 550000
-    };
-
-    const html = `<td>${row.currency} ${row.npv.toLocaleString()}</td>`;
-    expect(html).toContain('USD');
-    expect(html).toContain('550,000');
+  
+  it('exports as Google Doc', async () => {
+    const result = await exportOnboardingPacket({
+      plan,
+      stakeholders,
+      reports,
+      risks,
+      learning,
+      kind: 'gdoc'
+    });
+    
+    expect(result).toHaveProperty('id');
+    expect(result).toHaveProperty('url');
+  });
+  
+  it('includes goals in export', async () => {
+    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
+    
+    await exportOnboardingPacket({
+      plan,
+      stakeholders,
+      reports,
+      risks,
+      learning,
+      kind: 'pdf'
+    });
+    
+    const call = (exportHTMLToPDF as any).mock.calls[0];
+    const html = call[0];
+    
+    expect(html).toContain('Learn codebase');
+  });
+  
+  it('includes stakeholders in export', async () => {
+    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
+    
+    await exportOnboardingPacket({
+      plan,
+      stakeholders,
+      reports,
+      risks,
+      learning,
+      kind: 'pdf'
+    });
+    
+    const call = (exportHTMLToPDF as any).mock.calls[0];
+    const html = call[0];
+    
+    expect(html).toContain('Jane Doe');
+  });
+  
+  it('includes risks and learning in export', async () => {
+    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
+    
+    await exportOnboardingPacket({
+      plan,
+      stakeholders,
+      reports,
+      risks,
+      learning,
+      kind: 'pdf'
+    });
+    
+    const call = (exportHTMLToPDF as any).mock.calls[0];
+    const html = call[0];
+    
+    expect(html).toContain('VPN access delay');
+    expect(html).toContain('System design');
+  });
+  
+  it('includes latest weekly report', async () => {
+    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
+    
+    await exportOnboardingPacket({
+      plan,
+      stakeholders,
+      reports,
+      risks,
+      learning,
+      kind: 'pdf'
+    });
+    
+    const call = (exportHTMLToPDF as any).mock.calls[0];
+    const html = call[0];
+    
+    expect(html).toContain('Report content');
   });
 });

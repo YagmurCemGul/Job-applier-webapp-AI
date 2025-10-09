@@ -1,5 +1,5 @@
 /**
- * @fileoverview Zustand store for onboarding plans.
+ * @fileoverview Zustand store for onboarding plans (Step 45 enhanced).
  * @module stores/onboarding
  */
 
@@ -11,9 +11,16 @@ import type {
   PlanTask,
   EvidenceItem,
   Stakeholder,
+  Plan,
+  ChecklistItem,
+  CadenceEvent,
+  WeeklyReport,
+  RiskItem,
+  LearningItem,
 } from '@/types/onboarding.types';
 
 interface OnboardingState {
+  // Legacy plan support
   plans: OnboardingPlan[];
   upsert: (p: OnboardingPlan) => void;
   update: (id: string, patch: Partial<OnboardingPlan>) => void;
@@ -23,11 +30,27 @@ interface OnboardingState {
   addEvidence: (planId: string, e: EvidenceItem) => void;
   addStakeholder: (planId: string, s: Stakeholder) => void;
   getById: (id: string) => OnboardingPlan | undefined;
+  
+  // Step 45: SMART goals plan
+  plan?: Plan;
+  checklist: ChecklistItem[];
+  cadences: CadenceEvent[];
+  reports: WeeklyReport[];
+  risks: RiskItem[];
+  learning: LearningItem[];
+  setPlan: (p: Plan) => void;
+  upsertChecklist: (c: ChecklistItem) => void;
+  toggleChecklist: (id: string) => void;
+  upsertCadence: (e: CadenceEvent) => void;
+  upsertReport: (r: WeeklyReport) => void;
+  upsertRisk: (r: RiskItem) => void;
+  upsertLearning: (l: LearningItem) => void;
 }
 
 export const useOnboarding = create<OnboardingState>()(
   persist(
     (set, get) => ({
+      // Legacy
       plans: [],
       upsert: (p) =>
         set({
@@ -81,11 +104,26 @@ export const useOnboarding = create<OnboardingState>()(
           ),
         }),
       getById: (id) => get().plans.find((p) => p.id === id),
+      
+      // Step 45
+      plan: undefined,
+      checklist: [],
+      cadences: [],
+      reports: [],
+      risks: [],
+      learning: [],
+      setPlan: (p) => set({ plan: { ...p, updatedAt: new Date().toISOString() } }),
+      upsertChecklist: (c) => set({ checklist: [c, ...get().checklist.filter(x => x.id !== c.id)] }),
+      toggleChecklist: (id) => set({ checklist: get().checklist.map(x => x.id === id ? { ...x, done: !x.done } : x) }),
+      upsertCadence: (e) => set({ cadences: [e, ...get().cadences.filter(x => x.id !== e.id)] }),
+      upsertReport: (r) => set({ reports: [r, ...get().reports.filter(x => x.id !== r.id)] }),
+      upsertRisk: (r) => set({ risks: [r, ...get().risks.filter(x => x.id !== r.id)] }),
+      upsertLearning: (l) => set({ learning: [l, ...get().learning.filter(x => x.id !== l.id)] }),
     }),
     {
       name: 'onboarding',
       storage: createJSONStorage(() => localStorage),
-      version: 1,
+      version: 2,
     }
   )
 );

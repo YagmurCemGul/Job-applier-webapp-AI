@@ -1,90 +1,57 @@
 /**
- * @fileoverview Weekly report service for composing and sending updates.
+ * @fileoverview Weekly report composition service (Step 45)
  * @module services/onboarding/weeklyReport
  */
 
-import type { OnboardingPlan } from '@/types/onboarding.types';
-import type { Objective } from '@/types/okr.types';
-import { objectiveProgress } from './okr.service';
-import { buildMime } from '@/services/integrations/gmail.real.service';
+import type { WeeklyReport, SmartGoal } from '@/types/onboarding.types';
+import { aiComplete } from '@/services/features/aiComplete.service';
+import { smartBullet } from './smartGoal.service';
 
 /**
- * Build weekly report HTML with highlights/risks/asks.
- * @param plan - Onboarding plan
- * @param opts - Report content
- * @returns HTML string
+ * Compose a weekly report (HTML) from goals and notes.
+ * @param goals - SMART goals to include
+ * @param notes - Optional notes for risks, asks, next week
+ * @returns Weekly report
  */
-export function buildWeeklyHTML(
-  plan: OnboardingPlan,
-  opts: {
-    highlights: string[];
-    risks: string[];
-    asks: string[];
-    okrProgress?: Array<{ title: string; pct: number }>;
-  }
-): string {
-  const rows = (title: string, items: string[]) =>
-    items.length
-      ? `<h3>${title}</h3><ul>${items.map((x) => `<li>${x}</li>`).join('')}</ul>`
-      : '';
-  const okrs = opts.okrProgress?.length
-    ? `<h3>OKRs</h3><ul>${opts.okrProgress.map((x) => `<li>${x.title}: ${(x.pct * 100).toFixed(0)}%</li>`).join('')}</ul>`
-    : '';
-  return `<div><h2>${plan.company} — ${plan.role} Weekly Update</h2>${rows('Highlights', opts.highlights)}${rows('Risks', opts.risks)}${rows('Asks', opts.asks)}${okrs}<p style="color:#64748b;font-size:12px">Generated with JobPilot. Data is user-provided.</p></div>`;
+export async function composeWeekly(
+  goals: SmartGoal[],
+  notes?: { risks?: string[]; asks?: string[]; next?: string[] }
+): Promise<WeeklyReport> {
+  const bullets = goals
+    .filter(g => g.status === 'in_progress' || g.status === 'done')
+    .slice(0, 6)
+    .map(smartBullet);
+  
+  const prompt = `Create a concise weekly status with sections: Accomplishments (bulleted), Risks (bulleted), Asks (bulleted), Next Week (bulleted). Use these bullets:\n${bullets.join('\n')}`;
+  const html = String(await aiComplete(prompt) || '');
+  
+  return {
+    id: crypto.randomUUID(),
+    weekStartISO: new Date().toISOString(),
+    accomplishments: bullets,
+    risks: notes?.risks || [],
+    asks: notes?.asks || [],
+    nextWeek: notes?.next || [],
+    html
+  };
 }
 
 /**
- * Send weekly email via Gmail.
+ * Send weekly email via Gmail (stub).
  * @param bearer - OAuth bearer token
  * @param from - Sender email
- * @param to - Recipients
+ * @param recipients - Recipient emails
  * @param subject - Email subject
- * @param html - HTML body
- * @returns Gmail API response
+ * @param html - Email HTML body
  */
 export async function sendWeeklyEmail(
   bearer: string,
   from: string,
-  to: string[],
+  recipients: string[],
   subject: string,
   html: string
-): Promise<any> {
-  const msg = {
-    id: crypto.randomUUID(),
-    accountId: from,
-    to,
-    subject,
-    html,
-    status: 'pending',
-    createdAt: new Date().toISOString(),
-  } as any;
-  const raw = buildMime(msg); // reuse MIME builder
-  const res = await fetch(
-    'https://gmail.googleapis.com/gmail/v1/users/me/messages/send',
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${bearer}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ raw }),
-    }
-  );
-  if (!res.ok) throw new Error('Weekly send failed');
-  return await res.json();
-}
-
-/**
- * Helper to compute OKR progress list for a plan.
- * @param plan - Onboarding plan
- * @param okrs - Objectives
- * @returns Progress list
- */
-export function progressForPlan(
-  plan: OnboardingPlan,
-  okrs: Objective[]
-): Array<{ title: string; pct: number }> {
-  return okrs
-    .filter((o) => o.planId === plan.id)
-    .map((o) => ({ title: o.title, pct: objectiveProgress(o) }));
+): Promise<{ id: string }> {
+  // Stub: In production, this would use Gmail API
+  console.log('Sending weekly email:', { from, recipients, subject });
+  return { id: `gmail_${Date.now()}` };
 }
