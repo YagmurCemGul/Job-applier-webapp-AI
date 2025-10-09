@@ -1,0 +1,18 @@
+{
+  "perf": {
+    "dashboard": "Performance Dashboard",
+    "feedback": "360 Feedback",
+    "evidence": "Evidence Graph",
+    "cycle": "Review Cycle",
+    "calibration": "Calibration",
+    "simulator": "Rating Simulator",
+    "promotion": "Promotion Readiness",
+    "narrative": "Narrative",
+    "packet": "Review Packet",
+    "private": "Private by default — share/export explicitly.",
+    "sendRequests": "Send Requests",
+    "createCalendar": "Create Calendar Reminders",
+    "recompute": "Recompute",
+    "exportPacket": "Export Packet"
+  }
+}
