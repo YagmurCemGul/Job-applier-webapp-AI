@@ -9,11 +9,13 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Building, Users, UserPlus, Zap } from 'lucide-react';
+import { Building, Users, UserPlus, Zap, Calendar, PlayCircle } from 'lucide-react';
 import { usePipeline } from '@/stores/pipeline.store';
 import { useContacts } from '@/stores/contacts.store';
+import { useInterview } from '@/stores/interview.store';
 import { ReferralAskWizard } from '@/components/network/ReferralAskWizard';
 import type { PipelineItem } from '@/stores/pipeline.store';
+import type { InterviewPlan } from '@/types/interview.types';
 
 // Placeholder Application type
 interface Application {
@@ -33,6 +35,7 @@ export function Applications() {
   const navigate = useNavigate();
   const { upsert: upsertPipeline } = usePipeline();
   const { items: contacts, findByEmail } = useContacts();
+  const { upsertPlan } = useInterview();
   const [referralWizardOpen, setReferralWizardOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
 
@@ -67,7 +70,30 @@ export function Applications() {
   const handleAutoApply = (app: Application) => {
     // Navigate to Apply page with pre-selected posting
     navigate('/apply', { state: { company: app.company, position: app.position } });
-  };;
+  };
+
+  const handleScheduleInterview = (app: Application) => {
+    const plan: InterviewPlan = {
+      id: crypto.randomUUID(),
+      applicationId: app.id,
+      company: app.company,
+      role: app.position,
+      kind: 'behavioral',
+      medium: 'video',
+      startISO: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+      endISO: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 3600000).toISOString(), // +1 hour
+      tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      quietRespect: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    upsertPlan(plan);
+    navigate('/interview', { state: { tab: 'planner', planId: plan.id } });
+  };
+
+  const handleStartMock = (app: Application) => {
+    navigate('/interview', { state: { tab: 'questions', company: app.company, role: app.position } });
+  };
 
   return (
     <div className="container mx-auto py-6 space-y-6">
@@ -113,6 +139,22 @@ export function Applications() {
                 >
                   <Building className="mr-2 h-4 w-4" />
                   Pipeline
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleScheduleInterview(app)}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Schedule
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleStartMock(app)}
+                >
+                  <PlayCircle className="mr-2 h-4 w-4" />
+                  Mock
                 </Button>
                 <Button
                   size="sm"
