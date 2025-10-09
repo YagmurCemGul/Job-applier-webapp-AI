@@ -116,6 +116,10 @@ export function Applications() {
     navigate('/offers', { state: { tab: 'negotiate', company: app.company } });
   };
 
+  const handleStartOnboarding = (app: Application) => {
+    navigate('/onboarding', { state: { company: app.company, role: app.position } });
+  };
+
   return (
     <div className="container mx-auto py-6 space-y-6">
       <div>
@@ -202,6 +206,16 @@ export function Applications() {
                   <UserPlus className="mr-2 h-4 w-4" />
                   Request Referral
                 </Button>
+                {app.status === 'offer_accepted' && (
+                  <Button
+                    size="sm"
+                    variant="default"
+                    onClick={() => handleStartOnboarding(app)}
+                    className="col-span-2"
+                  >
+                    🚀 Start Onboarding
+                  </Button>
+                )}
               </div>
               <div className="text-xs text-muted-foreground">
                 {contacts.filter(c => c.company?.toLowerCase().includes(app.company.toLowerCase())).length} contacts at {app.company}

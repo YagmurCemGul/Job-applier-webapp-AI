@@ -132,6 +132,14 @@
     "thursday": "Perşembe",
     "friday": "Cuma",
     "saturday": "Cumartesi",
-    "sunday": "Pazar"
+    "sunday": "Pazar",
+    "generatePlan": "Plan Oluştur",
+    "loadDefaults": "Varsayılanları Yükle",
+    "createCalendar": "Takvimde Oluştur",
+    "exportPacket": "Paketi Dışa Aktar",
+    "educational": "Eğitsel planlama — resmi İK politikası değildir.",
+    "checklist": "Ön Başlangıç Kontrol Listesi",
+    "cadences": "Rutin Toplantılar",
+    "resources": "Kaynaklar"
   }
 }

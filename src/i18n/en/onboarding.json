@@ -132,6 +132,14 @@
     "thursday": "Thursday",
     "friday": "Friday",
     "saturday": "Saturday",
-    "sunday": "Sunday"
+    "sunday": "Sunday",
+    "generatePlan": "Generate Plan",
+    "loadDefaults": "Load Defaults",
+    "createCalendar": "Create on Calendar",
+    "exportPacket": "Export Packet",
+    "educational": "Educational planning — not official HR policy.",
+    "checklist": "Pre-Start Checklist",
+    "cadences": "Cadences",
+    "resources": "Resources"
   }
 }
