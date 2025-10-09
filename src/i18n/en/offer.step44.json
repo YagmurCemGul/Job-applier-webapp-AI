@@ -1,0 +1,30 @@
+{
+  "offer": {
+    "title": "Offers",
+    "addOffer": "Add Offer",
+    "compare": "Compare",
+    "equity": "Equity",
+    "scenarios": "Scenarios",
+    "benchmarks": "Benchmarks",
+    "negotiate": "Negotiate",
+    "calls": "Calls",
+    "docs": "Docs",
+    "analytics": "Analytics",
+    "disclaimer": "Educational estimate — not financial or legal advice.",
+    "base": "Base Salary",
+    "bonusTarget": "Bonus Target",
+    "signOn": "Sign-On Bonus",
+    "equityGrant": "Equity Grant",
+    "vesting": "Vesting",
+    "currency": "Currency",
+    "npv": "NPV",
+    "y1": "Year 1",
+    "y2": "Year 2",
+    "y4": "Year 4",
+    "sendCounter": "Send Counter",
+    "scheduleCall": "Schedule Call",
+    "exportPacket": "Export Packet",
+    "updatePipeline": "Update Pipeline",
+    "estimates": "Compare offers and model equity scenarios"
+  }
+}
