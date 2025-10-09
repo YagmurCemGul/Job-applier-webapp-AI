@@ -1,0 +1,18 @@
+{
+  "perf": {
+    "dashboard": "Performans Paneli",
+    "feedback": "360 Geri Bildirim",
+    "evidence": "Kanıt Grafı",
+    "cycle": "Değerlendirme Döngüsü",
+    "calibration": "Kalibrasyon",
+    "simulator": "Puan Simülatörü",
+    "promotion": "Terfi Hazırlığı",
+    "narrative": "Anlatı",
+    "packet": "Değerlendirme Paketi",
+    "private": "Varsayılan olarak gizli — paylaşım/dışa aktarma bilinçli yapılır.",
+    "sendRequests": "İstekleri Gönder",
+    "createCalendar": "Takvim Hatırlatıcıları Oluştur",
+    "recompute": "Yeniden Hesapla",
+    "exportPacket": "Paketi Dışa Aktar"
+  }
+}

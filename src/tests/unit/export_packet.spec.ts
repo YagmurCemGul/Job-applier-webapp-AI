@@ -1,175 +1,118 @@
 /**
- * @fileoverview Unit tests for onboarding packet export (Step 45)
+ * Export Packet Unit Tests
  */
 
-import { describe, it, expect, vi } from 'vitest';
-import { exportOnboardingPacket } from '@/services/onboarding/exportPacket.service';
-import type { Plan, Stakeholder, WeeklyReport, RiskItem, LearningItem } from '@/types/onboarding.types';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { exportPerfPacket } from '@/services/perf/exportPacket.service';
+import * as pdfService from '@/services/export/pdf.service';
+import * as gdocService from '@/services/export/googleDocs.service';
+import type { NarrativeDoc, CalibSummary, GapAnalysis } from '@/types/perf.types';
 
-// Mock export services
 vi.mock('@/services/export/pdf.service', () => ({
-  exportHTMLToPDF: vi.fn().mockResolvedValue('https://example.com/packet.pdf')
+  exportHTMLToPDF: vi.fn().mockResolvedValue('https://example.com/packet.pdf'),
 }));
 
 vi.mock('@/services/export/googleDocs.service', () => ({
-  exportHTMLToGoogleDoc: vi.fn().mockResolvedValue({
-    id: 'doc-123',
-    url: 'https://docs.google.com/document/d/doc-123',
-    title: 'Onboarding 30-60-90'
-  })
+  exportHTMLToGoogleDoc: vi.fn().mockResolvedValue('https://docs.google.com/doc-id'),
 }));
 
-describe('Export Packet Service', () => {
-  const plan: Plan = {
-    id: '1',
-    company: 'TechCorp',
-    role: 'Senior Engineer',
-    summary: 'Focus on learning and delivery',
-    goals: [
-      {
-        id: 'g1',
-        title: 'Learn codebase',
-        description: 'Understand architecture',
-        milestone: 'd30',
-        priority: 'P1',
-        status: 'in_progress',
-        tags: []
-      }
-    ],
-    dependencies: ['VPN', 'IDE'],
-    createdAt: '2025-01-01T00:00:00Z',
-    updatedAt: '2025-01-01T00:00:00Z'
+describe('Export Packet', () => {
+  const narrative: NarrativeDoc = {
+    id: 'narr-1',
+    title: 'H2 Review',
+    html: '<h2>Scope</h2><p>Delivered features.</p>',
+    lastEditedISO: new Date().toISOString(),
   };
-  
-  const stakeholders: Stakeholder[] = [
-    { id: '1', name: 'Jane Doe', role: 'Manager', power: 5, interest: 5 }
-  ];
-  
-  const reports: WeeklyReport[] = [
-    {
-      id: '1',
-      weekStartISO: '2025-01-01T00:00:00Z',
-      accomplishments: ['Completed training'],
-      risks: [],
-      asks: [],
-      nextWeek: [],
-      html: '<p>Report content</p>'
-    }
-  ];
-  
-  const risks: RiskItem[] = [
-    {
-      id: '1',
-      title: 'VPN access delay',
-      probability: 3,
-      impact: 3,
-      level: 'medium',
-      mitigation: 'Follow up with IT',
-      status: 'open'
-    }
-  ];
-  
-  const learning: LearningItem[] = [
-    { id: '1', kind: 'doc', title: 'System design', status: 'planned' }
-  ];
-  
-  it('exports as PDF', async () => {
-    const result = await exportOnboardingPacket({
-      plan,
-      stakeholders,
-      reports,
-      risks,
-      learning,
-      kind: 'pdf'
+
+  const calib: CalibSummary = {
+    id: 'calib-1',
+    cycleId: 'cycle-1',
+    aggScores: { clarity: 3, structure: 3, impact: 3, ownership: 3, collaboration: 3, craft: 3 },
+    overall: 3,
+    outliers: [],
+  };
+
+  const gap: GapAnalysis = {
+    id: 'gap-1',
+    level: 'L5',
+    gaps: [{ key: 'impact', current: 3, target: 3.5, actions: [] }],
+    ready: false,
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('exports to PDF', async () => {
+    const result = await exportPerfPacket({
+      title: 'Performance Packet',
+      narrative,
+      calib,
+      gap,
+      disclaimer: 'For planning only',
+      kind: 'pdf',
     });
-    
+
+    expect(pdfService.exportHTMLToPDF).toHaveBeenCalled();
     expect(result).toBe('https://example.com/packet.pdf');
   });
-  
-  it('exports as Google Doc', async () => {
-    const result = await exportOnboardingPacket({
-      plan,
-      stakeholders,
-      reports,
-      risks,
-      learning,
-      kind: 'gdoc'
+
+  it('exports to Google Doc', async () => {
+    const result = await exportPerfPacket({
+      title: 'Performance Packet',
+      narrative,
+      calib,
+      gap,
+      disclaimer: 'For planning only',
+      kind: 'gdoc',
     });
-    
-    expect(result).toHaveProperty('id');
-    expect(result).toHaveProperty('url');
+
+    expect(gdocService.exportHTMLToGoogleDoc).toHaveBeenCalled();
+    expect(result).toBe('https://docs.google.com/doc-id');
   });
-  
-  it('includes goals in export', async () => {
-    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
-    
-    await exportOnboardingPacket({
-      plan,
-      stakeholders,
-      reports,
-      risks,
-      learning,
-      kind: 'pdf'
+
+  it('includes narrative in HTML', async () => {
+    await exportPerfPacket({
+      title: 'Test',
+      narrative,
+      calib,
+      gap,
+      disclaimer: 'Disclaimer',
+      kind: 'pdf',
     });
-    
-    const call = (exportHTMLToPDF as any).mock.calls[0];
-    const html = call[0];
-    
-    expect(html).toContain('Learn codebase');
+
+    const callArg = vi.mocked(pdfService.exportHTMLToPDF).mock.calls[0][0];
+    expect(callArg).toContain('Narrative');
+    expect(callArg).toContain(narrative.html);
   });
-  
-  it('includes stakeholders in export', async () => {
-    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
-    
-    await exportOnboardingPacket({
-      plan,
-      stakeholders,
-      reports,
-      risks,
-      learning,
-      kind: 'pdf'
+
+  it('includes calibration summary', async () => {
+    await exportPerfPacket({
+      title: 'Test',
+      narrative,
+      calib,
+      gap,
+      disclaimer: 'Disclaimer',
+      kind: 'pdf',
     });
-    
-    const call = (exportHTMLToPDF as any).mock.calls[0];
-    const html = call[0];
-    
-    expect(html).toContain('Jane Doe');
+
+    const callArg = vi.mocked(pdfService.exportHTMLToPDF).mock.calls[0][0];
+    expect(callArg).toContain('Calibration Summary');
+    expect(callArg).toContain('Overall');
   });
-  
-  it('includes risks and learning in export', async () => {
-    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
-    
-    await exportOnboardingPacket({
-      plan,
-      stakeholders,
-      reports,
-      risks,
-      learning,
-      kind: 'pdf'
+
+  it('includes promotion readiness', async () => {
+    await exportPerfPacket({
+      title: 'Test',
+      narrative,
+      calib,
+      gap,
+      disclaimer: 'Disclaimer',
+      kind: 'pdf',
     });
-    
-    const call = (exportHTMLToPDF as any).mock.calls[0];
-    const html = call[0];
-    
-    expect(html).toContain('VPN access delay');
-    expect(html).toContain('System design');
-  });
-  
-  it('includes latest weekly report', async () => {
-    const { exportHTMLToPDF } = await import('@/services/export/pdf.service');
-    
-    await exportOnboardingPacket({
-      plan,
-      stakeholders,
-      reports,
-      risks,
-      learning,
-      kind: 'pdf'
-    });
-    
-    const call = (exportHTMLToPDF as any).mock.calls[0];
-    const html = call[0];
-    
-    expect(html).toContain('Report content');
+
+    const callArg = vi.mocked(pdfService.exportHTMLToPDF).mock.calls[0][0];
+    expect(callArg).toContain('Promotion Readiness');
+    expect(callArg).toContain(gap.ready ? 'Yes' : 'Not yet');
   });
 });
